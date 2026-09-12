@@ -2,21 +2,18 @@
 const { locale, t } = useI18n()
 const switchLocalePath = useSwitchLocalePath()
 
-const localeCodes = ['vi', 'en'] as const
+const targetLocale = computed(() => locale.value === 'vi' ? 'en' : 'vi')
+const targetLocalePath = computed(() => switchLocalePath(targetLocale.value))
+const targetLocaleLabel = computed(() => t(`locale.options.${targetLocale.value}`))
+const targetLocaleName = computed(() => t(`locale.names.${targetLocale.value}`))
 </script>
 
 <template>
-  <div class="locale-switcher" :aria-label="t('locale.ariaLabel')" role="group">
-    <NuxtLink
-      v-for="code in localeCodes"
-      :key="code"
-      class="locale-switcher__link"
-      :class="{ 'is-active': locale === code }"
-      :to="switchLocalePath(code)"
-      :aria-current="locale === code ? 'true' : undefined"
-      :aria-label="t('locale.switchTo', { name: t(`locale.options.${code}`) })"
-    >
-      {{ t(`locale.options.${code}`) }}
-    </NuxtLink>
-  </div>
+  <NuxtLink
+    class="locale-switcher"
+    :to="targetLocalePath"
+    :aria-label="t('locale.switchTo', { name: targetLocaleName })"
+  >
+    {{ targetLocaleLabel }}
+  </NuxtLink>
 </template>

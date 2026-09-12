@@ -11,33 +11,33 @@ const defaultPlusOneAttendance: PlusOneValue = 'yes'
 
 const targetIso = '2026-12-19T17:30:00+07:00'
 const { parts, hasStarted, isComplete } = useCountdown(targetIso)
-const { locale } = useI18n()
+const { locale, t } = useI18n()
 const { state, errorKey, isLoading, reset, submit } = useSheetSubmit()
 
 const countdownUnits = computed(() => [
-  { key: 'days', value: parts.value.days, label: 'DAYS' },
-  { key: 'hours', value: parts.value.hours, label: 'HOURS' },
-  { key: 'minutes', value: parts.value.minutes, label: 'MINUTES' },
-  { key: 'seconds', value: parts.value.seconds, label: 'SECONDS' }
+  { key: 'days', value: parts.value.days, label: t('invite.countdown.units.days') },
+  { key: 'hours', value: parts.value.hours, label: t('invite.countdown.units.hours') },
+  { key: 'minutes', value: parts.value.minutes, label: t('invite.countdown.units.minutes') },
+  { key: 'seconds', value: parts.value.seconds, label: t('invite.countdown.units.seconds') }
 ])
 
-const timelineItems = [
-  { time: '17:30', title: 'WELCOME GUEST' },
-  { time: '18:30', title: 'CEREMONY' },
-  { time: '19:00', title: 'RECEPTION DINNER' },
-  { time: '20:00', title: 'ENTERTAINMENT' },
-  { time: '21:00', title: 'AFTER PARTY' },
-  { time: '21:00', title: 'GOODBYE' }
-]
+const timelineItems = computed(() => [
+  { time: '17:30', title: t('invite.timeline.events.welcome') },
+  { time: '18:30', title: t('invite.timeline.events.ceremony') },
+  { time: '19:00', title: t('invite.timeline.events.reception') },
+  { time: '20:00', title: t('invite.timeline.events.entertainment') },
+  { time: '21:00', title: t('invite.timeline.events.afterParty') },
+  { time: '21:00', title: t('invite.timeline.events.goodbye') }
+])
 
 const dressColors = [
-  { label: 'Royal Blue', color: '#265391' },
-  { label: 'Sage Green', color: '#bed5ab' },
-  { label: 'Dusty Mauve', color: '#cca7bc' },
-  { label: 'Butter Yellow', color: '#f3dfa9' },
-  { label: 'Light Blue', color: '#b7e2f8' },
-  { label: 'Light Pink', color: '#ffd4df' },
-  { label: 'Warm Beige', color: '#ded5c8' }
+  { key: 'royalBlue', color: '#265391' },
+  { key: 'sageGreen', color: '#bed5ab' },
+  { key: 'dustyMauve', color: '#cca7bc' },
+  { key: 'butterYellow', color: '#f3dfa9' },
+  { key: 'lightBlue', color: '#b7e2f8' },
+  { key: 'lightPink', color: '#ffd4df' },
+  { key: 'warmBeige', color: '#ded5c8' }
 ]
 
 const albumImageFiles = [
@@ -143,7 +143,7 @@ const albumImageFiles = [
 
 const albumImages = albumImageFiles.map((fileName, index) => ({
   src: `/wedding/album/${encodeURIComponent(fileName)}`,
-  alt: `Nguyen and Kim wedding album photo ${index + 1}`
+  index
 }))
 
 const albumTransitionMs = 840
@@ -478,29 +478,29 @@ const formatUnit = (value: number) => String(value).padStart(2, '0')
 
 const validateField = (field: keyof typeof errors) => {
   if (field === 'fullName') {
-    errors.fullName = form.fullName.trim() ? '' : 'Please enter your full name.'
+    errors.fullName = form.fullName.trim() ? '' : 'invite.rsvp.validation.fullNameRequired'
   }
 
   if (field === 'preferredName') {
-    errors.preferredName = form.preferredName.trim() ? '' : 'Please enter your preferred name.'
+    errors.preferredName = form.preferredName.trim() ? '' : 'invite.rsvp.validation.preferredNameRequired'
   }
 
   if (field === 'email') {
     errors.email = form.email.trim()
-      ? (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) ? '' : 'Please enter a valid email address.')
-      : 'Please enter your email.'
+      ? (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email.trim()) ? '' : 'invite.rsvp.validation.emailInvalid')
+      : 'invite.rsvp.validation.emailRequired'
   }
 
   if (field === 'guestOf') {
-    errors.guestOf = form.guestOf ? '' : 'Please choose whose guest you are.'
+    errors.guestOf = form.guestOf ? '' : 'invite.rsvp.validation.guestOfRequired'
   }
 
   if (field === 'phone') {
-    errors.phone = form.phone.trim() ? '' : 'Please enter your contact number.'
+    errors.phone = form.phone.trim() ? '' : 'invite.rsvp.validation.phoneRequired'
   }
 
   if (field === 'attendance') {
-    errors.attendance = form.attendance ? '' : 'Please choose your attendance.'
+    errors.attendance = form.attendance ? '' : 'invite.rsvp.validation.attendanceRequired'
   }
 }
 
@@ -573,11 +573,11 @@ const onSubmit = async () => {
     attending: attendance,
     contact: `${form.email.trim()} | ${form.phone.trim()}`,
     note: [
-      `Preferred name: ${form.preferredName.trim() || '-'}`,
-      `Guest of: ${form.guestOf || '-'}`,
-      `Bringing a plus one: ${form.plusOneAttendance || '-'}`,
-      `Plus one: ${form.plusOne.trim() || '-'}`,
-      `Dietary: ${form.dietary.trim() || '-'}`
+      `${t('invite.rsvp.submitNote.preferredName')}: ${form.preferredName.trim() || '-'}`,
+      `${t('invite.rsvp.submitNote.guestOf')}: ${form.guestOf ? t(`invite.rsvp.guestOf.${form.guestOf}`) : '-'}`,
+      `${t('invite.rsvp.submitNote.plusOneAttendance')}: ${form.plusOneAttendance ? t(`invite.common.${form.plusOneAttendance}`) : '-'}`,
+      `${t('invite.rsvp.submitNote.plusOne')}: ${form.plusOne.trim() || '-'}`,
+      `${t('invite.rsvp.submitNote.dietary')}: ${form.dietary.trim() || '-'}`
     ].join('\n')
   })
 
@@ -591,12 +591,12 @@ const onSubmit = async () => {
   <div ref="invitationFrame" class="invitation-frame" :style="invitationFrameHeight ? { height: `${invitationFrameHeight}px` } : undefined">
     <div ref="invitationPage" class="invitation-page" :style="{ '--invite-scale': invitationScale }">
     <section class="invite-section invite-hero" aria-labelledby="invite-title">
-      <p class="invite-kicker" data-reveal="center">SAVE THE DATE</p>
-      <img class="invite-names" src="/wedding/assets/names.png" alt="Nguyen and Kim" decoding="async" data-reveal="image-center" style="--reveal-delay: 90ms">
+      <p class="invite-kicker" data-reveal="center">{{ t('invite.hero.kicker') }}</p>
+      <img class="invite-names" src="/wedding/assets/names.png" :alt="t('invite.hero.namesAlt')" decoding="async" data-reveal="image-center" style="--reveal-delay: 90ms">
       <img
         class="invite-couple"
         src="/wedding/assets/couple-illustration.png"
-        alt="Illustration of Nguyen and Kim"
+        :alt="t('invite.hero.coupleAlt')"
         width="1328"
         height="1760"
         fetchpriority="high"
@@ -604,16 +604,17 @@ const onSubmit = async () => {
         data-reveal="image-center"
         style="--reveal-delay: 170ms"
       >
-      <h1 id="invite-title" data-reveal="center" style="--reveal-delay: 260ms">DECEMBER 19<sup>TH</sup> 2026</h1>
-      <p class="invite-location" data-reveal="center" style="--reveal-delay: 330ms">JW MARRIOTT HOTEL &amp; SUITES SAIGON</p>
+      <h1 v-if="locale === 'en'" id="invite-title" data-reveal="center" style="--reveal-delay: 260ms">DECEMBER 19<sup>TH</sup> 2026</h1>
+      <h1 v-else id="invite-title" data-reveal="center" style="--reveal-delay: 260ms">{{ t('invite.hero.date') }}</h1>
+      <p class="invite-location" data-reveal="center" style="--reveal-delay: 330ms">{{ t('invite.hero.location') }}</p>
     </section>
 
     <section class="invite-section invite-countdown" aria-labelledby="countdown-title">
-      <img class="invite-monogram" src="/wedding/assets/monogram.png" alt="K N monogram" loading="lazy" decoding="async" data-reveal="image-center">
-      <h2 id="countdown-title" data-reveal="center" style="--reveal-delay: 80ms">COUNTDOWN</h2>
+      <img class="invite-monogram" src="/wedding/assets/monogram.png" :alt="t('invite.countdown.monogramAlt')" loading="lazy" decoding="async" data-reveal="image-center">
+      <h2 id="countdown-title" data-reveal="center" style="--reveal-delay: 80ms">{{ t('invite.countdown.title') }}</h2>
       <p data-reveal="center" style="--reveal-delay: 150ms">
-        In the heart of Saigon, a day of love and celebration awaits.
-        A moment to slow down, to be present, and to share in the beginning of our forever.
+        {{ t('invite.countdown.copyLine1') }}
+        {{ t('invite.countdown.copyLine2') }}
       </p>
       <div class="countdown-shell" aria-live="polite" data-reveal="image-center" style="--reveal-delay: 230ms">
         <img src="/wedding/assets/ornate-card.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
@@ -623,32 +624,32 @@ const onSubmit = async () => {
             <span>{{ unit.label }}</span>
           </div>
         </div>
-        <p>The day is getting closer<br>until we say "I do"</p>
+        <p>{{ t('invite.countdown.cardLine1') }}<br>{{ t('invite.countdown.cardLine2') }}</p>
       </div>
     </section>
 
     <section class="invite-section invite-calendar" aria-labelledby="calendar-title">
       <p data-reveal="text">
-        With every passing day, we're one step closer to the moment we've been waiting for.
-        Save the date, and come share in a day filled with love and memories to keep.
+        {{ t('invite.calendar.copyLine1') }}
+        {{ t('invite.calendar.copyLine2') }}
       </p>
-      <h2 id="calendar-title" class="sr-only">Wedding calendar</h2>
-      <img src="/wedding/assets/calendar.png" alt="December 2026 calendar with the nineteenth marked as best day" loading="lazy" decoding="async" data-reveal="image" style="--reveal-delay: 120ms">
+      <h2 id="calendar-title" class="sr-only">{{ t('invite.calendar.title') }}</h2>
+      <img src="/wedding/assets/calendar.png" :alt="t('invite.calendar.alt')" loading="lazy" decoding="async" data-reveal="image" style="--reveal-delay: 120ms">
     </section>
 
-    <section class="invite-section invite-people" aria-label="Bride and groom">
+    <section class="invite-section invite-people" :aria-label="t('invite.people.ariaLabel')">
       <div class="people-grid" data-stagger="image" data-stagger-step="120">
         <figure>
-          <img src="/wedding/assets/bride-frame.png" alt="Portrait of the bride Nguyen Le Thien Kim" loading="lazy" decoding="async">
+          <img src="/wedding/assets/bride-frame.png" :alt="t('invite.people.brideAlt')" loading="lazy" decoding="async">
           <figcaption>
-            <span>The Bride</span>
+            <span>{{ t('invite.people.brideRole') }}</span>
             <strong>NguyenLeThienKim</strong>
           </figcaption>
         </figure>
         <figure>
-          <img src="/wedding/assets/groom-frame.png" alt="Portrait of the groom Nguyen Dang Nguyen" loading="lazy" decoding="async">
+          <img src="/wedding/assets/groom-frame.png" :alt="t('invite.people.groomAlt')" loading="lazy" decoding="async">
           <figcaption>
-            <span>The Groom</span>
+            <span>{{ t('invite.people.groomRole') }}</span>
             <strong>NguyenDangNguyen</strong>
           </figcaption>
         </figure>
@@ -656,46 +657,48 @@ const onSubmit = async () => {
     </section>
 
     <section class="invite-section invite-card invite-invitation" aria-labelledby="invitation-title">
-      <h2 id="invitation-title" data-reveal="center">INVITATION</h2>
+      <h2 id="invitation-title" data-reveal="center">{{ t('invite.invitation.title') }}</h2>
       <div class="parents-grid" data-stagger data-stagger-base="80" data-stagger-step="80">
         <div>
-          <span>Mr &amp; Mrs</span>
+          <span>{{ t('invite.invitation.parentsTitle') }}</span>
           <p>Mr. Nguyen Trong Tri<br>Mrs. Bui Viet Hong Duc</p>
         </div>
         <div>
-          <span>Mr &amp; Mrs</span>
+          <span>{{ t('invite.invitation.parentsTitle') }}</span>
           <p>Mr. Nguyen Xuan Hoa<br>Mrs. Nguyen Le Kim Cuong</p>
         </div>
       </div>
-      <p class="invitation-intro" data-reveal="center" style="--reveal-delay: 170ms">TOGETHER WITH OUR LOVED ONES, WE INVITE YOU TO JOIN US IN CELEBRATING OUR WEDDING DAY</p>
+      <p class="invitation-intro" data-reveal="center" style="--reveal-delay: 170ms">{{ t('invite.invitation.intro') }}</p>
       <h3 data-reveal="center" style="--reveal-delay: 230ms">NguyenDangNguyen</h3>
-      <span data-reveal="center" style="--reveal-delay: 290ms">AND</span>
+      <span data-reveal="center" style="--reveal-delay: 290ms">{{ t('invite.invitation.and') }}</span>
       <h3 data-reveal="center" style="--reveal-delay: 350ms">NguyenLeThienKim</h3>
-      <strong class="invitation-held" data-reveal="center" style="--reveal-delay: 410ms">HELD AT 17:30</strong>
-      <p class="invitation-date" data-reveal="center" style="--reveal-delay: 470ms">SATURDAY <span class="invitation-date-separator">|</span> 19.12 <span class="invitation-date-separator">|</span> 2026</p>
-      <p class="invitation-location" data-reveal="center" style="--reveal-delay: 520ms">JW MARRIOTT HOTEL &amp; SUITES SAIGON</p>
+      <strong class="invitation-held" data-reveal="center" style="--reveal-delay: 410ms">{{ t('invite.invitation.heldAt') }}</strong>
+      <p class="invitation-date" data-reveal="center" style="--reveal-delay: 470ms">{{ t('invite.invitation.dateLeft') }} <span class="invitation-date-separator">|</span> 19.12 <span class="invitation-date-separator">|</span> 2026</p>
+      <p class="invitation-location" data-reveal="center" style="--reveal-delay: 520ms">{{ t('invite.hero.location') }}</p>
       <img class="invitation-pin" src="/wedding/assets/pin.png" alt="" loading="lazy" decoding="async" data-reveal="image-center" style="--reveal-delay: 570ms">
-      <span class="invitation-direction" data-reveal="center" style="--reveal-delay: 610ms">DIRECTION</span>
+      <span class="invitation-direction" data-reveal="center" style="--reveal-delay: 610ms">{{ t('invite.invitation.direction') }}</span>
       <p class="invitation-note" data-reveal="center" style="--reveal-delay: 650ms">
-        Due to the venue's capacity limitations, we kindly invite only the children of our family and closest relatives to join us on this special day. We sincerely appreciate your understanding.
+        {{ t('invite.invitation.note') }}
       </p>
       <p class="invitation-rsvp-note" data-reveal="center" style="--reveal-delay: 690ms">
-        Kindly RSVP by <strong>November 1st, 2026</strong><br>so we can finalize our guest count
+        {{ t('invite.invitation.rsvpLine1') }} <strong>{{ t('invite.invitation.rsvpDate') }}</strong><br>{{ t('invite.invitation.rsvpLine2') }}
       </p>
     </section>
 
     <section class="invite-section invite-timeline" aria-labelledby="timeline-title">
-      <h2 id="timeline-title" data-reveal="center">TIMELINE</h2>
-      <p data-reveal="center" style="--reveal-delay: 90ms">Day filled with meaningful moments, from our first hello to the final dance.</p>
+      <h2 id="timeline-title" data-reveal="center">{{ t('invite.timeline.title') }}</h2>
+      <p data-reveal="center" style="--reveal-delay: 90ms">{{ t('invite.timeline.copy') }}</p>
       <div class="timeline-frame" data-reveal="image-center" style="--reveal-delay: 170ms">
         <img src="/wedding/assets/timeline-frame.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
         <div class="timeline-milestone timeline-milestone--tea" data-reveal="center" style="--reveal-delay: 250ms">
-          <h3>Tea Ceremony</h3>
-          <p>DECEMBER 17<sup>TH</sup> 2026</p>
+          <h3>{{ t('invite.timeline.teaTitle') }}</h3>
+          <p v-if="locale === 'en'">DECEMBER 17<sup>TH</sup> 2026</p>
+          <p v-else>{{ t('invite.timeline.teaDate') }}</p>
         </div>
         <div class="timeline-milestone timeline-milestone--wedding" data-reveal="center" style="--reveal-delay: 310ms">
-          <h3>Wedding Day</h3>
-          <p>DECEMBER 19<sup>TH</sup> 2026</p>
+          <h3>{{ t('invite.timeline.weddingTitle') }}</h3>
+          <p v-if="locale === 'en'">DECEMBER 19<sup>TH</sup> 2026</p>
+          <p v-else>{{ t('invite.timeline.weddingDate') }}</p>
         </div>
         <div class="timeline-events" data-stagger data-stagger-base="360" data-stagger-step="45" data-stagger-max="270">
           <article v-for="item in timelineItems" :key="`${item.time}-${item.title}`">
@@ -707,18 +710,18 @@ const onSubmit = async () => {
     </section>
 
     <section class="invite-section invite-dresscode" aria-labelledby="dresscode-title">
-      <h2 id="dresscode-title" data-reveal="center">DRESSCODE</h2>
-      <h3 data-reveal="center" style="--reveal-delay: 80ms">Formal Attire</h3>
-      <p class="dresscode-intro" data-reveal="center" style="--reveal-delay: 150ms">We kindly ask you to dress formally to join us on this very special day.</p>
-      <div class="dress-swatches" aria-label="Suggested dress code colors" data-stagger data-stagger-base="210" data-stagger-step="42" data-stagger-max="252">
-        <span v-for="item in dressColors" :key="item.label" class="dress-swatch">
+      <h2 id="dresscode-title" data-reveal="center">{{ t('invite.dresscode.title') }}</h2>
+      <h3 data-reveal="center" style="--reveal-delay: 80ms">{{ t('invite.dresscode.attire') }}</h3>
+      <p class="dresscode-intro" data-reveal="center" style="--reveal-delay: 150ms">{{ t('invite.dresscode.intro') }}</p>
+      <div class="dress-swatches" :aria-label="t('invite.dresscode.colorsAria')" data-stagger data-stagger-base="210" data-stagger-step="42" data-stagger-max="252">
+        <span v-for="item in dressColors" :key="item.key" class="dress-swatch">
           <span class="dress-swatch__dot" :style="{ backgroundColor: item.color }" aria-hidden="true"></span>
-          <span class="dress-swatch__label">{{ item.label }}</span>
+          <span class="dress-swatch__label">{{ t(`invite.dresscode.colors.${item.key}`) }}</span>
         </span>
       </div>
       <img
         src="/wedding/assets/dress-figures.png"
-        alt="Illustration of guests wearing the suggested dress code colors"
+        :alt="t('invite.dresscode.imageAlt')"
         width="250"
         height="206"
         loading="lazy"
@@ -726,15 +729,15 @@ const onSubmit = async () => {
         data-reveal="image-center"
         style="--reveal-delay: 260ms"
       >
-      <p class="dresscode-note" data-reveal="center" style="--reveal-delay: 340ms">We kindly ask our guests to <strong>leave white attire for the bride,</strong><br>and choose another color to celebrate with us. Thank you!</p>
+      <p class="dresscode-note" data-reveal="center" style="--reveal-delay: 340ms">{{ t('invite.dresscode.noteLine1') }} <strong>{{ t('invite.dresscode.noteStrong') }}</strong><br>{{ t('invite.dresscode.noteLine2') }}</p>
     </section>
 
     <section class="invite-section invite-love" aria-labelledby="love-title">
-      <h2 id="love-title" data-reveal="center">LOVE STORY</h2>
+      <h2 id="love-title" data-reveal="center">{{ t('invite.love.title') }}</h2>
       <img
         class="love-story-city"
         src="/wedding/assets/love-story-city.png"
-        alt="Illustration of a city bridge by the river"
+        :alt="t('invite.love.imageAlt')"
         width="344"
         height="198"
         loading="lazy"
@@ -743,108 +746,108 @@ const onSubmit = async () => {
         style="--reveal-delay: 90ms"
       >
       <p class="love-story-copy" data-reveal="center" style="--reveal-delay: 180ms">
-        Some love stories begin with a grand moment.<br><br>
-        For Nguyen (Andy) &amp; Kim, theirs began rather quietly, with an Instagram connection, two students from Saigon who had both been accepted to Boston University.<br><br>
-        What began as conversations about school slowly became walks through the cold Boston nights, shared meals, new cities, and a love that grew quietly with every season.<br><br>
-        Through the years, they became each other's home, cheering one another on through dreams, challenges, and all the little moments in between.<br><br>
-        After all these years, perhaps their greatest adventure is just beginning...
+        {{ t('invite.love.paragraph1') }}<br><br>
+        {{ t('invite.love.paragraph2') }}<br><br>
+        {{ t('invite.love.paragraph3') }}<br><br>
+        {{ t('invite.love.paragraph4') }}<br><br>
+        {{ t('invite.love.paragraph5') }}
       </p>
     </section>
 
     <section id="rsvp" class="invite-section invite-rsvp" aria-labelledby="rsvp-title">
-      <h2 id="rsvp-title" data-reveal="center">RSVP</h2>
+      <h2 id="rsvp-title" data-reveal="center">{{ t('invite.rsvp.title') }}</h2>
       <img class="rsvp-flower" src="/wedding/assets/rsvp-flower.png" alt="" aria-hidden="true" width="150" height="157" loading="lazy" decoding="async" data-reveal="flower">
       <form class="invite-form" novalidate data-stagger data-stagger-base="70" data-stagger-step="34" data-stagger-max="272" @submit.prevent="onSubmit">
         <div v-if="state === 'success'" class="invite-alert invite-alert--success" role="status">
-          Thank you, your RSVP has been received.
+          {{ t('invite.rsvp.status.success') }}
         </div>
 
         <div v-if="state === 'error' && !hasValidationErrors" class="invite-alert invite-alert--error" role="alert">
-          {{ errorKey === 'forms.status.missingEndpoint' ? 'The RSVP endpoint has not been configured yet.' : 'We could not send your RSVP. Please try again.' }}
+          {{ errorKey === 'forms.status.missingEndpoint' ? t('invite.rsvp.status.missingEndpoint') : t('invite.rsvp.status.submitError') }}
         </div>
 
         <label for="invite-fullName">
-          <span>What is your full name? (Required)</span>
+          <span>{{ t('invite.rsvp.fields.fullName') }}</span>
           <input
             id="invite-fullName"
             v-model="form.fullName"
             type="text"
             autocomplete="name"
-            placeholder="Your full name"
+            :placeholder="t('invite.rsvp.placeholders.fullName')"
             :aria-invalid="Boolean(errors.fullName)"
             :aria-describedby="errors.fullName ? 'invite-fullName-error' : undefined"
             @blur="touched.fullName = true; validateField('fullName')"
             @input="touched.fullName && validateField('fullName')"
           >
-          <small v-if="errors.fullName" id="invite-fullName-error" class="invite-field-error">{{ errors.fullName }}</small>
+          <small v-if="errors.fullName" id="invite-fullName-error" class="invite-field-error">{{ t(errors.fullName) }}</small>
         </label>
 
         <label for="invite-preferredName">
-          <span>How would you like to be addressed on your name tag? (Required)</span>
+          <span>{{ t('invite.rsvp.fields.preferredName') }}</span>
           <input
             id="invite-preferredName"
             v-model="form.preferredName"
             type="text"
-            placeholder="Your preferred name"
+            :placeholder="t('invite.rsvp.placeholders.preferredName')"
             :aria-invalid="Boolean(errors.preferredName)"
             :aria-describedby="errors.preferredName ? 'invite-preferredName-error' : undefined"
             @blur="touched.preferredName = true; validateField('preferredName')"
             @input="touched.preferredName && validateField('preferredName')"
           >
-          <small v-if="errors.preferredName" id="invite-preferredName-error" class="invite-field-error">{{ errors.preferredName }}</small>
+          <small v-if="errors.preferredName" id="invite-preferredName-error" class="invite-field-error">{{ t(errors.preferredName) }}</small>
         </label>
 
         <fieldset id="invite-guestOf" class="invite-choice-group invite-choice-group--guest" :aria-invalid="Boolean(errors.guestOf)" :aria-describedby="errors.guestOf ? 'invite-guestOf-error' : undefined">
-          <legend>Whose guest are you? (Required)</legend>
+          <legend>{{ t('invite.rsvp.fields.guestOf') }}</legend>
           <label>
             <input v-model="form.guestOf" type="radio" name="guestOf" value="brideGroom" @change="touched.guestOf = true; validateField('guestOf')">
-            <span>The Bride &amp; Groom</span>
+            <span>{{ t('invite.rsvp.guestOf.brideGroom') }}</span>
           </label>
           <label>
             <input v-model="form.guestOf" type="radio" name="guestOf" value="brideParents" @change="touched.guestOf = true; validateField('guestOf')">
-            <span>The Bride's Parents</span>
+            <span>{{ t('invite.rsvp.guestOf.brideParents') }}</span>
           </label>
           <label>
             <input v-model="form.guestOf" type="radio" name="guestOf" value="groomParents" @change="touched.guestOf = true; validateField('guestOf')">
-            <span>The Groom's Parents</span>
+            <span>{{ t('invite.rsvp.guestOf.groomParents') }}</span>
           </label>
-          <small v-if="errors.guestOf" id="invite-guestOf-error" class="invite-field-error">{{ errors.guestOf }}</small>
+          <small v-if="errors.guestOf" id="invite-guestOf-error" class="invite-field-error">{{ t(errors.guestOf) }}</small>
         </fieldset>
 
         <label for="invite-email">
-          <span>Email (Required)</span>
+          <span>{{ t('invite.rsvp.fields.email') }}</span>
           <input
             id="invite-email"
             v-model="form.email"
             type="email"
             autocomplete="email"
-            placeholder="Your Email"
+            :placeholder="t('invite.rsvp.placeholders.email')"
             :aria-invalid="Boolean(errors.email)"
             :aria-describedby="errors.email ? 'invite-email-error' : undefined"
             @blur="touched.email = true; validateField('email')"
             @input="touched.email && validateField('email')"
           >
-          <small v-if="errors.email" id="invite-email-error" class="invite-field-error">{{ errors.email }}</small>
+          <small v-if="errors.email" id="invite-email-error" class="invite-field-error">{{ t(errors.email) }}</small>
         </label>
 
         <label for="invite-phone">
-          <span>Contact number (country code, e.g +84) (Required)</span>
+          <span>{{ t('invite.rsvp.fields.phone') }}</span>
           <input
             id="invite-phone"
             v-model="form.phone"
             type="tel"
             autocomplete="tel"
-            placeholder="Your number"
+            :placeholder="t('invite.rsvp.placeholders.phone')"
             :aria-invalid="Boolean(errors.phone)"
             :aria-describedby="errors.phone ? 'invite-phone-error' : undefined"
             @blur="touched.phone = true; validateField('phone')"
             @input="touched.phone && validateField('phone')"
           >
-          <small v-if="errors.phone" id="invite-phone-error" class="invite-field-error">{{ errors.phone }}</small>
+          <small v-if="errors.phone" id="invite-phone-error" class="invite-field-error">{{ t(errors.phone) }}</small>
         </label>
 
         <fieldset id="invite-attendance" class="invite-choice-group invite-choice-group--attendance" :aria-invalid="Boolean(errors.attendance)" :aria-describedby="errors.attendance ? 'invite-attendance-error' : undefined">
-          <legend>Will you be attending? (Required)</legend>
+          <legend>{{ t('invite.rsvp.fields.attendance') }}</legend>
           <label>
             <input
               v-model="form.attendance"
@@ -853,7 +856,7 @@ const onSubmit = async () => {
               value="yes"
               @change="touched.attendance = true; validateField('attendance')"
             >
-            <span>Joyfully Accept</span>
+            <span>{{ t('invite.rsvp.attendance.yes') }}</span>
           </label>
           <label>
             <input
@@ -863,50 +866,50 @@ const onSubmit = async () => {
               value="no"
               @change="touched.attendance = true; validateField('attendance')"
             >
-            <span>Regretfully Decline</span>
+            <span>{{ t('invite.rsvp.attendance.no') }}</span>
           </label>
-          <small v-if="errors.attendance" id="invite-attendance-error" class="invite-field-error">{{ errors.attendance }}</small>
+          <small v-if="errors.attendance" id="invite-attendance-error" class="invite-field-error">{{ t(errors.attendance) }}</small>
         </fieldset>
 
         <fieldset class="invite-choice-group invite-choice-group--plus-one">
-          <legend>Will you be bringing a plus one? If yes, please share their name</legend>
+          <legend>{{ t('invite.rsvp.fields.plusOneAttendance') }}</legend>
           <label>
             <input v-model="form.plusOneAttendance" type="radio" name="plusOneAttendance" value="yes">
-            <span>Yes</span>
+            <span>{{ t('invite.common.yes') }}</span>
           </label>
           <label>
             <input v-model="form.plusOneAttendance" type="radio" name="plusOneAttendance" value="no">
-            <span>No</span>
+            <span>{{ t('invite.common.no') }}</span>
           </label>
         </fieldset>
 
         <label v-if="form.plusOneAttendance !== 'no'" for="invite-plusOne">
-          <input id="invite-plusOne" v-model="form.plusOne" type="text" placeholder="Their name">
+          <input id="invite-plusOne" v-model="form.plusOne" type="text" :placeholder="t('invite.rsvp.placeholders.plusOne')">
         </label>
 
         <label for="invite-dietary">
-          <span>Allergies or dietary requirements</span>
-            <input id="invite-dietary" v-model="form.dietary" type="text" placeholder="e.g. gluten-free, lactose intolerant, ...">
+          <span>{{ t('invite.rsvp.fields.dietary') }}</span>
+            <input id="invite-dietary" v-model="form.dietary" type="text" :placeholder="t('invite.rsvp.placeholders.dietary')">
         </label>
 
-        <input v-model="form.website" class="honeypot-field" type="text" tabindex="-1" autocomplete="off" aria-label="Website">
+        <input v-model="form.website" class="honeypot-field" type="text" tabindex="-1" autocomplete="off" :aria-label="t('invite.rsvp.fields.website')">
 
         <button class="invite-submit" type="submit" :disabled="isLoading" :aria-busy="isLoading">
-          <span class="invite-submit__label">{{ isLoading ? 'SENDING...' : 'SEND RSVP' }}</span>
+          <span class="invite-submit__label">{{ isLoading ? t('invite.rsvp.submitSending') : t('invite.rsvp.submit') }}</span>
         </button>
       </form>
       <img class="rsvp-swans" src="/wedding/assets/rsvp-swans.png" alt="" aria-hidden="true" width="175" height="92" loading="lazy" decoding="async" data-reveal="image-center" style="--reveal-delay: 320ms">
     </section>
 
     <section class="invite-section invite-album" aria-labelledby="album-title">
-      <h2 id="album-title" data-reveal="text">OUR ALBUM</h2>
+      <h2 id="album-title" data-reveal="text">{{ t('invite.album.title') }}</h2>
       <div
         class="album-carousel"
         data-reveal="image"
         style="--reveal-delay: 100ms"
         role="region"
         aria-roledescription="carousel"
-        aria-label="Wedding photo album"
+        :aria-label="t('invite.album.ariaLabel')"
         tabindex="0"
         @focusin="stopAlbumAutoplay"
         @focusout="startAlbumAutoplay"
@@ -930,13 +933,13 @@ const onSubmit = async () => {
             class="album-carousel__slide"
             :class="slide.positionClass"
             type="button"
-            :aria-label="`Show photo ${slide.index + 1} of ${albumImages.length}: ${slide.image.alt}`"
+            :aria-label="t('invite.album.showPhoto', { current: slide.index + 1, total: albumImages.length, alt: t('invite.album.imageAlt', { index: slide.index + 1 }) })"
             :aria-current="slide.index === activeAlbumIndex ? 'true' : undefined"
             @click="onAlbumSlideClick(slide.index, $event)"
           >
             <img
               :src="slide.image.src"
-              :alt="slide.index === activeAlbumIndex ? slide.image.alt : ''"
+              :alt="slide.index === activeAlbumIndex ? t('invite.album.imageAlt', { index: slide.index + 1 }) : ''"
               :loading="slide.index === 0 ? 'eager' : 'lazy'"
               :fetchpriority="slide.index === 0 ? 'high' : undefined"
               decoding="async"
@@ -944,29 +947,29 @@ const onSubmit = async () => {
           </button>
         </div>
 
-        <button class="album-carousel__control album-carousel__control--previous" type="button" aria-label="Show previous photo" @click="showPreviousAlbumSlide">
+        <button class="album-carousel__control album-carousel__control--previous" type="button" :aria-label="t('invite.album.previous')" @click="showPreviousAlbumSlide">
           <ChevronLeft aria-hidden="true" />
         </button>
-        <button class="album-carousel__control album-carousel__control--next" type="button" aria-label="Show next photo" @click="showNextAlbumSlide">
+        <button class="album-carousel__control album-carousel__control--next" type="button" :aria-label="t('invite.album.next')" @click="showNextAlbumSlide">
           <ChevronRight aria-hidden="true" />
         </button>
       </div>
-      <p class="invite-album__caption" data-reveal="text" style="--reveal-delay: 180ms">A collection of little moments, beautiful memories, and everything in between.</p>
+      <p class="invite-album__caption" data-reveal="text" style="--reveal-delay: 180ms">{{ t('invite.album.caption') }}</p>
     </section>
 
     <footer class="invite-section invite-footer">
-      <h2 data-reveal="text">CONTACT US</h2>
-      <p class="invite-footer__contact-copy" data-reveal="text" style="--reveal-delay: 80ms"><em>We hope you can make it</em><br>Please reach out to the Bride or Groom<br>via Whatsapp, Zalo:</p>
+      <h2 data-reveal="text">{{ t('invite.footer.contactTitle') }}</h2>
+      <p class="invite-footer__contact-copy" data-reveal="text" style="--reveal-delay: 80ms"><em>{{ t('invite.footer.contactKicker') }}</em><br>{{ t('invite.footer.contactLine1') }}<br>{{ t('invite.footer.contactLine2') }}</p>
       <address class="invite-footer__contacts" data-stagger data-stagger-base="140" data-stagger-step="48">
-        <span>Kim - <em>the Bride</em></span>
+        <span>Kim - <em>{{ t('invite.people.brideRoleLower') }}</em></span>
         <a href="tel:0909385561">0909 385 561</a>
-        <span>Nguyen (Andy) - <em>the Groom</em></span>
+        <span>Nguyen (Andy) - <em>{{ t('invite.people.groomRoleLower') }}</em></span>
         <a href="tel:0942024002">0942 024 002</a>
       </address>
       <section class="invite-footer__thanks" aria-labelledby="thanks-title" data-reveal="image" style="--reveal-delay: 180ms">
-        <h2 id="thanks-title">THANK YOU</h2>
-        <p>Having you with us on our special day would mean the world<br>to us and our families.</p>
-        <p class="invite-footer__signoff">With love and gratitude,<br>thank you for celebrating with us.</p>
+        <h2 id="thanks-title">{{ t('invite.footer.thanksTitle') }}</h2>
+        <p>{{ t('invite.footer.thanksLine1') }}<br>{{ t('invite.footer.thanksLine2') }}</p>
+        <p class="invite-footer__signoff">{{ t('invite.footer.signoffLine1') }}<br>{{ t('invite.footer.signoffLine2') }}</p>
         <img src="/wedding/assets/thank-you-florals.png" alt="" aria-hidden="true" width="278" height="155" loading="lazy" decoding="async">
       </section>
     </footer>

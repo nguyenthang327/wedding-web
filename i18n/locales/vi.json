@@ -1,8 +1,8 @@
 {
   "seo": {
-    "title": "An & Bình | Thiệp cưới",
-    "description": "Thiệp cưới trực tuyến của An và Bình với lịch trình, địa điểm, câu chuyện, album, lời chúc và RSVP.",
-    "ogDescription": "Cùng An và Bình giữ lại những khoảnh khắc đẹp trong ngày chung đôi."
+    "title": "Nguyen & Kim | Thiệp cưới",
+    "description": "Thiệp cưới trực tuyến của Nguyen và Kim vào ngày 19 tháng 12 năm 2026 tại JW Marriott Hotel & Suites Saigon.",
+    "ogDescription": "Cùng Nguyen và Kim chung vui trong ngày cưới 19 tháng 12 năm 2026."
   },
   "locale": {
     "ariaLabel": "Chọn ngôn ngữ",
@@ -10,6 +10,10 @@
     "options": {
       "vi": "VI",
       "en": "EN"
+    },
+    "names": {
+      "vi": "Tiếng Việt",
+      "en": "Tiếng Anh"
     }
   },
   "music": {
@@ -18,6 +22,179 @@
     "playAria": "Bật nhạc nền",
     "pauseAria": "Tắt nhạc nền",
     "loadError": "Không thể tải nhạc nền."
+  },
+  "invite": {
+    "common": {
+      "yes": "Có",
+      "no": "Không"
+    },
+    "hero": {
+      "kicker": "LƯU NGÀY CƯỚI",
+      "namesAlt": "Nguyen và Kim",
+      "coupleAlt": "Minh họa Nguyen và Kim",
+      "date": "19 THÁNG 12 2026",
+      "location": "JW MARRIOTT HOTEL & SUITES SAIGON"
+    },
+    "countdown": {
+      "monogramAlt": "Monogram K N",
+      "title": "ĐẾM NGƯỢC",
+      "copyLine1": "Giữa lòng Sài Gòn, một ngày yêu thương đang chờ đón.",
+      "copyLine2": "Một khoảnh khắc để chậm lại, hiện diện và cùng mở đầu hành trình mãi mãi.",
+      "cardLine1": "Ngày vui đang đến gần",
+      "cardLine2": "đến lúc mình nói lời hẹn ước",
+      "units": {
+        "days": "NGÀY",
+        "hours": "GIỜ",
+        "minutes": "PHÚT",
+        "seconds": "GIÂY"
+      }
+    },
+    "calendar": {
+      "title": "Lịch cưới",
+      "copyLine1": "Mỗi ngày trôi qua là thêm một bước gần khoảnh khắc chúng mình mong đợi.",
+      "copyLine2": "Hãy lưu lại ngày này và cùng sẻ chia một ngày đầy yêu thương, kỷ niệm.",
+      "alt": "Lịch tháng 12 năm 2026 với ngày 19 được đánh dấu là ngày cưới"
+    },
+    "people": {
+      "ariaLabel": "Cô dâu và chú rể",
+      "brideAlt": "Chân dung cô dâu Nguyen Le Thien Kim",
+      "groomAlt": "Chân dung chú rể Nguyen Dang Nguyen",
+      "brideRole": "Cô Dâu",
+      "groomRole": "Chú Rể",
+      "brideRoleLower": "cô dâu",
+      "groomRoleLower": "chú rể"
+    },
+    "invitation": {
+      "title": "THƯ MỜI",
+      "parentsTitle": "Ông Bà",
+      "intro": "TRÂN TRỌNG MỜI BẠN ĐẾN CHUNG VUI TRONG NGÀY CƯỚI CỦA CHÚNG MÌNH",
+      "and": "VÀ",
+      "heldAt": "VÀO LÚC 17:30",
+      "dateLeft": "THỨ BẢY",
+      "direction": "CHỈ ĐƯỜNG",
+      "note": "Do không gian tiệc có giới hạn, chúng mình xin phép chỉ đón các bé là con của gia đình và người thân gần gũi nhất. Rất mong bạn thông cảm và thương mến.",
+      "rsvpLine1": "Vui lòng phản hồi trước",
+      "rsvpDate": "01 tháng 11, 2026",
+      "rsvpLine2": "để chúng mình chuẩn bị chu đáo"
+    },
+    "timeline": {
+      "title": "LỊCH TRÌNH",
+      "copy": "Một ngày với nhiều khoảnh khắc ý nghĩa, từ lời chào đầu đến điệu nhảy cuối.",
+      "teaTitle": "Lễ Gia Tiên",
+      "teaDate": "17 THÁNG 12 2026",
+      "weddingTitle": "Tiệc Cưới",
+      "weddingDate": "19 THÁNG 12 2026",
+      "events": {
+        "welcome": "ĐÓN KHÁCH",
+        "ceremony": "NGHI THỨC",
+        "reception": "TIỆC TỐI",
+        "entertainment": "VĂN NGHỆ",
+        "afterParty": "AFTER PARTY",
+        "goodbye": "TẠM BIỆT"
+      }
+    },
+    "dresscode": {
+      "title": "TRANG PHỤC",
+      "attire": "Trang Phục",
+      "intro": "Mong bạn chọn trang phục lịch sự để cùng dự ngày đặc biệt này.",
+      "colorsAria": "Màu sắc gợi ý cho dress code",
+      "colors": {
+        "royalBlue": "Xanh Royal",
+        "sageGreen": "Xanh Sage",
+        "dustyMauve": "Hồng Mauve",
+        "butterYellow": "Vàng Bơ",
+        "lightBlue": "Xanh Nhạt",
+        "lightPink": "Hồng Nhạt",
+        "warmBeige": "Be Ấm"
+      },
+      "imageAlt": "Minh họa khách mời mặc các màu dress code gợi ý",
+      "noteLine1": "Chúng mình xin phép",
+      "noteStrong": "dành sắc trắng cho cô dâu,",
+      "noteLine2": "và mong bạn chọn màu khác để cùng chung vui. Cảm ơn bạn!"
+    },
+    "love": {
+      "title": "CHUYỆN TÌNH",
+      "imageAlt": "Minh họa cây cầu thành phố bên dòng sông",
+      "paragraph1": "Có những chuyện tình bắt đầu bằng một khoảnh khắc thật lớn.",
+      "paragraph2": "Với Nguyen (Andy) và Kim, mọi thứ đến thật khẽ: một kết nối trên Instagram, khi cả hai cùng chuẩn bị đến Boston University.",
+      "paragraph3": "Từ những câu chuyện về trường lớp, cả hai có thêm những buổi đi bộ giữa đêm Boston lạnh, những bữa ăn chung và một tình yêu lớn lên qua từng mùa.",
+      "paragraph4": "Qua năm tháng, họ trở thành mái nhà của nhau, cùng cổ vũ cho ước mơ, cùng đi qua thử thách và những điều nhỏ bé dịu dàng.",
+      "paragraph5": "Sau ngần ấy năm, chuyến phiêu lưu đẹp nhất có lẽ chỉ vừa bắt đầu..."
+    },
+    "rsvp": {
+      "title": "RSVP",
+      "status": {
+        "success": "Cảm ơn bạn, RSVP của bạn đã được ghi nhận.",
+        "missingEndpoint": "Endpoint nhận RSVP chưa được cấu hình.",
+        "submitError": "Chúng mình chưa gửi được RSVP. Vui lòng thử lại."
+      },
+      "fields": {
+        "fullName": "Họ tên? (Bắt buộc)",
+        "preferredName": "Tên trên bảng tên? (Bắt buộc)",
+        "guestOf": "Bạn là khách của ai? (Bắt buộc)",
+        "email": "Email (Bắt buộc)",
+        "phone": "Số điện thoại (+84) (Bắt buộc)",
+        "attendance": "Bạn sẽ tham dự? (Bắt buộc)",
+        "plusOneAttendance": "Có đi cùng khách? Nếu có, ghi tên",
+        "dietary": "Dị ứng/yêu cầu ăn uống",
+        "website": "Website"
+      },
+      "placeholders": {
+        "fullName": "Họ và tên",
+        "preferredName": "Tên muốn được gọi",
+        "email": "Email của bạn",
+        "phone": "Số điện thoại",
+        "plusOne": "Tên người đi cùng",
+        "dietary": "VD: ăn chay, dị ứng hải sản, không dùng lactose..."
+      },
+      "guestOf": {
+        "brideGroom": "Cô dâu & Chú rể",
+        "brideParents": "Nhà cô dâu",
+        "groomParents": "Nhà chú rể"
+      },
+      "attendance": {
+        "yes": "Hân hạnh tham dự",
+        "no": "Rất tiếc không thể"
+      },
+      "validation": {
+        "fullNameRequired": "Vui lòng nhập họ và tên.",
+        "preferredNameRequired": "Vui lòng nhập tên muốn được gọi.",
+        "emailRequired": "Vui lòng nhập email.",
+        "emailInvalid": "Vui lòng nhập email hợp lệ.",
+        "guestOfRequired": "Vui lòng chọn bạn là khách mời của bên nào.",
+        "phoneRequired": "Vui lòng nhập số điện thoại.",
+        "attendanceRequired": "Vui lòng chọn trạng thái tham dự."
+      },
+      "submitNote": {
+        "preferredName": "Tên hiển thị",
+        "guestOf": "Khách mời của",
+        "plusOneAttendance": "Có đi cùng khách",
+        "plusOne": "Người đi cùng",
+        "dietary": "Ăn uống"
+      },
+      "submit": "GỬI RSVP",
+      "submitSending": "ĐANG GỬI..."
+    },
+    "album": {
+      "title": "ALBUM",
+      "ariaLabel": "Album ảnh cưới",
+      "showPhoto": "Xem ảnh {current} trên {total}: {alt}",
+      "imageAlt": "Ảnh cưới Nguyen và Kim số {index}",
+      "previous": "Xem ảnh trước",
+      "next": "Xem ảnh tiếp theo",
+      "caption": "Những khoảnh khắc nhỏ, kỷ niệm đẹp và mọi điều dịu dàng ở giữa."
+    },
+    "footer": {
+      "contactTitle": "LIÊN HỆ",
+      "contactKicker": "Chúng mình mong được gặp bạn",
+      "contactLine1": "Vui lòng liên hệ Cô dâu hoặc Chú rể",
+      "contactLine2": "qua Whatsapp, Zalo:",
+      "thanksTitle": "CẢM ƠN",
+      "thanksLine1": "Sự hiện diện của bạn trong ngày đặc biệt này",
+      "thanksLine2": "là niềm vui lớn với chúng mình và gia đình.",
+      "signoffLine1": "Với tất cả yêu thương và biết ơn,",
+      "signoffLine2": "cảm ơn bạn đã chung vui cùng chúng mình."
+    }
   },
   "nav": {
     "ariaLabel": "Điều hướng chính",

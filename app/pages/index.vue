@@ -2,8 +2,9 @@
 import IntroVideoOverlay from '~/components/wedding/IntroVideoOverlay.vue'
 import InvitationScroll from '~/components/wedding/InvitationScroll.vue'
 import BackgroundMusic from '~/components/wedding/BackgroundMusic.vue'
+import LocaleSwitcher from '~/components/wedding/LocaleSwitcher.vue'
 
-const { locale, localeProperties } = useI18n()
+const { locale, localeProperties, t } = useI18n()
 const isIntroComplete = ref(false)
 
 const htmlLang = computed(() => String(localeProperties.value?.language || locale.value))
@@ -23,10 +24,10 @@ useHead({
 })
 
 useSeoMeta({
-  title: 'Nguyen & Kim | Wedding Invitation',
-  ogTitle: 'Nguyen & Kim | Wedding Invitation',
-  description: 'Save the date for Nguyen and Kim on December 19th, 2026 at JW Marriott Hotel & Suites Saigon.',
-  ogDescription: 'Join Nguyen and Kim in celebrating their wedding day on December 19th, 2026.',
+  title: () => t('seo.title'),
+  ogTitle: () => t('seo.title'),
+  description: () => t('seo.description'),
+  ogDescription: () => t('seo.ogDescription'),
   ogImage: '/wedding/assets/album-garden.jpg',
   twitterCard: 'summary_large_image'
 })
@@ -36,6 +37,7 @@ useScrollReveal()
 
 <template>
   <IntroVideoOverlay v-if="!isIntroComplete" @complete="isIntroComplete = true" />
+  <LocaleSwitcher class="page-locale-switcher" />
   <main
     class="page-shell"
     :class="{ 'is-intro-complete': isIntroComplete }"

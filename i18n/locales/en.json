@@ -1,8 +1,8 @@
 {
   "seo": {
-    "title": "An & Binh | Wedding Invitation",
-    "description": "An and Binh's wedding website with schedule, venue, story, album, wishes, and RSVP.",
-    "ogDescription": "Join An and Binh in celebrating a tender day to remember."
+    "title": "Nguyen & Kim | Wedding Invitation",
+    "description": "Save the date for Nguyen and Kim on December 19th, 2026 at JW Marriott Hotel & Suites Saigon.",
+    "ogDescription": "Join Nguyen and Kim in celebrating their wedding day on December 19th, 2026."
   },
   "locale": {
     "ariaLabel": "Choose language",
@@ -10,6 +10,10 @@
     "options": {
       "vi": "VI",
       "en": "EN"
+    },
+    "names": {
+      "vi": "Vietnamese",
+      "en": "English"
     }
   },
   "music": {
@@ -18,6 +22,179 @@
     "playAria": "Play background music",
     "pauseAria": "Pause background music",
     "loadError": "Unable to load background music."
+  },
+  "invite": {
+    "common": {
+      "yes": "Yes",
+      "no": "No"
+    },
+    "hero": {
+      "kicker": "SAVE THE DATE",
+      "namesAlt": "Nguyen and Kim",
+      "coupleAlt": "Illustration of Nguyen and Kim",
+      "date": "DECEMBER 19 2026",
+      "location": "JW MARRIOTT HOTEL & SUITES SAIGON"
+    },
+    "countdown": {
+      "monogramAlt": "K N monogram",
+      "title": "COUNTDOWN",
+      "copyLine1": "In the heart of Saigon, a day of love and celebration awaits.",
+      "copyLine2": "A moment to slow down, to be present, and to share in the beginning of our forever.",
+      "cardLine1": "The day is getting closer",
+      "cardLine2": "until we say \"I do\"",
+      "units": {
+        "days": "DAYS",
+        "hours": "HOURS",
+        "minutes": "MINUTES",
+        "seconds": "SECONDS"
+      }
+    },
+    "calendar": {
+      "title": "Wedding calendar",
+      "copyLine1": "With every passing day, we're one step closer to the moment we've been waiting for.",
+      "copyLine2": "Save the date, and come share in a day filled with love and memories to keep.",
+      "alt": "December 2026 calendar with the nineteenth marked as best day"
+    },
+    "people": {
+      "ariaLabel": "Bride and groom",
+      "brideAlt": "Portrait of the bride Nguyen Le Thien Kim",
+      "groomAlt": "Portrait of the groom Nguyen Dang Nguyen",
+      "brideRole": "The Bride",
+      "groomRole": "The Groom",
+      "brideRoleLower": "the Bride",
+      "groomRoleLower": "the Groom"
+    },
+    "invitation": {
+      "title": "INVITATION",
+      "parentsTitle": "Mr & Mrs",
+      "intro": "TOGETHER WITH OUR LOVED ONES, WE INVITE YOU TO JOIN US IN CELEBRATING OUR WEDDING DAY",
+      "and": "AND",
+      "heldAt": "HELD AT 17:30",
+      "dateLeft": "SATURDAY",
+      "direction": "DIRECTION",
+      "note": "Due to the venue's capacity limitations, we kindly invite only the children of our family and closest relatives to join us on this special day. We sincerely appreciate your understanding.",
+      "rsvpLine1": "Kindly RSVP by",
+      "rsvpDate": "November 1st, 2026",
+      "rsvpLine2": "so we can finalize our guest count"
+    },
+    "timeline": {
+      "title": "TIMELINE",
+      "copy": "Day filled with meaningful moments, from our first hello to the final dance.",
+      "teaTitle": "Tea Ceremony",
+      "teaDate": "DECEMBER 17 2026",
+      "weddingTitle": "Wedding Day",
+      "weddingDate": "DECEMBER 19 2026",
+      "events": {
+        "welcome": "WELCOME GUEST",
+        "ceremony": "CEREMONY",
+        "reception": "RECEPTION DINNER",
+        "entertainment": "ENTERTAINMENT",
+        "afterParty": "AFTER PARTY",
+        "goodbye": "GOODBYE"
+      }
+    },
+    "dresscode": {
+      "title": "DRESSCODE",
+      "attire": "Formal Attire",
+      "intro": "We kindly ask you to dress formally to join us on this very special day.",
+      "colorsAria": "Suggested dress code colors",
+      "colors": {
+        "royalBlue": "Royal Blue",
+        "sageGreen": "Sage Green",
+        "dustyMauve": "Dusty Mauve",
+        "butterYellow": "Butter Yellow",
+        "lightBlue": "Light Blue",
+        "lightPink": "Light Pink",
+        "warmBeige": "Warm Beige"
+      },
+      "imageAlt": "Illustration of guests wearing the suggested dress code colors",
+      "noteLine1": "We kindly ask our guests to",
+      "noteStrong": "leave white attire for the bride,",
+      "noteLine2": "and choose another color to celebrate with us. Thank you!"
+    },
+    "love": {
+      "title": "LOVE STORY",
+      "imageAlt": "Illustration of a city bridge by the river",
+      "paragraph1": "Some love stories begin with a grand moment.",
+      "paragraph2": "For Nguyen (Andy) & Kim, theirs began rather quietly, with an Instagram connection, two students from Saigon who had both been accepted to Boston University.",
+      "paragraph3": "What began as conversations about school slowly became walks through the cold Boston nights, shared meals, new cities, and a love that grew quietly with every season.",
+      "paragraph4": "Through the years, they became each other's home, cheering one another on through dreams, challenges, and all the little moments in between.",
+      "paragraph5": "After all these years, perhaps their greatest adventure is just beginning..."
+    },
+    "rsvp": {
+      "title": "RSVP",
+      "status": {
+        "success": "Thank you, your RSVP has been received.",
+        "missingEndpoint": "The RSVP endpoint has not been configured yet.",
+        "submitError": "We could not send your RSVP. Please try again."
+      },
+      "fields": {
+        "fullName": "What is your full name? (Required)",
+        "preferredName": "How would you like to be addressed on your name tag? (Required)",
+        "guestOf": "Whose guest are you? (Required)",
+        "email": "Email (Required)",
+        "phone": "Contact number (country code, e.g +84) (Required)",
+        "attendance": "Will you be attending? (Required)",
+        "plusOneAttendance": "Will you be bringing a plus one? If yes, please share their name",
+        "dietary": "Allergies or dietary requirements",
+        "website": "Website"
+      },
+      "placeholders": {
+        "fullName": "Your full name",
+        "preferredName": "Your preferred name",
+        "email": "Your Email",
+        "phone": "Your number",
+        "plusOne": "Their name",
+        "dietary": "e.g. gluten-free, lactose intolerant, ..."
+      },
+      "guestOf": {
+        "brideGroom": "The Bride & Groom",
+        "brideParents": "The Bride's Parents",
+        "groomParents": "The Groom's Parents"
+      },
+      "attendance": {
+        "yes": "Joyfully Accept",
+        "no": "Regretfully Decline"
+      },
+      "validation": {
+        "fullNameRequired": "Please enter your full name.",
+        "preferredNameRequired": "Please enter your preferred name.",
+        "emailRequired": "Please enter your email.",
+        "emailInvalid": "Please enter a valid email address.",
+        "guestOfRequired": "Please choose whose guest you are.",
+        "phoneRequired": "Please enter your contact number.",
+        "attendanceRequired": "Please choose your attendance."
+      },
+      "submitNote": {
+        "preferredName": "Preferred name",
+        "guestOf": "Guest of",
+        "plusOneAttendance": "Bringing a plus one",
+        "plusOne": "Plus one",
+        "dietary": "Dietary"
+      },
+      "submit": "SEND RSVP",
+      "submitSending": "SENDING..."
+    },
+    "album": {
+      "title": "OUR ALBUM",
+      "ariaLabel": "Wedding photo album",
+      "showPhoto": "Show photo {current} of {total}: {alt}",
+      "imageAlt": "Nguyen and Kim wedding album photo {index}",
+      "previous": "Show previous photo",
+      "next": "Show next photo",
+      "caption": "A collection of little moments, beautiful memories, and everything in between."
+    },
+    "footer": {
+      "contactTitle": "CONTACT US",
+      "contactKicker": "We hope you can make it",
+      "contactLine1": "Please reach out to the Bride or Groom",
+      "contactLine2": "via Whatsapp, Zalo:",
+      "thanksTitle": "THANK YOU",
+      "thanksLine1": "Having you with us on our special day would mean the world",
+      "thanksLine2": "to us and our families.",
+      "signoffLine1": "With love and gratitude,",
+      "signoffLine2": "thank you for celebrating with us."
+    }
   },
   "nav": {
     "ariaLabel": "Main navigation",
