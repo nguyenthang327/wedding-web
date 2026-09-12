@@ -1,0 +1,204 @@
+{
+  "seo": {
+    "title": "An & Binh | Wedding Invitation",
+    "description": "An and Binh's wedding website with schedule, venue, story, album, wishes, and RSVP.",
+    "ogDescription": "Join An and Binh in celebrating a tender day to remember."
+  },
+  "locale": {
+    "ariaLabel": "Choose language",
+    "switchTo": "Switch to {name}",
+    "options": {
+      "vi": "VI",
+      "en": "EN"
+    }
+  },
+  "music": {
+    "play": "Play music",
+    "pause": "Pause music",
+    "playAria": "Play background music",
+    "pauseAria": "Pause background music",
+    "loadError": "Unable to load background music."
+  },
+  "nav": {
+    "ariaLabel": "Main navigation",
+    "home": "Back to top",
+    "story": "Story",
+    "schedule": "Schedule",
+    "album": "Album",
+    "wishes": "Wishes",
+    "rsvp": "RSVP"
+  },
+  "hero": {
+    "eyebrow": "Wedding celebration",
+    "title": "An & Binh",
+    "subtitle": "On an October afternoon, we would love to gather the people we cherish and keep a gentle day in our hearts.",
+    "primaryAction": "Confirm attendance",
+    "secondaryAction": "View details",
+    "imageAlt": "Outdoor wedding table with cream flowers, wedding stationery, and rings"
+  },
+  "details": {
+    "ariaLabel": "Wedding details",
+    "items": {
+      "date": {
+        "label": "Wedding date",
+        "value": "October 12, 2026",
+        "note": "Family ceremony in the morning, intimate dinner in the evening."
+      },
+      "time": {
+        "label": "Time",
+        "value": "5:30 PM",
+        "note": "Guest welcome from 5:00 PM, ceremony begins on time."
+      },
+      "venue": {
+        "label": "Venue",
+        "value": "The Garden Pavilion",
+        "note": "12 Nguyen Van Huong, Thao Dien, Ho Chi Minh City.",
+        "mapAction": "Open map"
+      }
+    }
+  },
+  "date": {
+    "eyebrow": "Save the date",
+    "title": "Counting down to the day we begin forever.",
+    "copy": "We cannot wait to see you for an evening of flowers, candles, music, and heartfelt wishes."
+  },
+  "countdown": {
+    "ariaLabel": "Countdown to the wedding day",
+    "complete": "The day has arrived",
+    "loading": "Calculating time",
+    "units": {
+      "days": "Days",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds"
+    }
+  },
+  "calendar": {
+    "ariaLabel": "Wedding month calendar",
+    "monthName": "October 2026",
+    "selectedLabel": "Wedding day, October 12, 2026",
+    "weekdays": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    }
+  },
+  "story": {
+    "eyebrow": "Love story",
+    "title": "From summer coffee dates to an autumn promise.",
+    "copy": "Some things arrive softly, then stay like the sweetest little habit.",
+    "items": {
+      "firstMeeting": {
+        "title": "The day we met",
+        "text": "We met on a rainy Saigon afternoon. A short conversation about books, a cup of coffee still warm, and then journeys that lasted longer than either of us expected."
+      },
+      "proposal": {
+        "title": "The promise",
+        "text": "After many seasons together, we learned that peace can be as simple as having someone to tell every small story of the day."
+      },
+      "promise": {
+        "title": "The wedding day",
+        "text": "Our celebration does not need to be loud. We only hope for a warm evening with family, friends, fresh flowers, music, and wishes from the heart."
+      }
+    }
+  },
+  "schedule": {
+    "eyebrow": "Schedule",
+    "title": "A gentle evening, just enough to remember for a long time.",
+    "items": {
+      "arrival": {
+        "title": "Guest welcome",
+        "text": "Check in, take photos, and enjoy welcome drinks in the garden."
+      },
+      "ceremony": {
+        "title": "Ceremony",
+        "text": "A quiet moment for vows, witnessed by our families and friends."
+      },
+      "dinner": {
+        "title": "Dinner",
+        "text": "A soft dinner, acoustic music, and celebratory wishes."
+      },
+      "dance": {
+        "title": "Dance",
+        "text": "First dance, cake cutting, and the songs we both love."
+      }
+    }
+  },
+  "album": {
+    "ariaLabel": "Wedding photo album",
+    "eyebrow": "Our album",
+    "title": "Small details that make the day worth remembering.",
+    "copy": "A few gentle glimpses of the wedding mood: flowers, rings, stationery, and the garden in late-afternoon light.",
+    "openImage": "Open image {index}",
+    "close": "Close album",
+    "previous": "Previous image",
+    "next": "Next image",
+    "counter": "Image {current} of {total}",
+    "items": {
+      "rings": "Wedding rings placed beside stationery and champagne ribbon",
+      "florals": "Cream and blush wedding flowers in the garden",
+      "invitation": "Wedding stationery and ring box on light fabric",
+      "garden": "Green garden space behind the wedding table",
+      "table": "Outdoor wedding table with flowers and late-afternoon light",
+      "vows": "Wedding stationery detail for vows and promises"
+    }
+  },
+  "forms": {
+    "section": {
+      "eyebrow": "Send a note",
+      "title": "Share your wishes and save your seat at our table.",
+      "copy": "Please reply by September 20, 2026 so we can prepare everything with care."
+    },
+    "fields": {
+      "name": "Your name",
+      "message": "Your wish",
+      "attendance": "Will you attend?",
+      "attendingYes": "I will attend",
+      "attendingNo": "I am sorry I cannot attend",
+      "guestCount": "Number of guests",
+      "contact": "Email or phone number",
+      "note": "Additional note",
+      "honeypot": "Website"
+    },
+    "placeholders": {
+      "name": "Example: Minh Anh",
+      "message": "Write a few kind words...",
+      "guestCount": "1",
+      "contact": "Email or phone number so we can reach you",
+      "note": "Example: vegetarian meal, coming with a child..."
+    },
+    "wish": {
+      "title": "Send wishes",
+      "description": "Even a small note will make our day fuller.",
+      "submit": "Send wishes"
+    },
+    "rsvp": {
+      "title": "Confirm attendance",
+      "description": "Let us know whether you can celebrate with us.",
+      "submit": "Send RSVP"
+    },
+    "validation": {
+      "nameRequired": "Please enter your name.",
+      "messageRequired": "Please enter your wish.",
+      "attendanceRequired": "Please choose your attendance status.",
+      "guestCountInvalid": "Please enter a guest count from 1 to 10.",
+      "contactRequired": "Please enter an email or phone number."
+    },
+    "status": {
+      "errorTitle": "A few things need attention",
+      "loading": "Sending...",
+      "wishSuccess": "Thank you, your wish has been sent.",
+      "rsvpSuccess": "Thank you, your RSVP has been received.",
+      "missingEndpoint": "The form submission endpoint has not been configured yet. Please try again later.",
+      "submitError": "We could not send your response. Please try again in a few minutes."
+    }
+  },
+  "footer": {
+    "line": "Your presence is the most beautiful gift on our wedding day.",
+    "thanks": "Thank you!"
+  }
+}

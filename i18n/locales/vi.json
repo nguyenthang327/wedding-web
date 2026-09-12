@@ -1,0 +1,204 @@
+{
+  "seo": {
+    "title": "An & Bình | Thiệp cưới",
+    "description": "Thiệp cưới trực tuyến của An và Bình với lịch trình, địa điểm, câu chuyện, album, lời chúc và RSVP.",
+    "ogDescription": "Cùng An và Bình giữ lại những khoảnh khắc đẹp trong ngày chung đôi."
+  },
+  "locale": {
+    "ariaLabel": "Chọn ngôn ngữ",
+    "switchTo": "Chuyển sang {name}",
+    "options": {
+      "vi": "VI",
+      "en": "EN"
+    }
+  },
+  "music": {
+    "play": "Bật nhạc",
+    "pause": "Tắt nhạc",
+    "playAria": "Bật nhạc nền",
+    "pauseAria": "Tắt nhạc nền",
+    "loadError": "Không thể tải nhạc nền."
+  },
+  "nav": {
+    "ariaLabel": "Điều hướng chính",
+    "home": "Về đầu trang",
+    "story": "Câu chuyện",
+    "schedule": "Lịch trình",
+    "album": "Album",
+    "wishes": "Lời chúc",
+    "rsvp": "RSVP"
+  },
+  "hero": {
+    "eyebrow": "Wedding celebration",
+    "title": "An & Bình",
+    "subtitle": "Một buổi chiều tháng mười, chúng mình muốn cùng những người thương giữ lại một ngày thật dịu dàng.",
+    "primaryAction": "Xác nhận tham dự",
+    "secondaryAction": "Xem thông tin",
+    "imageAlt": "Bàn tiệc cưới ngoài trời với hoa màu kem, thiệp cưới và nhẫn cưới"
+  },
+  "details": {
+    "ariaLabel": "Thông tin lễ cưới",
+    "items": {
+      "date": {
+        "label": "Ngày cưới",
+        "value": "12 tháng 10, 2026",
+        "note": "Lễ gia tiên buổi sáng, tiệc thân mật vào buổi tối."
+      },
+      "time": {
+        "label": "Thời gian",
+        "value": "17:30",
+        "note": "Đón khách từ 17:00, nghi thức bắt đầu đúng giờ."
+      },
+      "venue": {
+        "label": "Địa điểm",
+        "value": "The Garden Pavilion",
+        "note": "12 Nguyễn Văn Hưởng, Thảo Điền, TP. Hồ Chí Minh.",
+        "mapAction": "Mở bản đồ"
+      }
+    }
+  },
+  "date": {
+    "eyebrow": "Save the date",
+    "title": "Đếm ngược đến ngày chúng mình chung đôi.",
+    "copy": "Hẹn gặp bạn trong một buổi tối có hoa, nến, âm nhạc và những lời chúc thật gần."
+  },
+  "countdown": {
+    "ariaLabel": "Đếm ngược đến ngày cưới",
+    "complete": "Ngày vui đã đến",
+    "loading": "Đang tính thời gian",
+    "units": {
+      "days": "Ngày",
+      "hours": "Giờ",
+      "minutes": "Phút",
+      "seconds": "Giây"
+    }
+  },
+  "calendar": {
+    "ariaLabel": "Lịch tháng cưới",
+    "monthName": "Tháng 10, 2026",
+    "selectedLabel": "Ngày cưới, 12 tháng 10, 2026",
+    "weekdays": {
+      "mon": "T2",
+      "tue": "T3",
+      "wed": "T4",
+      "thu": "T5",
+      "fri": "T6",
+      "sat": "T7",
+      "sun": "CN"
+    }
+  },
+  "story": {
+    "eyebrow": "Câu chuyện",
+    "title": "Từ những buổi cà phê mùa hạ đến lời hẹn mùa thu.",
+    "copy": "Có những điều đến rất khẽ, rồi ở lại như một thói quen dịu dàng.",
+    "items": {
+      "firstMeeting": {
+        "title": "Ngày gặp nhau",
+        "text": "Chúng mình gặp nhau trong một ngày Sài Gòn bất ngờ đổ mưa. Một câu chuyện ngắn về sách, một ly cà phê chưa kịp nguội, rồi thành những chuyến đi dài hơn cả dự định ban đầu."
+      },
+      "proposal": {
+        "title": "Lời hẹn",
+        "text": "Sau nhiều mùa đi qua cùng nhau, tụi mình nhận ra bình yên đôi khi chỉ là có một người để kể mọi điều nhỏ nhất trong ngày."
+      },
+      "promise": {
+        "title": "Ngày chung đôi",
+        "text": "Ngày cưới không cần quá ồn ào. Chúng mình chỉ mong có một buổi tối ấm áp, có gia đình, bạn bè, hoa tươi, âm nhạc và những lời chúc từ trái tim."
+      }
+    }
+  },
+  "schedule": {
+    "eyebrow": "Lịch trình",
+    "title": "Một buổi tối nhẹ nhàng, vừa đủ để nhớ lâu.",
+    "items": {
+      "arrival": {
+        "title": "Đón khách",
+        "text": "Check-in, chụp ảnh và thưởng thức welcome drink trong vườn."
+      },
+      "ceremony": {
+        "title": "Nghi thức",
+        "text": "Khoảnh khắc trao lời hẹn ước với gia đình và bạn bè."
+      },
+      "dinner": {
+        "title": "Dùng tiệc",
+        "text": "Bữa tối nhẹ nhàng, âm nhạc acoustic và lời chúc mừng."
+      },
+      "dance": {
+        "title": "Khiêu vũ",
+        "text": "First dance, cắt bánh và những bài hát cả hai cùng yêu."
+      }
+    }
+  },
+  "album": {
+    "ariaLabel": "Album ảnh cưới",
+    "eyebrow": "Our album",
+    "title": "Những chi tiết nhỏ làm nên một ngày đáng nhớ.",
+    "copy": "Một vài lát cắt dịu dàng từ không khí cưới: hoa, nhẫn, thiệp và khu vườn trong nắng chiều.",
+    "openImage": "Mở ảnh {index}",
+    "close": "Đóng album",
+    "previous": "Ảnh trước",
+    "next": "Ảnh tiếp theo",
+    "counter": "Ảnh {current} trên {total}",
+    "items": {
+      "rings": "Nhẫn cưới đặt bên thiệp và ruy băng màu champagne",
+      "florals": "Hoa cưới màu kem và hồng phấn trong khu vườn",
+      "invitation": "Thiệp cưới và hộp nhẫn trên nền vải sáng",
+      "garden": "Không gian vườn xanh sau bàn tiệc cưới",
+      "table": "Bàn tiệc ngoài trời với hoa và ánh nắng chiều",
+      "vows": "Chi tiết thiệp lời hẹn ước trong ngày cưới"
+    }
+  },
+  "forms": {
+    "section": {
+      "eyebrow": "Lời nhắn",
+      "title": "Gửi lời chúc và giữ chỗ cho bạn trong bàn tiệc.",
+      "copy": "Phản hồi trước ngày 20 tháng 9, 2026 để chúng mình chuẩn bị thật chu đáo."
+    },
+    "fields": {
+      "name": "Tên của bạn",
+      "message": "Lời chúc",
+      "attendance": "Bạn sẽ tham dự chứ?",
+      "attendingYes": "Mình sẽ tham dự",
+      "attendingNo": "Mình tiếc là không thể tham dự",
+      "guestCount": "Số khách tham dự",
+      "contact": "Email hoặc số điện thoại",
+      "note": "Ghi chú thêm",
+      "honeypot": "Website"
+    },
+    "placeholders": {
+      "name": "Ví dụ: Minh Anh",
+      "message": "Viết vài lời thương mến...",
+      "guestCount": "1",
+      "contact": "Email hoặc số điện thoại để tụi mình liên hệ",
+      "note": "Ví dụ: ăn chay, đi cùng em bé..."
+    },
+    "wish": {
+      "title": "Gửi lời chúc",
+      "description": "Một lời nhắn nhỏ cũng đủ làm ngày vui thêm đầy.",
+      "submit": "Gửi lời chúc"
+    },
+    "rsvp": {
+      "title": "Xác nhận tham gia",
+      "description": "Cho tụi mình biết bạn có thể đến chung vui không nhé.",
+      "submit": "Gửi RSVP"
+    },
+    "validation": {
+      "nameRequired": "Vui lòng nhập tên của bạn.",
+      "messageRequired": "Vui lòng nhập lời chúc.",
+      "attendanceRequired": "Vui lòng chọn trạng thái tham dự.",
+      "guestCountInvalid": "Vui lòng nhập số khách từ 1 đến 10.",
+      "contactRequired": "Vui lòng nhập email hoặc số điện thoại."
+    },
+    "status": {
+      "errorTitle": "Có một chút cần kiểm tra",
+      "loading": "Đang gửi...",
+      "wishSuccess": "Cảm ơn bạn, lời chúc đã được gửi.",
+      "rsvpSuccess": "Cảm ơn bạn, RSVP đã được ghi nhận.",
+      "missingEndpoint": "Form chưa được cấu hình endpoint nhận dữ liệu. Vui lòng thử lại sau.",
+      "submitError": "Chưa gửi được dữ liệu. Vui lòng thử lại sau ít phút."
+    }
+  },
+  "footer": {
+    "line": "Sự hiện diện của bạn là món quà đẹp nhất trong ngày vui này.",
+    "thanks": "Thank you!"
+  }
+}

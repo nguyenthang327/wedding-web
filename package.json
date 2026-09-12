@@ -1,0 +1,31 @@
+{
+  "name": "wedding-web",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev --host 0.0.0.0 --port 3000",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview --host 0.0.0.0 --port 3000",
+    "preview:static": "npx --yes serve .output/public -l 3000",
+    "typecheck": "nuxt typecheck",
+    "gitnexus:analyze": "gitnexus analyze --skills",
+    "gitnexus:analyze:embeddings": "gitnexus analyze --embeddings --skills",
+    "gitnexus:setup": "gitnexus setup -c codex",
+    "uiux:design-system": "python3 .agents/skills/ui-ux-pro-max/scripts/search.py \"wedding invitation event elegant garden\" --design-system -p \"Wedding Web\"",
+    "uiux:nuxt": "python3 .agents/skills/ui-ux-pro-max/scripts/search.py \"static generation landing SEO\" --stack nuxtjs",
+    "postinstall": "nuxt prepare"
+  },
+  "dependencies": {
+    "@lucide/vue": "^1.34.0",
+    "@nuxtjs/i18n": "^10.6.0",
+    "nuxt": "^4.5.2",
+    "vue": "^3.5.41",
+    "vue-router": "^5.2.0"
+  },
+  "devDependencies": {
+    "gitnexus": "^1.6.9",
+    "typescript": "~5.9.3",
+    "vue-tsc": "^3.3.11"
+  }
+}
