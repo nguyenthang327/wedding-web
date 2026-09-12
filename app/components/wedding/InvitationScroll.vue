@@ -58,16 +58,55 @@ const albumImages = [
 const activeAlbumIndex = ref(0)
 const albumPointerStartX = ref<number | null>(null)
 const albumDidSwipe = ref(false)
+const albumAnimationDirection = ref<'previous' | 'next' | null>(null)
+const isAlbumAnimating = ref(false)
 const invitationScale = ref(1)
 const invitationFrame = ref<HTMLElement | null>(null)
 const invitationPage = ref<HTMLElement | null>(null)
 const invitationFrameHeight = ref<number | null>(null)
 let albumAutoplayTimer: ReturnType<typeof setInterval> | undefined
+let albumTransitionTimer: ReturnType<typeof setTimeout> | undefined
 let invitationResizeObserver: ResizeObserver | undefined
 let invitationResizeFrame: number | undefined
 
 const previousAlbumIndex = computed(() => (activeAlbumIndex.value - 1 + albumImages.length) % albumImages.length)
 const nextAlbumIndex = computed(() => (activeAlbumIndex.value + 1) % albumImages.length)
+const wrapAlbumIndex = (index: number) => (index + albumImages.length) % albumImages.length
+const createAlbumSlide = (index: number, positionClass: string) => {
+  const wrappedIndex = wrapAlbumIndex(index)
+
+  return {
+    index: wrappedIndex,
+    image: albumImages[wrappedIndex]!,
+    positionClass
+  }
+}
+const albumDisplaySlides = computed(() => {
+  const direction = albumAnimationDirection.value
+  const currentIndex = activeAlbumIndex.value
+
+  if (direction === 'previous') {
+    return [
+      createAlbumSlide(currentIndex - 2, 'is-enter-previous'),
+      createAlbumSlide(currentIndex - 1, 'is-previous'),
+      createAlbumSlide(currentIndex, 'is-active')
+    ]
+  }
+
+  if (direction === 'next') {
+    return [
+      createAlbumSlide(currentIndex, 'is-active'),
+      createAlbumSlide(currentIndex + 1, 'is-next'),
+      createAlbumSlide(currentIndex + 2, 'is-enter-next')
+    ]
+  }
+
+  return [
+    createAlbumSlide(previousAlbumIndex.value, 'is-previous'),
+    createAlbumSlide(currentIndex, 'is-active'),
+    createAlbumSlide(nextAlbumIndex.value, 'is-next')
+  ]
+})
 
 const stopAlbumAutoplay = () => {
   if (albumAutoplayTimer) {
@@ -83,13 +122,39 @@ const startAlbumAutoplay = () => {
 
   stopAlbumAutoplay()
   albumAutoplayTimer = setInterval(() => {
-    activeAlbumIndex.value = (activeAlbumIndex.value + 1) % albumImages.length
+    showNextAlbumSlide()
   }, 5000)
 }
 
 const selectAlbumSlide = (index: number) => {
-  activeAlbumIndex.value = (index + albumImages.length) % albumImages.length
-  startAlbumAutoplay()
+  const targetIndex = wrapAlbumIndex(index)
+
+  if (targetIndex === activeAlbumIndex.value || isAlbumAnimating.value) {
+    return
+  }
+
+  stopAlbumAutoplay()
+
+  const forwardDistance = wrapAlbumIndex(targetIndex - activeAlbumIndex.value)
+  const backwardDistance = wrapAlbumIndex(activeAlbumIndex.value - targetIndex)
+  const direction = forwardDistance <= backwardDistance ? 'next' : 'previous'
+
+  albumAnimationDirection.value = direction
+  void nextTick(() => {
+    isAlbumAnimating.value = true
+  })
+
+  if (albumTransitionTimer) {
+    clearTimeout(albumTransitionTimer)
+  }
+
+  albumTransitionTimer = setTimeout(() => {
+    activeAlbumIndex.value = targetIndex
+    isAlbumAnimating.value = false
+    albumAnimationDirection.value = null
+    albumTransitionTimer = undefined
+    startAlbumAutoplay()
+  }, 720)
 }
 
 const showPreviousAlbumSlide = () => {
@@ -217,6 +282,10 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  if (albumTransitionTimer) {
+    clearTimeout(albumTransitionTimer)
+  }
+
   if (invitationResizeFrame) {
     window.cancelAnimationFrame(invitationResizeFrame)
   }
@@ -690,26 +759,28 @@ const onSubmit = async () => {
         @pointerup="onAlbumPointerUp"
         @pointercancel="albumPointerStartX = null; startAlbumAutoplay()"
       >
-        <div class="album-carousel__viewport">
+        <div
+          class="album-carousel__viewport"
+          :class="{
+            'is-moving-next': isAlbumAnimating && albumAnimationDirection === 'next',
+            'is-moving-previous': isAlbumAnimating && albumAnimationDirection === 'previous'
+          }"
+        >
           <button
-            v-for="(image, index) in albumImages"
-            :key="image.src"
+            v-for="slide in albumDisplaySlides"
+            :key="`${slide.index}-${slide.positionClass}-${albumAnimationDirection || 'idle'}`"
             class="album-carousel__slide"
-            :class="{
-              'is-active': index === activeAlbumIndex,
-              'is-previous': index === previousAlbumIndex,
-              'is-next': index === nextAlbumIndex
-            }"
+            :class="slide.positionClass"
             type="button"
-            :aria-label="`Show photo ${index + 1} of ${albumImages.length}: ${image.alt}`"
-            :aria-current="index === activeAlbumIndex ? 'true' : undefined"
-            @click="onAlbumSlideClick(index, $event)"
+            :aria-label="`Show photo ${slide.index + 1} of ${albumImages.length}: ${slide.image.alt}`"
+            :aria-current="slide.index === activeAlbumIndex ? 'true' : undefined"
+            @click="onAlbumSlideClick(slide.index, $event)"
           >
             <img
-              :src="image.src"
-              :alt="index === activeAlbumIndex ? image.alt : ''"
-              :loading="index === 0 ? 'eager' : 'lazy'"
-              :fetchpriority="index === 0 ? 'high' : undefined"
+              :src="slide.image.src"
+              :alt="slide.index === activeAlbumIndex ? slide.image.alt : ''"
+              :loading="slide.index === 0 ? 'eager' : 'lazy'"
+              :fetchpriority="slide.index === 0 ? 'high' : undefined"
             >
           </button>
         </div>

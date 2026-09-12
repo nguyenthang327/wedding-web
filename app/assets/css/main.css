@@ -2548,7 +2548,7 @@ body {
   --album-carousel-width: 402px;
   --album-active-width: 209px;
   --album-active-height: 314px;
-  --album-side-width: 200px;
+  --album-side-width: 209px;
   --album-side-height: 314px;
   --album-side-peek: 74px;
   --album-side-offset: calc((var(--album-carousel-width) + var(--album-side-width)) / 2 - var(--album-side-peek));
@@ -2566,10 +2566,19 @@ body {
 }
 
 .album-carousel__viewport {
+  --album-track-offset: 0px;
   position: relative;
   height: 330px;
   overflow: hidden;
   contain: paint;
+}
+
+.album-carousel__viewport.is-moving-next {
+  --album-track-offset: calc(var(--album-side-offset) * -1);
+}
+
+.album-carousel__viewport.is-moving-previous {
+  --album-track-offset: var(--album-side-offset);
 }
 
 .album-carousel__slide {
@@ -2586,7 +2595,8 @@ body {
   padding: 0;
   opacity: 0;
   pointer-events: none;
-  transform: translate3d(calc(-50% + 500px), 0, 0);
+  --album-slot-x: 500px;
+  transform: translate3d(calc(-50% + var(--album-slot-x) + var(--album-track-offset)), 0, 0);
   backface-visibility: hidden;
   transition:
     transform 680ms cubic-bezier(0.2, 0.8, 0.2, 1),
@@ -2603,29 +2613,43 @@ body {
 }
 
 .album-carousel__slide.is-active {
+  --album-slot-x: 0px;
   z-index: 3;
   cursor: default;
   opacity: 1;
   pointer-events: auto;
-  transform: translate3d(-50%, 0, 0);
+}
+
+.album-carousel__slide.is-previous,
+.album-carousel__slide.is-next,
+.album-carousel__slide.is-enter-previous,
+.album-carousel__slide.is-enter-next {
+  z-index: 2;
+  width: var(--album-side-width);
+  height: var(--album-side-height);
+  opacity: 1;
 }
 
 .album-carousel__slide.is-previous,
 .album-carousel__slide.is-next {
-  z-index: 2;
-  width: var(--album-side-width);
-  height: var(--album-side-height);
   cursor: pointer;
-  opacity: 1;
   pointer-events: auto;
 }
 
 .album-carousel__slide.is-previous {
-  transform: translate3d(calc(-50% - var(--album-side-offset)), 0, 0);
+  --album-slot-x: calc(var(--album-side-offset) * -1);
 }
 
 .album-carousel__slide.is-next {
-  transform: translate3d(calc(-50% + var(--album-side-offset)), 0, 0);
+  --album-slot-x: var(--album-side-offset);
+}
+
+.album-carousel__slide.is-enter-previous {
+  --album-slot-x: calc(var(--album-side-offset) * -2);
+}
+
+.album-carousel__slide.is-enter-next {
+  --album-slot-x: calc(var(--album-side-offset) * 2);
 }
 
 .album-carousel__slide:focus-visible {
