@@ -2697,7 +2697,9 @@ body {
 
 /* Contact + closing section reconstructed from the supplied mobile Figma frame. */
 .invite-footer {
-  display: block;
+  display: grid;
+  justify-items: center;
+  text-align: center;
   min-height: 670px;
   padding: 48px 24px 74px;
 }
@@ -2708,6 +2710,7 @@ body {
 
 .invite-footer > h2,
 .invite-footer__thanks h2 {
+  width: 100%;
   font-family: var(--invite-heading);
   font-size: 24px;
   font-weight: 700;
@@ -2716,6 +2719,9 @@ body {
 }
 
 .invite-footer__contact-copy {
+  width: min(100%, 310px);
+  margin-right: auto;
+  margin-left: auto;
   margin-top: 15px !important;
   color: var(--invite-ink) !important;
   font-family: var(--invite-serif);
@@ -2737,7 +2743,10 @@ body {
 
 .invite-footer__contacts {
   display: grid;
+  width: min(100%, 310px);
   justify-items: center;
+  margin-right: auto;
+  margin-left: auto;
   margin-top: 37px;
   color: var(--invite-ink-deep);
   font-family: var(--invite-serif);
@@ -2770,7 +2779,10 @@ body {
 
 .invite-footer__thanks {
   display: grid;
+  width: min(100%, 354px);
   justify-items: center;
+  margin-right: auto;
+  margin-left: auto;
   margin-top: 89px;
   text-align: center;
 }
