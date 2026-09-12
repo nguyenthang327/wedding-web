@@ -36,7 +36,12 @@ useScrollReveal()
 
 <template>
   <IntroVideoOverlay v-if="!isIntroComplete" @complete="isIntroComplete = true" />
-  <main class="page-shell" :inert="!isIntroComplete" :aria-hidden="!isIntroComplete || undefined">
+  <main
+    class="page-shell"
+    :class="{ 'is-intro-complete': isIntroComplete }"
+    :inert="!isIntroComplete"
+    :aria-hidden="!isIntroComplete || undefined"
+  >
     <InvitationScroll />
   </main>
   <BackgroundMusic />

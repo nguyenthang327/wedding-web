@@ -40,21 +40,113 @@ const dressColors = [
   { label: 'Warm Beige', color: '#ded5c8' }
 ]
 
-const albumImages = [
-  {
-    src: '/wedding/assets/album-beach-walk.jpg',
-    alt: 'Nguyen and Kim walking together on the beach'
-  },
-  {
-    src: '/wedding/assets/album-vows.jpg',
-    alt: 'Nguyen and Kim during their beach vows'
-  },
-  {
-    src: '/wedding/assets/album-garden.jpg',
-    alt: 'Nguyen and Kim in a garden portrait'
-  }
+const albumImageFiles = [
+  '9.jpg',
+  '12.jpg',
+  'KIMANDY-23.jpg',
+  'KIMANDY-24.jpg',
+  'KIMANDY-33.jpg',
+  'KIMANDY-38.jpg',
+  'KIMANDY-46.jpg',
+  'KIMANDY-47.jpg',
+  'KIMANDY-49.jpg',
+  'KIMANDY-58.jpg',
+  'KIMANDY-62.jpg',
+  'KIMANDY-76.jpg',
+  'KIMANDY-77.jpg',
+  'KIMANDY-88.jpg',
+  'KIMANDY-94.jpg',
+  'KIMANDY-99.jpg',
+  'KIMANDY-101.jpg',
+  'KIMANDY-110.jpg',
+  'KIMANDY-111.jpg',
+  'KIMANDY-120.jpg',
+  'KIMANDY-124.jpg',
+  'KIMANDY-125.jpg',
+  'KIMANDY-126.jpg',
+  'KIMANDY-142.jpg',
+  'KIMANDY-147.jpg',
+  'KIMANDY-148.jpg',
+  'KIMANDY-152 (1).jpg',
+  'KIMANDY-152.jpg',
+  'KIMANDY-153.jpg',
+  'KIMANDY-159.jpg',
+  'KIMANDY-168.jpg',
+  'KIMANDY-175.jpg',
+  'KIMANDY-186.jpg',
+  'KIMANDY-191.jpg',
+  'KIMANDY-197.jpg',
+  'KIMANDY-203.jpg',
+  'KIMANDY-218.jpg',
+  'KIMANDY-349.jpg',
+  'KIMANDY-351.jpg',
+  'KIMANDY-358.jpg',
+  'KIMANDY-360.jpg',
+  'KIMANDY-361.jpg',
+  'KIMANDY-365.jpg',
+  'KIMANDY-378.jpg',
+  'KIMANDY-385.jpg',
+  'KIMANDY-388.jpg',
+  'KIMANDY-389.jpg',
+  'KIMANDY-395.jpg',
+  'KIMANDY-396.jpg',
+  'KIMANDY-397.jpg',
+  'KIMANDY-398.jpg',
+  'KIMANDY-405.jpg',
+  'KIMANDY-406.jpg',
+  'KIMANDY-407.jpg',
+  'KIMANDY-412.jpg',
+  'KIMANDY-425.jpg',
+  'KIMANDY-448.jpg',
+  'KIMANDY-467.jpg',
+  'KIMANDY-469.jpg',
+  'KIMANDY-474.jpg',
+  'KIMANDY-488.jpg',
+  'KIMANDY-500.jpg',
+  'KIMANDY-504.jpg',
+  'KIMANDY-508.jpg',
+  'KIMANDY-510.jpg',
+  'KIMANDY-520.jpg',
+  'KIMANDY-521.jpg',
+  'KIMANDY-522.jpg',
+  'KIMANDY-523.jpg',
+  'KIMANDY-524.jpg',
+  'KIMANDY-533.jpg',
+  'KIMANDY-539.jpg',
+  'KIMANDY-540.jpg',
+  'KIMANDY-541.jpg',
+  'KIMANDY-542.jpg',
+  'KIMANDY-543 (1).jpg',
+  'KIMANDY-543.jpg',
+  'KIMANDY-545.jpg',
+  'KIMANDY-546.jpg',
+  'KIMANDY-547.jpg',
+  'KIMANDY-548.jpg',
+  'KIMANDY-549.jpg',
+  'KIMANDY-550.jpg',
+  'KIMANDY-552.jpg',
+  'KIMANDY-554.jpg',
+  'KIMANDY-566.jpg',
+  'KIMANDY-582.jpg',
+  'KIMANDY-584.jpg',
+  'KIMANDY-643.jpg',
+  'KIMANDY-644.jpg',
+  'KIMANDY-655.jpg',
+  'KIMANDY-658.jpg',
+  'KIMANDY-662.jpg',
+  'KIMANDY-665.jpg',
+  'KIMANDY-669.jpg',
+  'KIMANDY-670.jpg',
+  'KIMANDY-673.jpg',
+  'KIMANDY-682.jpg'
 ]
 
+const albumImages = albumImageFiles.map((fileName, index) => ({
+  src: `/wedding/album/${encodeURIComponent(fileName)}`,
+  alt: `Nguyen and Kim wedding album photo ${index + 1}`
+}))
+
+const albumTransitionMs = 840
 const activeAlbumIndex = ref(0)
 const albumPointerStartX = ref<number | null>(null)
 const albumDidSwipe = ref(false)
@@ -66,8 +158,10 @@ const invitationPage = ref<HTMLElement | null>(null)
 const invitationFrameHeight = ref<number | null>(null)
 let albumAutoplayTimer: ReturnType<typeof setInterval> | undefined
 let albumTransitionTimer: ReturnType<typeof setTimeout> | undefined
+let albumAnimationFrame: number | undefined
 let invitationResizeObserver: ResizeObserver | undefined
 let invitationResizeFrame: number | undefined
+const preloadedAlbumImages = new Set<number>()
 
 const previousAlbumIndex = computed(() => (activeAlbumIndex.value - 1 + albumImages.length) % albumImages.length)
 const nextAlbumIndex = computed(() => (activeAlbumIndex.value + 1) % albumImages.length)
@@ -115,8 +209,12 @@ const stopAlbumAutoplay = () => {
   }
 }
 
+const shouldReduceAlbumMotion = () => {
+  return import.meta.client && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+}
+
 const startAlbumAutoplay = () => {
-  if (!import.meta.client || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+  if (!import.meta.client || shouldReduceAlbumMotion()) {
     return
   }
 
@@ -126,22 +224,63 @@ const startAlbumAutoplay = () => {
   }, 5000)
 }
 
+const preloadAlbumImage = (index: number) => {
+  if (!import.meta.client) {
+    return
+  }
+
+  const wrappedIndex = wrapAlbumIndex(index)
+  const image = albumImages[wrappedIndex]
+
+  if (!image || preloadedAlbumImages.has(wrappedIndex)) {
+    return
+  }
+
+  preloadedAlbumImages.add(wrappedIndex)
+  const preloadImage = new Image()
+  preloadImage.decoding = 'async'
+  preloadImage.src = image.src
+}
+
+const preloadNearbyAlbumImages = (index = activeAlbumIndex.value) => {
+  preloadAlbumImage(index - 2)
+  preloadAlbumImage(index - 1)
+  preloadAlbumImage(index)
+  preloadAlbumImage(index + 1)
+  preloadAlbumImage(index + 2)
+}
+
 const selectAlbumSlide = (index: number) => {
   const targetIndex = wrapAlbumIndex(index)
 
-  if (targetIndex === activeAlbumIndex.value || isAlbumAnimating.value) {
+  if (targetIndex === activeAlbumIndex.value || isAlbumAnimating.value || albumAnimationDirection.value) {
     return
   }
 
   stopAlbumAutoplay()
+  preloadNearbyAlbumImages(targetIndex)
+
+  if (shouldReduceAlbumMotion()) {
+    activeAlbumIndex.value = targetIndex
+    startAlbumAutoplay()
+    return
+  }
 
   const forwardDistance = wrapAlbumIndex(targetIndex - activeAlbumIndex.value)
   const backwardDistance = wrapAlbumIndex(activeAlbumIndex.value - targetIndex)
   const direction = forwardDistance <= backwardDistance ? 'next' : 'previous'
 
   albumAnimationDirection.value = direction
+
+  if (albumAnimationFrame) {
+    window.cancelAnimationFrame(albumAnimationFrame)
+  }
+
   void nextTick(() => {
-    isAlbumAnimating.value = true
+    albumAnimationFrame = window.requestAnimationFrame(() => {
+      albumAnimationFrame = undefined
+      isAlbumAnimating.value = true
+    })
   })
 
   if (albumTransitionTimer) {
@@ -153,8 +292,9 @@ const selectAlbumSlide = (index: number) => {
     isAlbumAnimating.value = false
     albumAnimationDirection.value = null
     albumTransitionTimer = undefined
+    preloadNearbyAlbumImages(targetIndex)
     startAlbumAutoplay()
-  }, 720)
+  }, albumTransitionMs)
 }
 
 const showPreviousAlbumSlide = () => {
@@ -267,6 +407,7 @@ const flushInvitationScale = () => {
 
 onMounted(() => {
   void nextTick(flushInvitationScale)
+  preloadNearbyAlbumImages()
 
   if (typeof ResizeObserver !== 'undefined' && invitationFrame.value) {
     invitationResizeObserver = new ResizeObserver(updateInvitationScale)
@@ -284,6 +425,10 @@ onMounted(() => {
 onUnmounted(() => {
   if (albumTransitionTimer) {
     clearTimeout(albumTransitionTimer)
+  }
+
+  if (albumAnimationFrame) {
+    window.cancelAnimationFrame(albumAnimationFrame)
   }
 
   if (invitationResizeFrame) {
@@ -446,8 +591,8 @@ const onSubmit = async () => {
   <div ref="invitationFrame" class="invitation-frame" :style="invitationFrameHeight ? { height: `${invitationFrameHeight}px` } : undefined">
     <div ref="invitationPage" class="invitation-page" :style="{ '--invite-scale': invitationScale }">
     <section class="invite-section invite-hero" aria-labelledby="invite-title">
-      <p class="invite-kicker">SAVE THE DATE</p>
-      <img class="invite-names" src="/wedding/assets/names.png" alt="Nguyen and Kim">
+      <p class="invite-kicker" data-reveal="center">SAVE THE DATE</p>
+      <img class="invite-names" src="/wedding/assets/names.png" alt="Nguyen and Kim" decoding="async" data-reveal="image-center" style="--reveal-delay: 90ms">
       <img
         class="invite-couple"
         src="/wedding/assets/couple-illustration.png"
@@ -455,21 +600,24 @@ const onSubmit = async () => {
         width="1328"
         height="1760"
         fetchpriority="high"
+        decoding="async"
+        data-reveal="image-center"
+        style="--reveal-delay: 170ms"
       >
-      <h1 id="invite-title">DECEMBER 19<sup>TH</sup> 2026</h1>
-      <p class="invite-location">JW MARRIOTT HOTEL &amp; SUITES SAIGON</p>
+      <h1 id="invite-title" data-reveal="center" style="--reveal-delay: 260ms">DECEMBER 19<sup>TH</sup> 2026</h1>
+      <p class="invite-location" data-reveal="center" style="--reveal-delay: 330ms">JW MARRIOTT HOTEL &amp; SUITES SAIGON</p>
     </section>
 
     <section class="invite-section invite-countdown" aria-labelledby="countdown-title">
-      <img class="invite-monogram" src="/wedding/assets/monogram.png" alt="K N monogram">
-      <h2 id="countdown-title">COUNTDOWN</h2>
-      <p>
+      <img class="invite-monogram" src="/wedding/assets/monogram.png" alt="K N monogram" loading="lazy" decoding="async" data-reveal="image-center">
+      <h2 id="countdown-title" data-reveal="center" style="--reveal-delay: 80ms">COUNTDOWN</h2>
+      <p data-reveal="center" style="--reveal-delay: 150ms">
         In the heart of Saigon, a day of love and celebration awaits.
         A moment to slow down, to be present, and to share in the beginning of our forever.
       </p>
-      <div class="countdown-shell" aria-live="polite">
-        <img src="/wedding/assets/ornate-card.png" alt="" aria-hidden="true">
-        <div class="countdown-values">
+      <div class="countdown-shell" aria-live="polite" data-reveal="image-center" style="--reveal-delay: 230ms">
+        <img src="/wedding/assets/ornate-card.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <div class="countdown-values" data-stagger data-stagger-base="300" data-stagger-step="44">
           <div v-for="unit in countdownUnits" :key="unit.key">
             <strong>{{ hasStarted && !isComplete ? formatUnit(unit.value) : '00' }}</strong>
             <span>{{ unit.label }}</span>
@@ -480,25 +628,25 @@ const onSubmit = async () => {
     </section>
 
     <section class="invite-section invite-calendar" aria-labelledby="calendar-title">
-      <p>
+      <p data-reveal="text">
         With every passing day, we're one step closer to the moment we've been waiting for.
         Save the date, and come share in a day filled with love and memories to keep.
       </p>
       <h2 id="calendar-title" class="sr-only">Wedding calendar</h2>
-      <img src="/wedding/assets/calendar.png" alt="December 2026 calendar with the nineteenth marked as best day">
+      <img src="/wedding/assets/calendar.png" alt="December 2026 calendar with the nineteenth marked as best day" loading="lazy" decoding="async" data-reveal="image" style="--reveal-delay: 120ms">
     </section>
 
     <section class="invite-section invite-people" aria-label="Bride and groom">
-      <div class="people-grid">
+      <div class="people-grid" data-stagger="image" data-stagger-step="120">
         <figure>
-          <img src="/wedding/assets/bride-frame.png" alt="Portrait of the bride Nguyen Le Thien Kim">
+          <img src="/wedding/assets/bride-frame.png" alt="Portrait of the bride Nguyen Le Thien Kim" loading="lazy" decoding="async">
           <figcaption>
             <span>The Bride</span>
             <strong>NguyenLeThienKim</strong>
           </figcaption>
         </figure>
         <figure>
-          <img src="/wedding/assets/groom-frame.png" alt="Portrait of the groom Nguyen Dang Nguyen">
+          <img src="/wedding/assets/groom-frame.png" alt="Portrait of the groom Nguyen Dang Nguyen" loading="lazy" decoding="async">
           <figcaption>
             <span>The Groom</span>
             <strong>NguyenDangNguyen</strong>
@@ -508,8 +656,8 @@ const onSubmit = async () => {
     </section>
 
     <section class="invite-section invite-card invite-invitation" aria-labelledby="invitation-title">
-      <h2 id="invitation-title">INVITATION</h2>
-      <div class="parents-grid">
+      <h2 id="invitation-title" data-reveal="center">INVITATION</h2>
+      <div class="parents-grid" data-stagger data-stagger-base="80" data-stagger-step="80">
         <div>
           <span>Mr &amp; Mrs</span>
           <p>Mr. Nguyen Trong Tri<br>Mrs. Bui Viet Hong Duc</p>
@@ -519,37 +667,37 @@ const onSubmit = async () => {
           <p>Mr. Nguyen Xuan Hoa<br>Mrs. Nguyen Le Kim Cuong</p>
         </div>
       </div>
-      <p class="invitation-intro">TOGETHER WITH OUR LOVED ONES, WE INVITE YOU TO JOIN US IN CELEBRATING OUR WEDDING DAY</p>
-      <h3>NguyenDangNguyen</h3>
-      <span>AND</span>
-      <h3>NguyenLeThienKim</h3>
-      <strong class="invitation-held">HELD AT 17:30</strong>
-      <p class="invitation-date">SATURDAY <span class="invitation-date-separator">|</span> 19.12 <span class="invitation-date-separator">|</span> 2026</p>
-      <p class="invitation-location">JW MARRIOTT HOTEL &amp; SUITES SAIGON</p>
-      <img class="invitation-pin" src="/wedding/assets/pin.png" alt="">
-      <span class="invitation-direction">DIRECTION</span>
-      <p class="invitation-note">
+      <p class="invitation-intro" data-reveal="center" style="--reveal-delay: 170ms">TOGETHER WITH OUR LOVED ONES, WE INVITE YOU TO JOIN US IN CELEBRATING OUR WEDDING DAY</p>
+      <h3 data-reveal="center" style="--reveal-delay: 230ms">NguyenDangNguyen</h3>
+      <span data-reveal="center" style="--reveal-delay: 290ms">AND</span>
+      <h3 data-reveal="center" style="--reveal-delay: 350ms">NguyenLeThienKim</h3>
+      <strong class="invitation-held" data-reveal="center" style="--reveal-delay: 410ms">HELD AT 17:30</strong>
+      <p class="invitation-date" data-reveal="center" style="--reveal-delay: 470ms">SATURDAY <span class="invitation-date-separator">|</span> 19.12 <span class="invitation-date-separator">|</span> 2026</p>
+      <p class="invitation-location" data-reveal="center" style="--reveal-delay: 520ms">JW MARRIOTT HOTEL &amp; SUITES SAIGON</p>
+      <img class="invitation-pin" src="/wedding/assets/pin.png" alt="" loading="lazy" decoding="async" data-reveal="image-center" style="--reveal-delay: 570ms">
+      <span class="invitation-direction" data-reveal="center" style="--reveal-delay: 610ms">DIRECTION</span>
+      <p class="invitation-note" data-reveal="center" style="--reveal-delay: 650ms">
         Due to the venue's capacity limitations, we kindly invite only the children of our family and closest relatives to join us on this special day. We sincerely appreciate your understanding.
       </p>
-      <p class="invitation-rsvp-note">
+      <p class="invitation-rsvp-note" data-reveal="center" style="--reveal-delay: 690ms">
         Kindly RSVP by <strong>November 1st, 2026</strong><br>so we can finalize our guest count
       </p>
     </section>
 
     <section class="invite-section invite-timeline" aria-labelledby="timeline-title">
-      <h2 id="timeline-title">TIMELINE</h2>
-      <p>Day filled with meaningful moments, from our first hello to the final dance.</p>
-      <div class="timeline-frame">
-        <img src="/wedding/assets/timeline-frame.png" alt="" aria-hidden="true">
-        <div class="timeline-milestone timeline-milestone--tea">
+      <h2 id="timeline-title" data-reveal="center">TIMELINE</h2>
+      <p data-reveal="center" style="--reveal-delay: 90ms">Day filled with meaningful moments, from our first hello to the final dance.</p>
+      <div class="timeline-frame" data-reveal="image-center" style="--reveal-delay: 170ms">
+        <img src="/wedding/assets/timeline-frame.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
+        <div class="timeline-milestone timeline-milestone--tea" data-reveal="center" style="--reveal-delay: 250ms">
           <h3>Tea Ceremony</h3>
           <p>DECEMBER 17<sup>TH</sup> 2026</p>
         </div>
-        <div class="timeline-milestone timeline-milestone--wedding">
+        <div class="timeline-milestone timeline-milestone--wedding" data-reveal="center" style="--reveal-delay: 310ms">
           <h3>Wedding Day</h3>
           <p>DECEMBER 19<sup>TH</sup> 2026</p>
         </div>
-        <div class="timeline-events">
+        <div class="timeline-events" data-stagger data-stagger-base="360" data-stagger-step="45" data-stagger-max="270">
           <article v-for="item in timelineItems" :key="`${item.time}-${item.title}`">
             <time>{{ item.time }}</time>
             <strong>{{ item.title }}</strong>
@@ -559,10 +707,10 @@ const onSubmit = async () => {
     </section>
 
     <section class="invite-section invite-dresscode" aria-labelledby="dresscode-title">
-      <h2 id="dresscode-title">DRESSCODE</h2>
-      <h3>Formal Attire</h3>
-      <p class="dresscode-intro">We kindly ask you to dress formally to join us on this very special day.</p>
-      <div class="dress-swatches" aria-label="Suggested dress code colors">
+      <h2 id="dresscode-title" data-reveal="center">DRESSCODE</h2>
+      <h3 data-reveal="center" style="--reveal-delay: 80ms">Formal Attire</h3>
+      <p class="dresscode-intro" data-reveal="center" style="--reveal-delay: 150ms">We kindly ask you to dress formally to join us on this very special day.</p>
+      <div class="dress-swatches" aria-label="Suggested dress code colors" data-stagger data-stagger-base="210" data-stagger-step="42" data-stagger-max="252">
         <span v-for="item in dressColors" :key="item.label" class="dress-swatch">
           <span class="dress-swatch__dot" :style="{ backgroundColor: item.color }" aria-hidden="true"></span>
           <span class="dress-swatch__label">{{ item.label }}</span>
@@ -573,20 +721,28 @@ const onSubmit = async () => {
         alt="Illustration of guests wearing the suggested dress code colors"
         width="250"
         height="206"
+        loading="lazy"
+        decoding="async"
+        data-reveal="image-center"
+        style="--reveal-delay: 260ms"
       >
-      <p class="dresscode-note">We kindly ask our guests to <strong>leave white attire for the bride,</strong><br>and choose another color to celebrate with us. Thank you!</p>
+      <p class="dresscode-note" data-reveal="center" style="--reveal-delay: 340ms">We kindly ask our guests to <strong>leave white attire for the bride,</strong><br>and choose another color to celebrate with us. Thank you!</p>
     </section>
 
     <section class="invite-section invite-love" aria-labelledby="love-title">
-      <h2 id="love-title">LOVE STORY</h2>
+      <h2 id="love-title" data-reveal="center">LOVE STORY</h2>
       <img
         class="love-story-city"
         src="/wedding/assets/love-story-city.png"
         alt="Illustration of a city bridge by the river"
         width="344"
         height="198"
+        loading="lazy"
+        decoding="async"
+        data-reveal="image-center"
+        style="--reveal-delay: 90ms"
       >
-      <p class="love-story-copy">
+      <p class="love-story-copy" data-reveal="center" style="--reveal-delay: 180ms">
         Some love stories begin with a grand moment.<br><br>
         For Nguyen (Andy) &amp; Kim, theirs began rather quietly, with an Instagram connection, two students from Saigon who had both been accepted to Boston University.<br><br>
         What began as conversations about school slowly became walks through the cold Boston nights, shared meals, new cities, and a love that grew quietly with every season.<br><br>
@@ -596,9 +752,9 @@ const onSubmit = async () => {
     </section>
 
     <section id="rsvp" class="invite-section invite-rsvp" aria-labelledby="rsvp-title">
-      <h2 id="rsvp-title">RSVP</h2>
-      <img class="rsvp-flower" src="/wedding/assets/rsvp-flower.png" alt="" aria-hidden="true" width="150" height="157">
-      <form class="invite-form" novalidate @submit.prevent="onSubmit">
+      <h2 id="rsvp-title" data-reveal="center">RSVP</h2>
+      <img class="rsvp-flower" src="/wedding/assets/rsvp-flower.png" alt="" aria-hidden="true" width="150" height="157" loading="lazy" decoding="async" data-reveal="flower">
+      <form class="invite-form" novalidate data-stagger data-stagger-base="70" data-stagger-step="34" data-stagger-max="272" @submit.prevent="onSubmit">
         <div v-if="state === 'success'" class="invite-alert invite-alert--success" role="status">
           Thank you, your RSVP has been received.
         </div>
@@ -739,13 +895,15 @@ const onSubmit = async () => {
           <span class="invite-submit__label">{{ isLoading ? 'SENDING...' : 'SEND RSVP' }}</span>
         </button>
       </form>
-      <img class="rsvp-swans" src="/wedding/assets/rsvp-swans.png" alt="" aria-hidden="true" width="175" height="92">
+      <img class="rsvp-swans" src="/wedding/assets/rsvp-swans.png" alt="" aria-hidden="true" width="175" height="92" loading="lazy" decoding="async" data-reveal="image-center" style="--reveal-delay: 320ms">
     </section>
 
     <section class="invite-section invite-album" aria-labelledby="album-title">
-      <h2 id="album-title">OUR ALBUM</h2>
+      <h2 id="album-title" data-reveal="text">OUR ALBUM</h2>
       <div
         class="album-carousel"
+        data-reveal="image"
+        style="--reveal-delay: 100ms"
         role="region"
         aria-roledescription="carousel"
         aria-label="Wedding photo album"
@@ -781,6 +939,7 @@ const onSubmit = async () => {
               :alt="slide.index === activeAlbumIndex ? slide.image.alt : ''"
               :loading="slide.index === 0 ? 'eager' : 'lazy'"
               :fetchpriority="slide.index === 0 ? 'high' : undefined"
+              decoding="async"
             >
           </button>
         </div>
@@ -792,23 +951,23 @@ const onSubmit = async () => {
           <ChevronRight aria-hidden="true" />
         </button>
       </div>
-      <p class="invite-album__caption">A collection of little moments, beautiful memories, and everything in between.</p>
+      <p class="invite-album__caption" data-reveal="text" style="--reveal-delay: 180ms">A collection of little moments, beautiful memories, and everything in between.</p>
     </section>
 
     <footer class="invite-section invite-footer">
-      <h2>CONTACT US</h2>
-      <p class="invite-footer__contact-copy"><em>We hope you can make it</em><br>Please reach out to the Bride or Groom<br>via Whatsapp, Zalo:</p>
-      <address class="invite-footer__contacts">
+      <h2 data-reveal="text">CONTACT US</h2>
+      <p class="invite-footer__contact-copy" data-reveal="text" style="--reveal-delay: 80ms"><em>We hope you can make it</em><br>Please reach out to the Bride or Groom<br>via Whatsapp, Zalo:</p>
+      <address class="invite-footer__contacts" data-stagger data-stagger-base="140" data-stagger-step="48">
         <span>Kim - <em>the Bride</em></span>
         <a href="tel:0909385561">0909 385 561</a>
         <span>Nguyen (Andy) - <em>the Groom</em></span>
         <a href="tel:0942024002">0942 024 002</a>
       </address>
-      <section class="invite-footer__thanks" aria-labelledby="thanks-title">
+      <section class="invite-footer__thanks" aria-labelledby="thanks-title" data-reveal="image" style="--reveal-delay: 180ms">
         <h2 id="thanks-title">THANK YOU</h2>
         <p>Having you with us on our special day would mean the world<br>to us and our families.</p>
         <p class="invite-footer__signoff">With love and gratitude,<br>thank you for celebrating with us.</p>
-        <img src="/wedding/assets/thank-you-florals.png" alt="" aria-hidden="true" width="278" height="155">
+        <img src="/wedding/assets/thank-you-florals.png" alt="" aria-hidden="true" width="278" height="155" loading="lazy" decoding="async">
       </section>
     </footer>
     </div>

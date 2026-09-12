@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { Music, Volume2, VolumeX } from '@lucide/vue'
+import { Volume2, VolumeX } from '@lucide/vue'
 
 const { t } = useI18n()
 const audioElement = ref<HTMLAudioElement | null>(null)
@@ -198,8 +198,6 @@ onUnmounted(() => {
     >
       <Volume2 v-if="isPlaying" aria-hidden="true" />
       <VolumeX v-else aria-hidden="true" />
-      <span>{{ isPlaying ? t('music.pause') : t('music.play') }}</span>
-      <Music class="background-music__note" aria-hidden="true" />
     </button>
 
     <p v-if="hasLoadError" class="background-music__error" role="status">
@@ -220,22 +218,17 @@ onUnmounted(() => {
 }
 
 .background-music__toggle {
-  min-width: 7.75rem;
-  min-height: 2.75rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  padding: 0.625rem 0.875rem;
+  width: 2.75rem;
+  height: 2.75rem;
+  display: grid;
+  place-items: center;
+  padding: 0;
   border: 1px solid rgba(41, 63, 56, 0.28);
-  border-radius: 999px;
+  border-radius: 50%;
   background: rgba(255, 253, 247, 0.94);
   color: #293f38;
   box-shadow: 0 0.5rem 1.5rem rgba(35, 51, 45, 0.17);
   font: inherit;
-  font-size: 0.8125rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
   cursor: pointer;
   transition: transform 180ms ease, background-color 180ms ease, box-shadow 180ms ease;
 }
@@ -252,13 +245,9 @@ onUnmounted(() => {
 }
 
 .background-music__toggle :deep(svg) {
-  width: 1rem;
-  height: 1rem;
+  width: 1.15rem;
+  height: 1.15rem;
   flex: none;
-}
-
-.background-music__note {
-  opacity: 0.65;
 }
 
 .background-music__error {

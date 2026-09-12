@@ -6,13 +6,21 @@ export function useScrollReveal() {
     const staggerTargets = Array.from(document.querySelectorAll<HTMLElement>('[data-stagger]'))
 
     for (const parent of staggerTargets) {
+      const revealType = parent.dataset.stagger || ''
+      const staggerBase = Number(parent.dataset.staggerBase || 0)
+      const staggerStep = Number(parent.dataset.staggerStep || 58)
+      const staggerMax = Number(parent.dataset.staggerMax || 360)
+
       Array.from(parent.children).forEach((child, index) => {
         if (!(child instanceof HTMLElement)) {
           return
         }
 
-        child.dataset.reveal = child.dataset.reveal || ''
-        child.style.setProperty('--reveal-delay', `${Math.min(index * 70, 420)}ms`)
+        child.dataset.reveal = child.dataset.reveal || revealType
+
+        if (!child.style.getPropertyValue('--reveal-delay')) {
+          child.style.setProperty('--reveal-delay', `${Math.min(staggerBase + index * staggerStep, staggerBase + staggerMax)}ms`)
+        }
       })
     }
 
