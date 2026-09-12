@@ -1765,9 +1765,9 @@ body {
   position: absolute;
   top: 628px;
   left: var(--invite-center);
-  width: 220px;
+  width: 286px;
   height: 38px;
-  max-width: 220px;
+  max-width: 286px;
   transform: translate3d(-50%, 0, 0);
   color: var(--invite-ink);
   font-family: var(--invite-serif);
@@ -1783,6 +1783,7 @@ body {
   font-family: var(--invite-serif);
   font-size: inherit;
   font-weight: 600;
+  white-space: nowrap;
 }
 
 .intro-video-overlay {
