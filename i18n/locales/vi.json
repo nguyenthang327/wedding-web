@@ -29,24 +29,24 @@
       "no": "Không"
     },
     "hero": {
-      "kicker": "LƯU NGÀY CƯỚI",
+      "kicker": "LUU NGAY CUOI",
       "namesAlt": "Nguyen và Kim",
       "coupleAlt": "Minh họa Nguyen và Kim",
-      "date": "19 THÁNG 12 2026",
+      "date": "19 THANG 12 2026",
       "location": "JW MARRIOTT HOTEL & SUITES SAIGON"
     },
     "countdown": {
       "monogramAlt": "Monogram K N",
-      "title": "ĐẾM NGƯỢC",
+      "title": "DEM NGUOC",
       "copyLine1": "Giữa lòng Sài Gòn, một ngày yêu thương đang chờ đón.",
       "copyLine2": "Một khoảnh khắc để chậm lại, hiện diện và cùng mở đầu hành trình mãi mãi.",
       "cardLine1": "Ngày vui đang đến gần",
       "cardLine2": "đến lúc mình nói lời hẹn ước",
       "units": {
-        "days": "NGÀY",
-        "hours": "GIỜ",
-        "minutes": "PHÚT",
-        "seconds": "GIÂY"
+        "days": "NGAY",
+        "hours": "GIO",
+        "minutes": "PHUT",
+        "seconds": "GIAY"
       }
     },
     "calendar": {
@@ -59,43 +59,43 @@
       "ariaLabel": "Cô dâu và chú rể",
       "brideAlt": "Chân dung cô dâu Nguyen Le Thien Kim",
       "groomAlt": "Chân dung chú rể Nguyen Dang Nguyen",
-      "brideRole": "Cô Dâu",
-      "groomRole": "Chú Rể",
+      "brideRole": "Co Dau",
+      "groomRole": "Chu Re",
       "brideRoleLower": "cô dâu",
       "groomRoleLower": "chú rể"
     },
     "invitation": {
-      "title": "THƯ MỜI",
-      "parentsTitle": "Ông Bà",
+      "title": "THU MOI",
+      "parentsTitle": "Ong Ba",
       "intro": "TRÂN TRỌNG MỜI BẠN ĐẾN CHUNG VUI TRONG NGÀY CƯỚI CỦA CHÚNG MÌNH",
-      "and": "VÀ",
-      "heldAt": "VÀO LÚC 17:30",
-      "dateLeft": "THỨ BẢY",
-      "direction": "CHỈ ĐƯỜNG",
+      "and": "VA",
+      "heldAt": "VAO LUC 17:30",
+      "dateLeft": "THU BAY",
+      "direction": "CHI DUONG",
       "note": "Do không gian tiệc có giới hạn, chúng mình xin phép chỉ đón các bé là con của gia đình và người thân gần gũi nhất. Rất mong bạn thông cảm và thương mến.",
       "rsvpLine1": "Vui lòng phản hồi trước",
       "rsvpDate": "01 tháng 11, 2026",
       "rsvpLine2": "để chúng mình chuẩn bị chu đáo"
     },
     "timeline": {
-      "title": "LỊCH TRÌNH",
+      "title": "LICH TRINH",
       "copy": "Một ngày với nhiều khoảnh khắc ý nghĩa, từ lời chào đầu đến điệu nhảy cuối.",
-      "teaTitle": "Lễ Gia Tiên",
-      "teaDate": "17 THÁNG 12 2026",
-      "weddingTitle": "Tiệc Cưới",
-      "weddingDate": "19 THÁNG 12 2026",
+      "teaTitle": "Le Gia Tien",
+      "teaDate": "17 THANG 12 2026",
+      "weddingTitle": "Tiec Cuoi",
+      "weddingDate": "19 THANG 12 2026",
       "events": {
-        "welcome": "ĐÓN KHÁCH",
-        "ceremony": "NGHI THỨC",
-        "reception": "TIỆC TỐI",
-        "entertainment": "VĂN NGHỆ",
+        "welcome": "DON KHACH",
+        "ceremony": "NGHI THUC",
+        "reception": "TIEC TOI",
+        "entertainment": "VAN NGHE",
         "afterParty": "AFTER PARTY",
-        "goodbye": "TẠM BIỆT"
+        "goodbye": "TAM BIET"
       }
     },
     "dresscode": {
-      "title": "TRANG PHỤC",
-      "attire": "Trang Phục",
+      "title": "TRANG PHUC",
+      "attire": "Trang Phuc",
       "intro": "Mong bạn chọn trang phục lịch sự để cùng dự ngày đặc biệt này.",
       "colorsAria": "Màu sắc gợi ý cho dress code",
       "colors": {
@@ -113,7 +113,7 @@
       "noteLine2": "và mong bạn chọn màu khác để cùng chung vui. Cảm ơn bạn!"
     },
     "love": {
-      "title": "CHUYỆN TÌNH",
+      "title": "CHUYEN TINH",
       "imageAlt": "Minh họa cây cầu thành phố bên dòng sông",
       "paragraph1": "Có những chuyện tình bắt đầu bằng một khoảnh khắc thật lớn.",
       "paragraph2": "Với Nguyen (Andy) và Kim, mọi thứ đến thật khẽ: một kết nối trên Instagram, khi cả hai cùng chuẩn bị đến Boston University.",
@@ -172,8 +172,8 @@
         "plusOne": "Người đi cùng",
         "dietary": "Ăn uống"
       },
-      "submit": "GỬI RSVP",
-      "submitSending": "ĐANG GỬI..."
+      "submit": "GUI RSVP",
+      "submitSending": "DANG GUI..."
     },
     "album": {
       "title": "ALBUM",
@@ -185,11 +185,11 @@
       "caption": "Những khoảnh khắc nhỏ, kỷ niệm đẹp và mọi điều dịu dàng ở giữa."
     },
     "footer": {
-      "contactTitle": "LIÊN HỆ",
+      "contactTitle": "LIEN HE",
       "contactKicker": "Chúng mình mong được gặp bạn",
       "contactLine1": "Vui lòng liên hệ Cô dâu hoặc Chú rể",
       "contactLine2": "qua Whatsapp, Zalo:",
-      "thanksTitle": "CẢM ƠN",
+      "thanksTitle": "CAM ON",
       "thanksLine1": "Sự hiện diện của bạn trong ngày đặc biệt này",
       "thanksLine2": "là niềm vui lớn với chúng mình và gia đình.",
       "signoffLine1": "Với tất cả yêu thương và biết ơn,",

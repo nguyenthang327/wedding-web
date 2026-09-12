@@ -1231,35 +1231,10 @@ body {
   --invite-heading-vi: 'Be Vietnam Pro', 'Noto Sans', var(--font-sans);
 }
 
-:lang(vi) .invite-section h1,
-:lang(vi) .invite-section h2,
-:lang(vi) .invite-kicker,
-:lang(vi) .invite-location,
-:lang(vi) .countdown-values span,
-:lang(vi) .parents-grid span,
-:lang(vi) .invite-invitation > span:not(.invitation-direction),
-:lang(vi) .invite-invitation .invitation-held,
-:lang(vi) .invite-invitation .invitation-date,
-:lang(vi) .timeline-milestone p,
-:lang(vi) .timeline-events time,
-:lang(vi) .timeline-events strong,
 :lang(vi) .invite-form span,
 :lang(vi) .invite-form legend,
-:lang(vi) .invite-submit,
 :lang(vi) .invite-form .invite-submit__label {
   font-family: var(--invite-heading-vi);
-}
-
-:lang(vi) .invite-section h2 {
-  font-weight: 700;
-  line-height: 1.05;
-}
-
-:lang(vi) .invite-section h3,
-:lang(vi) .timeline-milestone h3,
-:lang(vi) .invite-dresscode h3 {
-  font-family: var(--invite-serif);
-  font-weight: 600;
 }
 
 .invite-section h3 {
