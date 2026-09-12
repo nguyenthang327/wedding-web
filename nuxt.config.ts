@@ -24,7 +24,7 @@ export default defineNuxtConfig({
   },
   i18n: {
     strategy: 'prefix_except_default',
-    defaultLocale: 'vi',
+    defaultLocale: 'en',
     detectBrowserLanguage: false,
     locales: [
       {
@@ -44,11 +44,11 @@ export default defineNuxtConfig({
   nitro: {
     prerender: {
       crawlLinks: true,
-      routes: ['/', '/en']
+      routes: ['/', '/vi']
     }
   },
   routeRules: {
     '/': { prerender: true },
-    '/en': { prerender: true }
+    '/vi': { prerender: true }
   }
 })
