@@ -13,6 +13,9 @@ export default defineNuxtConfig({
   app: {
     head: {
       link: [
+        { rel: 'icon', type: 'image/png', href: '/wedding/img/logo.png?v=20260913-0048' },
+        { rel: 'shortcut icon', type: 'image/png', href: '/wedding/img/logo.png?v=20260913-0048' },
+        { rel: 'apple-touch-icon', href: '/wedding/img/logo.png?v=20260913-0048' },
         { rel: 'preconnect', href: 'https://fonts.googleapis.com' },
         { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' },
         {

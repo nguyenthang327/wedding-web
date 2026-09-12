@@ -1,4 +1,4 @@
-# Google Sheets Submission Endpoint
+# Google Sheets RSVP Endpoint
 
 The wedding site is generated as static HTML, so it cannot safely hold Google credentials or write directly to Google Sheets from a private server route. Configure a public HTTPS endpoint with:
 
@@ -10,111 +10,77 @@ This URL is public by design. Do not put service account keys, OAuth client secr
 
 ## Sheet Structure
 
-Create a Google Sheet with two tabs.
-
-`wishes`
+Use a single `rsvps` tab.
 
 ```text
-created_at | locale | submission_id | page_url | name | message | elapsed_ms | honeypot
+created_at | locale | name | preferred_name | guest_of | attending | email | phone | plus_one | plus_one_name | dietary
 ```
 
-`rsvps`
-
-```text
-created_at | locale | submission_id | page_url | name | attending | guest_count | contact | note | elapsed_ms | honeypot
-```
+The frontend no longer sends `submission_id`, `page_url`, `guest_count`, `elapsed_ms`, `honeypot`, or a combined `contact` field. Email and phone are sent as separate fields. The `phone` column is formatted as plain text so values such as `09123123123` and `+849123123123` stay readable.
 
 ## Expected Request
 
-The frontend sends a POST request with `Content-Type: text/plain;charset=utf-8` and a JSON string body. The payload contains common metadata plus fields for each form.
-
-Wish payload:
-
-```json
-{
-  "submissionType": "wish",
-  "submissionId": "uuid",
-  "locale": "vi",
-  "createdAt": "2026-08-27T00:00:00.000Z",
-  "pageUrl": "https://example.com/",
-  "honeypot": "",
-  "elapsedMs": 4500,
-  "name": "Minh Anh",
-  "message": "Congratulations!"
-}
-```
-
-RSVP payload:
+The frontend sends a POST request with `Content-Type: text/plain;charset=utf-8` and a JSON string body.
 
 ```json
 {
   "submissionType": "rsvp",
-  "submissionId": "uuid",
-  "locale": "vi",
-  "createdAt": "2026-08-27T00:00:00.000Z",
-  "pageUrl": "https://example.com/",
-  "honeypot": "",
-  "elapsedMs": 5300,
-  "name": "Minh Anh",
+  "locale": "en",
+  "createdAt": "2026/09/12 17:03",
+  "name": "Thang Nguyen Duc",
+  "preferredName": "Thang Nguyen Duc",
+  "guestOf": "The Bride & Groom",
   "attending": "yes",
-  "guestCount": 2,
-  "contact": "minh@example.com",
-  "note": "Vegetarian meal"
+  "email": "guest@example.com",
+  "phone": "+849123123123",
+  "plusOneAttendance": "yes",
+  "plusOne": "Tien anh, a, b",
+  "dietary": "Ca rot"
 }
 ```
 
-## Apps Script Example
+## Apps Script
 
-Create an Apps Script bound to the spreadsheet, deploy it as a Web App, and allow access for guests who will submit the form.
+Create an Apps Script bound to the spreadsheet, paste this script, run `setupRsvpSheet` once, then deploy it as a Web App. Set access to `Anyone`.
 
 ```javascript
-const SHEETS = {
-  wish: 'wishes',
-  rsvp: 'rsvps'
-}
+const RSVP_SHEET_NAME = 'rsvps'
+const WISHES_SHEET_NAME = 'wishes'
+const RSVP_HEADERS = [
+  'created_at',
+  'locale',
+  'name',
+  'preferred_name',
+  'guest_of',
+  'attending',
+  'email',
+  'phone',
+  'plus_one',
+  'plus_one_name',
+  'dietary'
+]
 
 function doPost(event) {
   try {
     const payload = JSON.parse(event.postData.contents || '{}')
     validatePayload(payload)
 
-    if (payload.honeypot || Number(payload.elapsedMs || 0) < 1200) {
-      return jsonResponse({ ok: true })
-    }
-
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEETS[payload.submissionType])
-    if (!sheet) {
-      throw new Error('Missing target sheet')
-    }
-
-    if (payload.submissionType === 'wish') {
-      sheet.appendRow([
-        payload.createdAt,
-        payload.locale,
-        payload.submissionId,
-        payload.pageUrl,
-        payload.name,
-        payload.message,
-        payload.elapsedMs,
-        payload.honeypot
-      ])
-    }
-
-    if (payload.submissionType === 'rsvp') {
-      sheet.appendRow([
-        payload.createdAt,
-        payload.locale,
-        payload.submissionId,
-        payload.pageUrl,
-        payload.name,
-        payload.attending,
-        payload.guestCount,
-        payload.contact,
-        payload.note,
-        payload.elapsedMs,
-        payload.honeypot
-      ])
-    }
+    const sheet = setupRsvpSheet()
+    sheet.getRange('H:H').setNumberFormat('@')
+    sheet.appendRow([
+      formatSheetDateTime(payload.createdAt),
+      payload.locale || '',
+      payload.name || '',
+      payload.preferredName || '',
+      payload.guestOf || '',
+      formatAttendance(payload.attending),
+      payload.email || '',
+      formatPhone(payload.phone),
+      formatYesNo(payload.plusOneAttendance),
+      payload.plusOne || '',
+      payload.dietary || ''
+    ])
+    formatRsvpSheet(sheet)
 
     return jsonResponse({ ok: true })
   } catch (error) {
@@ -122,8 +88,188 @@ function doPost(event) {
   }
 }
 
+function setupRsvpSheet() {
+  const spreadsheet = SpreadsheetApp.getActiveSpreadsheet()
+  const sheet = getOrCreateRsvpSheet(spreadsheet)
+  migrateRsvpSheet(sheet)
+  deleteWishesSheet(spreadsheet)
+  formatRsvpSheet(sheet)
+  return sheet
+}
+
+function getOrCreateRsvpSheet(spreadsheet) {
+  let sheet = spreadsheet.getSheetByName(RSVP_SHEET_NAME)
+  if (sheet) {
+    return sheet
+  }
+
+  const activeSheet = spreadsheet.getActiveSheet()
+  if (activeSheet && spreadsheet.getSheets().length === 1) {
+    activeSheet.setName(RSVP_SHEET_NAME)
+    return activeSheet
+  }
+
+  return spreadsheet.insertSheet(RSVP_SHEET_NAME)
+}
+
+function migrateRsvpSheet(sheet) {
+  const range = sheet.getDataRange()
+  const values = range.getValues()
+  const currentHeaders = values[0] ? values[0].map(String) : []
+
+  if (headersMatch(currentHeaders, RSVP_HEADERS)) {
+    return
+  }
+
+  const mappedRows = values
+    .slice(1)
+    .filter((row) => row.some((cell) => cell !== ''))
+    .map((row) => mapLegacyRsvpRow(currentHeaders, row))
+
+  sheet.clear()
+  sheet.getRange('H:H').setNumberFormat('@')
+  sheet.getRange(1, 1, 1, RSVP_HEADERS.length).setValues([RSVP_HEADERS])
+
+  if (mappedRows.length) {
+    sheet.getRange(2, 1, mappedRows.length, RSVP_HEADERS.length).setValues(mappedRows)
+  }
+}
+
+function mapLegacyRsvpRow(headers, row) {
+  const get = (name) => {
+    const index = headers.indexOf(name)
+    return index >= 0 ? row[index] : ''
+  }
+
+  const contact = String(get('contact') || '')
+  const contactParts = contact.split('|').map((part) => part.trim())
+  const note = String(get('note') || '')
+
+  return [
+    formatSheetDateTime(get('created_at') || get('createdAt')),
+    get('locale'),
+    get('name'),
+    get('preferred_name') || get('preferredName') || getNoteValue(note, 'Preferred name'),
+    get('guest_of') || get('guestOf') || getNoteValue(note, 'Guest of'),
+    formatAttendance(get('attending')),
+    get('email') || contactParts[0] || '',
+    formatPhone(get('phone') || contactParts[1] || ''),
+    formatYesNo(get('plus_one') || get('plusOneAttendance') || getNoteValue(note, 'Bringing a plus one')),
+    get('plus_one_name') || get('plusOne') || getNoteValue(note, 'Plus one'),
+    get('dietary') || getNoteValue(note, 'Dietary')
+  ]
+}
+
+function formatRsvpSheet(sheet) {
+  const lastRow = Math.max(sheet.getLastRow(), 1)
+  const lastColumn = RSVP_HEADERS.length
+
+  sheet.setFrozenRows(1)
+  sheet.getRange(1, 1, 1, lastColumn)
+    .setFontWeight('bold')
+    .setFontColor('#6f3f48')
+    .setBackground('#f7d7dc')
+    .setHorizontalAlignment('center')
+    .setVerticalAlignment('middle')
+
+  sheet.getRange(1, 1, lastRow, lastColumn)
+    .setFontFamily('Arial')
+    .setFontSize(10)
+    .setVerticalAlignment('middle')
+    .setWrapStrategy(SpreadsheetApp.WrapStrategy.WRAP)
+
+  sheet.getRange(2, 1, Math.max(lastRow - 1, 1), 1).setNumberFormat('yyyy/mm/dd hh:mm')
+  sheet.getRange(2, 8, Math.max(lastRow - 1, 1), 1).setNumberFormat('@')
+  sheet.setColumnWidth(1, 165)
+  sheet.setColumnWidth(2, 70)
+  sheet.setColumnWidth(3, 165)
+  sheet.setColumnWidth(4, 165)
+  sheet.setColumnWidth(5, 165)
+  sheet.setColumnWidth(6, 120)
+  sheet.setColumnWidth(7, 220)
+  sheet.setColumnWidth(8, 140)
+  sheet.setColumnWidth(9, 100)
+  sheet.setColumnWidth(10, 170)
+  sheet.setColumnWidth(11, 220)
+  sheet.setRowHeight(1, 34)
+
+  const dataRange = sheet.getRange(1, 1, lastRow, lastColumn)
+  if (!sheet.getFilter()) {
+    dataRange.createFilter()
+  }
+
+  sheet.getBandings().forEach((banding) => banding.remove())
+  dataRange.applyRowBanding(SpreadsheetApp.BandingTheme.LIGHT_GREY, true, false)
+}
+
+function deleteWishesSheet(spreadsheet) {
+  const wishesSheet = spreadsheet.getSheetByName(WISHES_SHEET_NAME)
+  if (wishesSheet && spreadsheet.getSheets().length > 1) {
+    spreadsheet.deleteSheet(wishesSheet)
+  }
+}
+
+function headersMatch(actual, expected) {
+  return expected.length === actual.length && expected.every((header, index) => actual[index] === header)
+}
+
+function getNoteValue(note, label) {
+  const line = note.split('\n').find((item) => item.toLowerCase().startsWith(`${label.toLowerCase()}:`))
+  if (!line) {
+    return ''
+  }
+
+  const value = line.slice(line.indexOf(':') + 1).trim()
+  return value === '-' ? '' : value
+}
+
+function formatSheetDateTime(value) {
+  const spreadsheetTimeZone = SpreadsheetApp.getActiveSpreadsheet().getSpreadsheetTimeZone()
+  const date = value ? new Date(value) : new Date()
+
+  if (Number.isNaN(date.getTime())) {
+    return value || ''
+  }
+
+  return Utilities.formatDate(date, spreadsheetTimeZone, 'yyyy/MM/dd HH:mm')
+}
+
+function formatPhone(value) {
+  const phone = String(value || '').trim()
+  if (!phone) {
+    return ''
+  }
+
+  // The apostrophe tells Google Sheets to keep leading 0 and +84 as text.
+  return phone.startsWith("'") ? phone : `'${phone}`
+}
+
+function formatAttendance(value) {
+  if (value === 'yes') {
+    return 'Yes'
+  }
+
+  if (value === 'no') {
+    return 'No'
+  }
+
+  return value || ''
+}
+
+function formatYesNo(value) {
+  if (value === 'yes') {
+    return 'Yes'
+  }
+
+  if (value === 'no') {
+    return 'No'
+  }
+
+  return value || ''
+}
+
 function validatePayload(payload) {
-  if (!payload || !SHEETS[payload.submissionType]) {
+  if (!payload || payload.submissionType !== 'rsvp') {
     throw new Error('Invalid submission type')
   }
 
@@ -131,11 +277,7 @@ function validatePayload(payload) {
     throw new Error('Missing name')
   }
 
-  if (payload.submissionType === 'wish' && !payload.message) {
-    throw new Error('Missing message')
-  }
-
-  if (payload.submissionType === 'rsvp' && !payload.attending) {
+  if (!payload.attending) {
     throw new Error('Missing attendance')
   }
 }
@@ -146,5 +288,3 @@ function jsonResponse(body) {
     .setMimeType(ContentService.MimeType.JSON)
 }
 ```
-
-If the Apps Script deployment cannot be read by browser `fetch` due to cross-origin restrictions in a given host/browser combination, keep this same request contract and put a small relay such as a Cloudflare Worker or Netlify Function in front of the Sheet writer.

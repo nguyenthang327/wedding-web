@@ -2,17 +2,24 @@ export type SubmissionType = 'wish' | 'rsvp'
 
 export type GuestSubmissionPayload = {
   submissionType: SubmissionType
-  submissionId: string
   locale: string
   createdAt: string
-  pageUrl: string
-  honeypot: string
-  elapsedMs: number
   name: string
+  submissionId?: string
+  pageUrl?: string
+  honeypot?: string
+  elapsedMs?: number
   message?: string
   attending?: 'yes' | 'no'
   guestCount?: number
   contact?: string
+  email?: string
+  phone?: string
+  preferredName?: string
+  guestOf?: string
+  plusOneAttendance?: 'yes' | 'no' | ''
+  plusOne?: string
+  dietary?: string
   note?: string
 }
 

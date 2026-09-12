@@ -440,7 +440,6 @@ onUnmounted(() => {
   stopAlbumAutoplay()
 })
 
-const formStartedAt = ref(Date.now())
 const form = reactive({
   fullName: '',
   preferredName: '',
@@ -450,8 +449,7 @@ const form = reactive({
   plusOne: '',
   plusOneAttendance: defaultPlusOneAttendance as PlusOneValue,
   dietary: '',
-  attendance: defaultAttendance as AttendanceValue,
-  website: ''
+  attendance: defaultAttendance as AttendanceValue
 })
 
 const touched = reactive({
@@ -519,6 +517,15 @@ const focusFirstInvalidField = async () => {
   document.querySelector<HTMLInputElement>('.invite-form input[aria-invalid="true"]')?.focus()
 }
 
+const formatSheetDateTime = (date: Date) => {
+  const pad = (value: number) => String(value).padStart(2, '0')
+
+  return [
+    `${date.getFullYear()}/${pad(date.getMonth() + 1)}/${pad(date.getDate())}`,
+    `${pad(date.getHours())}:${pad(date.getMinutes())}`
+  ].join(' ')
+}
+
 const resetForm = () => {
   form.fullName = ''
   form.preferredName = ''
@@ -529,7 +536,6 @@ const resetForm = () => {
   form.plusOneAttendance = defaultPlusOneAttendance
   form.dietary = ''
   form.attendance = defaultAttendance
-  form.website = ''
   touched.fullName = false
   touched.preferredName = false
   touched.guestOf = false
@@ -542,7 +548,6 @@ const resetForm = () => {
   errors.email = ''
   errors.phone = ''
   errors.attendance = ''
-  formStartedAt.value = Date.now()
 }
 
 const onSubmit = async () => {
@@ -563,22 +568,17 @@ const onSubmit = async () => {
 
   const result = await submit({
     submissionType: 'rsvp',
-    submissionId: createSubmissionId(),
     locale: locale.value,
-    createdAt: new Date().toISOString(),
-    pageUrl: import.meta.client ? window.location.href : '',
-    honeypot: form.website,
-    elapsedMs: Date.now() - formStartedAt.value,
+    createdAt: formatSheetDateTime(new Date()),
     name: form.fullName.trim(),
+    preferredName: form.preferredName.trim(),
+    guestOf: form.guestOf ? t(`invite.rsvp.guestOf.${form.guestOf}`) : '',
     attending: attendance,
-    contact: `${form.email.trim()} | ${form.phone.trim()}`,
-    note: [
-      `${t('invite.rsvp.submitNote.preferredName')}: ${form.preferredName.trim() || '-'}`,
-      `${t('invite.rsvp.submitNote.guestOf')}: ${form.guestOf ? t(`invite.rsvp.guestOf.${form.guestOf}`) : '-'}`,
-      `${t('invite.rsvp.submitNote.plusOneAttendance')}: ${form.plusOneAttendance ? t(`invite.common.${form.plusOneAttendance}`) : '-'}`,
-      `${t('invite.rsvp.submitNote.plusOne')}: ${form.plusOne.trim() || '-'}`,
-      `${t('invite.rsvp.submitNote.dietary')}: ${form.dietary.trim() || '-'}`
-    ].join('\n')
+    email: form.email.trim(),
+    phone: form.phone.trim(),
+    plusOneAttendance: form.plusOneAttendance,
+    plusOne: form.plusOne.trim(),
+    dietary: form.dietary.trim()
   })
 
   if (result.ok) {
@@ -891,8 +891,6 @@ const onSubmit = async () => {
           <span>{{ t('invite.rsvp.fields.dietary') }}</span>
             <input id="invite-dietary" v-model="form.dietary" type="text" :placeholder="t('invite.rsvp.placeholders.dietary')">
         </label>
-
-        <input v-model="form.website" class="honeypot-field" type="text" tabindex="-1" autocomplete="off" :aria-label="t('invite.rsvp.fields.website')">
 
         <button class="invite-submit" type="submit" :disabled="isLoading" :aria-busy="isLoading">
           <span class="invite-submit__label">{{ isLoading ? t('invite.rsvp.submitSending') : t('invite.rsvp.submit') }}</span>
