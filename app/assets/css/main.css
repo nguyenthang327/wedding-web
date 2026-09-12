@@ -2549,7 +2549,7 @@ body {
   --album-active-width: 209px;
   --album-active-height: 314px;
   --album-side-width: 200px;
-  --album-side-height: 300px;
+  --album-side-height: 314px;
   --album-side-peek: 74px;
   --album-side-offset: calc((var(--album-carousel-width) + var(--album-side-width)) / 2 - var(--album-side-peek));
   position: relative;
@@ -2586,8 +2586,14 @@ body {
   padding: 0;
   opacity: 0;
   pointer-events: none;
-  transform: translateX(calc(-50% + 500px));
-  transition: transform 480ms cubic-bezier(0.22, 0.61, 0.36, 1), opacity 360ms ease;
+  transform: translate3d(calc(-50% + 500px), 0, 0);
+  backface-visibility: hidden;
+  transition:
+    transform 680ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    opacity 420ms ease,
+    width 680ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    height 680ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform, opacity, width, height;
 }
 
 .album-carousel__slide img {
@@ -2601,7 +2607,7 @@ body {
   cursor: default;
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-50%);
+  transform: translate3d(-50%, 0, 0);
 }
 
 .album-carousel__slide.is-previous,
@@ -2615,11 +2621,11 @@ body {
 }
 
 .album-carousel__slide.is-previous {
-  transform: translateX(calc(-50% - var(--album-side-offset))) translateY(26px) rotate(-7deg);
+  transform: translate3d(calc(-50% - var(--album-side-offset)), 0, 0);
 }
 
 .album-carousel__slide.is-next {
-  transform: translateX(calc(-50% + var(--album-side-offset))) translateY(26px) rotate(7deg);
+  transform: translate3d(calc(-50% + var(--album-side-offset)), 0, 0);
 }
 
 .album-carousel__slide:focus-visible {
