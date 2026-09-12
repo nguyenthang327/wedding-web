@@ -39,5 +39,5 @@ useScrollReveal()
   <main class="page-shell" :inert="!isIntroComplete" :aria-hidden="!isIntroComplete || undefined">
     <InvitationScroll />
   </main>
-  <BackgroundMusic v-if="isIntroComplete" />
+  <BackgroundMusic />
 </template>

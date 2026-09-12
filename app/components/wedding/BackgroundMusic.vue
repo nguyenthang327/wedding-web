@@ -3,8 +3,13 @@ import { Music, Volume2, VolumeX } from '@lucide/vue'
 
 const { t } = useI18n()
 const audioElement = ref<HTMLAudioElement | null>(null)
+const playbackToggle = ref<HTMLButtonElement | null>(null)
 const isPlaying = ref(false)
 const hasLoadError = ref(false)
+const isAutoPlaybackAttempt = ref(false)
+let autoPlaybackTimer: ReturnType<typeof setTimeout> | undefined
+let autoUnmuteTimer: ReturnType<typeof setTimeout> | undefined
+const unlockEvents = ['mousemove', 'scroll', 'pointerdown', 'touchstart', 'keydown', 'wheel'] as const
 // Keep this runtime URL dynamic so the optional, user-supplied file in public/ is not bundled.
 const musicSource = '/wedding/' + 'cant-help-falling-in-love.mp3'
 
@@ -12,16 +17,19 @@ const startPlayback = async (showLoadError = false) => {
   const audio = audioElement.value
 
   if (!audio) {
-    return
+    return false
   }
 
   try {
     await audio.play()
+    return true
   } catch {
     // Browsers may reject unmuted autoplay; keep the visible control as the fallback.
     if (showLoadError) {
       hasLoadError.value = true
     }
+
+    return false
   }
 }
 
@@ -39,16 +47,131 @@ const togglePlayback = async () => {
     return
   }
 
-  await startPlayback(true)
+  const didStart = await startPlayback(!isAutoPlaybackAttempt.value)
+
+  if (isAutoPlaybackAttempt.value && !didStart && audio) {
+    audio.volume = 0.35
+    audio.muted = false
+    isAutoPlaybackAttempt.value = false
+  }
 }
 
-onMounted(() => {
+const handlePlaybackStarted = () => {
+  isPlaying.value = true
+
+  const audio = audioElement.value
+
+  if (!audio || !isAutoPlaybackAttempt.value) {
+    removeInteractionUnlock()
+    return
+  }
+
+  if (autoUnmuteTimer) {
+    clearTimeout(autoUnmuteTimer)
+  }
+
+  autoUnmuteTimer = setTimeout(() => {
+    audio.volume = 0.35
+    audio.muted = false
+    isAutoPlaybackAttempt.value = false
+    removeInteractionUnlock()
+  }, 150)
+}
+
+const restoreAudibleSettings = () => {
+  const audio = audioElement.value
+
+  if (!audio) {
+    return
+  }
+
+  audio.volume = 0.35
+  audio.muted = false
+  isAutoPlaybackAttempt.value = false
+}
+
+const tryMutedAutoplay = async () => {
+  const audio = audioElement.value
+
+  if (isPlaying.value || !audio) {
+    return
+  }
+
+  audio.muted = true
+  audio.volume = 0
+  isAutoPlaybackAttempt.value = true
+
+  const didStart = await startPlayback(false)
+
+  if (!didStart) {
+    restoreAudibleSettings()
+  }
+}
+
+const startPlaybackFromInteraction = () => {
+  const audio = audioElement.value
+
+  if (!audio) {
+    removeInteractionUnlock()
+    return
+  }
+
+  restoreAudibleSettings()
+
+  if (isPlaying.value) {
+    removeInteractionUnlock()
+    return
+  }
+
+  void startPlayback(false)
+}
+
+function addInteractionUnlock() {
+  for (const eventName of unlockEvents) {
+    document.addEventListener(eventName, startPlaybackFromInteraction, { capture: true, passive: true })
+  }
+}
+
+function removeInteractionUnlock() {
+  for (const eventName of unlockEvents) {
+    document.removeEventListener(eventName, startPlaybackFromInteraction, { capture: true })
+  }
+}
+
+const scheduleAutoPlaybackClick = () => {
+  autoPlaybackTimer = setTimeout(() => {
+    void tryMutedAutoplay()
+  }, 1000)
+}
+
+onMounted(async () => {
   if (!audioElement.value) {
     return
   }
 
   audioElement.value.volume = 0.35
-  void startPlayback()
+  await nextTick()
+  addInteractionUnlock()
+
+  if (document.readyState === 'complete') {
+    scheduleAutoPlaybackClick()
+    return
+  }
+
+  window.addEventListener('load', scheduleAutoPlaybackClick, { once: true })
+})
+
+onUnmounted(() => {
+  if (autoPlaybackTimer) {
+    clearTimeout(autoPlaybackTimer)
+  }
+
+  if (autoUnmuteTimer) {
+    clearTimeout(autoUnmuteTimer)
+  }
+
+  window.removeEventListener('load', scheduleAutoPlaybackClick)
+  removeInteractionUnlock()
 })
 </script>
 
@@ -60,12 +183,13 @@ onMounted(() => {
       autoplay
       loop
       preload="none"
-      @play="isPlaying = true"
+      @play="handlePlaybackStarted"
       @pause="isPlaying = false"
       @error="hasLoadError = true"
     />
 
     <button
+      ref="playbackToggle"
       class="background-music__toggle"
       type="button"
       :aria-label="isPlaying ? t('music.pauseAria') : t('music.playAria')"
