@@ -58,7 +58,13 @@ const albumImages = [
 const activeAlbumIndex = ref(0)
 const albumPointerStartX = ref<number | null>(null)
 const albumDidSwipe = ref(false)
+const invitationScale = ref(1)
+const invitationFrame = ref<HTMLElement | null>(null)
+const invitationPage = ref<HTMLElement | null>(null)
+const invitationFrameHeight = ref<number | null>(null)
 let albumAutoplayTimer: ReturnType<typeof setInterval> | undefined
+let invitationResizeObserver: ResizeObserver | undefined
+let invitationResizeFrame: number | undefined
 
 const previousAlbumIndex = computed(() => (activeAlbumIndex.value - 1 + albumImages.length) % albumImages.length)
 const nextAlbumIndex = computed(() => (activeAlbumIndex.value + 1) % albumImages.length)
@@ -149,8 +155,76 @@ const onAlbumKeydown = (event: KeyboardEvent) => {
   }
 }
 
-onMounted(startAlbumAutoplay)
-onUnmounted(stopAlbumAutoplay)
+const updateInvitationScale = () => {
+  if (invitationResizeFrame) {
+    window.cancelAnimationFrame(invitationResizeFrame)
+  }
+
+  invitationResizeFrame = window.requestAnimationFrame(() => {
+    invitationResizeFrame = undefined
+
+    if (!invitationFrame.value) {
+      return
+    }
+
+    if (!invitationPage.value) {
+      return
+    }
+
+    const frameWidth = invitationFrame.value.getBoundingClientRect().width
+    const nextScale = Number(Math.min(1, frameWidth / 402).toFixed(5))
+    const nextFrameHeight = Math.ceil(invitationPage.value.scrollHeight * nextScale)
+
+    if (invitationScale.value !== nextScale) {
+      invitationScale.value = nextScale
+    }
+
+    if (invitationFrameHeight.value !== nextFrameHeight) {
+      invitationFrameHeight.value = nextFrameHeight
+    }
+  })
+}
+
+const flushInvitationScale = () => {
+  if (!invitationFrame.value) {
+    return
+  }
+
+  if (!invitationPage.value) {
+    return
+  }
+
+  const frameWidth = invitationFrame.value.getBoundingClientRect().width
+  const nextScale = Number(Math.min(1, frameWidth / 402).toFixed(5))
+  invitationScale.value = nextScale
+  invitationFrameHeight.value = Math.ceil(invitationPage.value.scrollHeight * nextScale)
+}
+
+onMounted(() => {
+  void nextTick(flushInvitationScale)
+
+  if (typeof ResizeObserver !== 'undefined' && invitationFrame.value) {
+    invitationResizeObserver = new ResizeObserver(updateInvitationScale)
+    invitationResizeObserver.observe(invitationFrame.value)
+  }
+
+  if (invitationResizeObserver && invitationPage.value) {
+    invitationResizeObserver.observe(invitationPage.value)
+  }
+
+  window.addEventListener('resize', updateInvitationScale)
+  startAlbumAutoplay()
+})
+
+onUnmounted(() => {
+  if (invitationResizeFrame) {
+    window.cancelAnimationFrame(invitationResizeFrame)
+  }
+
+  invitationResizeObserver?.disconnect()
+  window.removeEventListener('resize', updateInvitationScale)
+  stopAlbumAutoplay()
+})
 
 const formStartedAt = ref(Date.now())
 const form = reactive({
@@ -300,7 +374,8 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <div class="invitation-page">
+  <div ref="invitationFrame" class="invitation-frame" :style="invitationFrameHeight ? { height: `${invitationFrameHeight}px` } : undefined">
+    <div ref="invitationPage" class="invitation-page" :style="{ '--invite-scale': invitationScale }">
     <section class="invite-section invite-hero" aria-labelledby="invite-title">
       <p class="invite-kicker">SAVE THE DATE</p>
       <img class="invite-names" src="/wedding/assets/names.png" alt="Nguyen and Kim">
@@ -665,5 +740,6 @@ const onSubmit = async () => {
         <img src="/wedding/assets/thank-you-florals.png" alt="" aria-hidden="true" width="278" height="155">
       </section>
     </footer>
+    </div>
   </div>
 </template>
