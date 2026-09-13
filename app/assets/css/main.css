@@ -1472,12 +1472,12 @@ body {
   position: absolute;
   top: 270px;
   left: var(--invite-center);
-  width: 303px;
-  max-width: 303px;
+  width: 300px;
   transform: translate3d(-50%, 0, 0);
   font-size: 14px;
   font-weight: 300;
   line-height: 15px;
+  letter-spacing: -0.03em;
 }
 
 .invite-calendar {
@@ -1486,8 +1486,7 @@ body {
 }
 
 .invite-calendar > p {
-  width: 279px;
-  max-width: 279px;
+  width: 300px;
   height: 61px;
   font-size: 14px;
   font-weight: 300;
@@ -1813,8 +1812,8 @@ body {
   transform: translate3d(-50%, 0, 0);
   color: var(--invite-ink);
   font-family: var(--invite-serif);
-  font-size: 11px;
-  line-height: 12px;
+  font-size: 12px;
+  line-height: 13px;
   letter-spacing: -0.03em;
 }
 
@@ -1822,9 +1821,8 @@ body {
   position: absolute;
   top: 628px;
   left: var(--invite-center);
-  width: 286px;
+  width: 226px;
   height: 38px;
-  max-width: 286px;
   transform: translate3d(-50%, 0, 0);
   color: var(--invite-ink);
   font-family: var(--invite-serif);
@@ -1934,8 +1932,8 @@ body {
   width: 274px;
   height: 30px;
   max-width: 274px;
-  font-size: 11px;
-  line-height: 12px;
+  font-size: 12px;
+  line-height: 13px;
   letter-spacing: -0.03em;
 }
 
@@ -2086,9 +2084,9 @@ body {
   max-width: 202px;
   color: var(--invite-ink);
   font-family: var(--invite-serif);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 400;
-  line-height: 12px;
+  line-height: 13px;
   letter-spacing: -0.03em;
 }
 
@@ -2161,15 +2159,14 @@ body {
 
 .invite-dresscode .dresscode-note {
   top: 600px;
-  width: 226px;
+  width: 250px;
   height: 30px;
-  max-width: 226px;
   color: var(--invite-ink);
   font-family: var(--invite-serif);
-  font-size: 11px;
+  font-size: 12px;
   font-style: italic;
   font-weight: 300;
-  line-height: 12px;
+  line-height: 13px;
   letter-spacing: -0.03em;
 }
 

@@ -656,7 +656,7 @@ const onSubmit = async () => {
         data-reveal="image-center"
         style="--reveal-delay: 260ms"
       >
-      <p class="dresscode-note" data-reveal="center" style="--reveal-delay: 340ms">{{ t('invite.dresscode.noteLine1') }} <strong>{{ t('invite.dresscode.noteStrong') }}</strong><br>{{ t('invite.dresscode.noteLine2') }}</p>
+      <p class="dresscode-note" data-reveal="center" style="--reveal-delay: 340ms">{{ t('invite.dresscode.noteLine1') }} <strong>{{ t('invite.dresscode.noteStrong') }}</strong> {{ t('invite.dresscode.noteLine2') }}</p>
     </section>
 
     <section class="invite-section invite-love" aria-labelledby="love-title">
