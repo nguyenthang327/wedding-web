@@ -1182,10 +1182,10 @@ body {
 
 /*
  * The invitation artwork uses a 402px design canvas with deliberate absolute
- * positioning. Scale that canvas as one unit on extra-narrow screens so its
- * illustrations and fixed-position labels do not collide or cause overflow.
- * Transform is supported consistently by Safari, unlike the non-standard zoom
- * property. The frame height is kept in sync by the component.
+ * positioning. The frame controls the rendered size while the component scales
+ * the whole canvas as one unit, keeping illustrations and fixed-position labels
+ * aligned without causing horizontal overflow. Transform is supported
+ * consistently by Safari, unlike the non-standard zoom property.
  */
 @media (max-width: 401px) {
   .invitation-page {
@@ -1195,6 +1195,12 @@ body {
   .background-music {
     right: max(0.75rem, env(safe-area-inset-right));
     bottom: max(0.75rem, env(safe-area-inset-bottom));
+  }
+}
+
+@media (width >= 700px) {
+  .invitation-frame {
+    width: min(calc(100% - 68px), 492px);
   }
 }
 

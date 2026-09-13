@@ -147,6 +147,7 @@ const albumImages = albumImageFiles.map((fileName, index) => ({
 }))
 
 const albumTransitionMs = 840
+const invitationCanvasWidth = 402
 const activeAlbumIndex = ref(0)
 const albumPointerStartX = ref<number | null>(null)
 const albumDidSwipe = ref(false)
@@ -377,7 +378,7 @@ const updateInvitationScale = () => {
     }
 
     const frameWidth = invitationFrame.value.getBoundingClientRect().width
-    const nextScale = Number(Math.min(1, frameWidth / 402).toFixed(5))
+    const nextScale = Number((frameWidth / invitationCanvasWidth).toFixed(5))
     const nextFrameHeight = Math.ceil(invitationPage.value.scrollHeight * nextScale)
 
     if (invitationScale.value !== nextScale) {
@@ -400,7 +401,7 @@ const flushInvitationScale = () => {
   }
 
   const frameWidth = invitationFrame.value.getBoundingClientRect().width
-  const nextScale = Number(Math.min(1, frameWidth / 402).toFixed(5))
+  const nextScale = Number((frameWidth / invitationCanvasWidth).toFixed(5))
   invitationScale.value = nextScale
   invitationFrameHeight.value = Math.ceil(invitationPage.value.scrollHeight * nextScale)
 }
