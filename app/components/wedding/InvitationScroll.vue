@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ChevronLeft, ChevronRight } from '@lucide/vue'
+import useEmblaCarousel from 'embla-carousel-vue'
 
 type AttendanceValue = '' | 'yes' | 'no'
 type GuestOfValue = '' | 'brideGroom' | 'brideParents' | 'groomParents'
@@ -13,6 +14,10 @@ const targetIso = '2026-12-19T17:30:00+07:00'
 const { parts, hasStarted, isComplete } = useCountdown(targetIso)
 const { locale, t } = useI18n()
 const { state, errorKey, isLoading, reset, submit } = useSheetSubmit()
+
+const calendarImageSrc = computed(() =>
+  locale.value === 'vi' ? '/wedding/Asset%207@3x.png' : '/wedding/assets/calendar.png'
+)
 
 const countdownUnits = computed(() => [
   { key: 'days', value: parts.value.days, label: t('invite.countdown.units.days') },
@@ -146,83 +151,29 @@ const albumImages = albumImageFiles.map((fileName, index) => ({
   index
 }))
 
-const albumTransitionMs = 840
+const albumAutoplayDelayMs = 5000
 const invitationCanvasWidth = 402
 const activeAlbumIndex = ref(0)
-const albumPointerStartX = ref<number | null>(null)
-const albumDidSwipe = ref(false)
-const albumAnimationDirection = ref<'previous' | 'next' | null>(null)
-const isAlbumAnimating = ref(false)
+const [albumEmblaRef, albumEmblaApi] = useEmblaCarousel({
+  align: 'center',
+  containScroll: false,
+  duration: 28,
+  loop: true,
+  skipSnaps: false
+})
 const invitationScale = ref(1)
 const invitationFrame = ref<HTMLElement | null>(null)
 const invitationPage = ref<HTMLElement | null>(null)
 const invitationFrameHeight = ref<number | null>(null)
 let albumAutoplayTimer: ReturnType<typeof setInterval> | undefined
-let albumTransitionTimer: ReturnType<typeof setTimeout> | undefined
-let albumAnimationFrame: number | undefined
 let invitationResizeObserver: ResizeObserver | undefined
 let invitationResizeFrame: number | undefined
 const preloadedAlbumImages = new Set<number>()
 
-const previousAlbumIndex = computed(() => (activeAlbumIndex.value - 1 + albumImages.length) % albumImages.length)
-const nextAlbumIndex = computed(() => (activeAlbumIndex.value + 1) % albumImages.length)
-const wrapAlbumIndex = (index: number) => (index + albumImages.length) % albumImages.length
-const createAlbumSlide = (index: number, positionClass: string) => {
-  const wrappedIndex = wrapAlbumIndex(index)
-
-  return {
-    index: wrappedIndex,
-    image: albumImages[wrappedIndex]!,
-    positionClass
-  }
-}
-const albumDisplaySlides = computed(() => {
-  const direction = albumAnimationDirection.value
-  const currentIndex = activeAlbumIndex.value
-
-  if (direction === 'previous') {
-    return [
-      createAlbumSlide(currentIndex - 2, 'is-enter-previous'),
-      createAlbumSlide(currentIndex - 1, 'is-previous'),
-      createAlbumSlide(currentIndex, 'is-active')
-    ]
-  }
-
-  if (direction === 'next') {
-    return [
-      createAlbumSlide(currentIndex, 'is-active'),
-      createAlbumSlide(currentIndex + 1, 'is-next'),
-      createAlbumSlide(currentIndex + 2, 'is-enter-next')
-    ]
-  }
-
-  return [
-    createAlbumSlide(previousAlbumIndex.value, 'is-previous'),
-    createAlbumSlide(currentIndex, 'is-active'),
-    createAlbumSlide(nextAlbumIndex.value, 'is-next')
-  ]
-})
-
-const stopAlbumAutoplay = () => {
-  if (albumAutoplayTimer) {
-    clearInterval(albumAutoplayTimer)
-    albumAutoplayTimer = undefined
-  }
-}
+const wrapAlbumIndex = (index: number) => ((index % albumImages.length) + albumImages.length) % albumImages.length
 
 const shouldReduceAlbumMotion = () => {
   return import.meta.client && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-}
-
-const startAlbumAutoplay = () => {
-  if (!import.meta.client || shouldReduceAlbumMotion()) {
-    return
-  }
-
-  stopAlbumAutoplay()
-  albumAutoplayTimer = setInterval(() => {
-    showNextAlbumSlide()
-  }, 5000)
 }
 
 const preloadAlbumImage = (index: number) => {
@@ -244,110 +195,78 @@ const preloadAlbumImage = (index: number) => {
 }
 
 const preloadNearbyAlbumImages = (index = activeAlbumIndex.value) => {
-  preloadAlbumImage(index - 2)
-  preloadAlbumImage(index - 1)
-  preloadAlbumImage(index)
-  preloadAlbumImage(index + 1)
-  preloadAlbumImage(index + 2)
+  for (let offset = -3; offset <= 3; offset += 1) {
+    preloadAlbumImage(index + offset)
+  }
 }
 
-const selectAlbumSlide = (index: number) => {
-  const targetIndex = wrapAlbumIndex(index)
+const syncAlbumIndex = () => {
+  const api = albumEmblaApi.value
 
-  if (targetIndex === activeAlbumIndex.value || isAlbumAnimating.value || albumAnimationDirection.value) {
+  if (!api) {
+    return
+  }
+
+  const index = api.selectedScrollSnap()
+  activeAlbumIndex.value = index
+  preloadNearbyAlbumImages(index)
+}
+
+const startAlbumAutoplay = () => {
+  if (shouldReduceAlbumMotion()) {
     return
   }
 
   stopAlbumAutoplay()
-  preloadNearbyAlbumImages(targetIndex)
+  albumAutoplayTimer = setInterval(() => {
+    showNextAlbumSlide()
+  }, albumAutoplayDelayMs)
+}
 
-  if (shouldReduceAlbumMotion()) {
-    activeAlbumIndex.value = targetIndex
-    startAlbumAutoplay()
-    return
+const stopAlbumAutoplay = () => {
+  if (albumAutoplayTimer) {
+    clearInterval(albumAutoplayTimer)
+    albumAutoplayTimer = undefined
   }
-
-  const forwardDistance = wrapAlbumIndex(targetIndex - activeAlbumIndex.value)
-  const backwardDistance = wrapAlbumIndex(activeAlbumIndex.value - targetIndex)
-  const direction = forwardDistance <= backwardDistance ? 'next' : 'previous'
-
-  albumAnimationDirection.value = direction
-
-  if (albumAnimationFrame) {
-    window.cancelAnimationFrame(albumAnimationFrame)
-  }
-
-  void nextTick(() => {
-    albumAnimationFrame = window.requestAnimationFrame(() => {
-      albumAnimationFrame = undefined
-      isAlbumAnimating.value = true
-    })
-  })
-
-  if (albumTransitionTimer) {
-    clearTimeout(albumTransitionTimer)
-  }
-
-  albumTransitionTimer = setTimeout(() => {
-    activeAlbumIndex.value = targetIndex
-    isAlbumAnimating.value = false
-    albumAnimationDirection.value = null
-    albumTransitionTimer = undefined
-    preloadNearbyAlbumImages(targetIndex)
-    startAlbumAutoplay()
-  }, albumTransitionMs)
 }
 
 const showPreviousAlbumSlide = () => {
-  selectAlbumSlide(activeAlbumIndex.value - 1)
+  const api = albumEmblaApi.value
+
+  if (!api) {
+    return
+  }
+
+  api.scrollPrev()
 }
 
 const showNextAlbumSlide = () => {
-  selectAlbumSlide(activeAlbumIndex.value + 1)
+  const api = albumEmblaApi.value
+
+  if (!api) {
+    return
+  }
+
+  api.scrollNext()
 }
 
-const onAlbumSlideClick = (index: number, event: MouseEvent) => {
-  if (albumDidSwipe.value) {
-    event.preventDefault()
-    albumDidSwipe.value = false
-    return
-  }
-
-  selectAlbumSlide(index)
+const onAlbumSlideClick = (index: number) => {
+  albumEmblaApi.value?.scrollTo(index)
 }
 
-const onAlbumPointerDown = (event: PointerEvent) => {
-  if (event.pointerType === 'mouse') {
-    return
-  }
+watch(
+  albumEmblaApi,
+  (api) => {
+    if (!api) {
+      return
+    }
 
-  albumPointerStartX.value = event.clientX
-  albumDidSwipe.value = false
-  stopAlbumAutoplay()
-}
-
-const onAlbumPointerUp = (event: PointerEvent) => {
-  if (albumPointerStartX.value === null) {
-    return
-  }
-
-  const delta = event.clientX - albumPointerStartX.value
-  albumPointerStartX.value = null
-
-  if (Math.abs(delta) < 32) {
-    startAlbumAutoplay()
-    return
-  }
-
-  albumDidSwipe.value = true
-
-  if (delta > 0) {
-    showPreviousAlbumSlide()
-    return
-  }
-
-  showNextAlbumSlide()
-}
+    syncAlbumIndex()
+    api.on('select', syncAlbumIndex)
+    api.on('reInit', syncAlbumIndex)
+  },
+  { immediate: true }
+)
 
 const onAlbumKeydown = (event: KeyboardEvent) => {
   if (event.key === 'ArrowLeft') {
@@ -408,6 +327,7 @@ const flushInvitationScale = () => {
 
 onMounted(() => {
   void nextTick(flushInvitationScale)
+  void nextTick(() => albumEmblaApi.value?.reInit())
   preloadNearbyAlbumImages()
 
   if (typeof ResizeObserver !== 'undefined' && invitationFrame.value) {
@@ -424,14 +344,6 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  if (albumTransitionTimer) {
-    clearTimeout(albumTransitionTimer)
-  }
-
-  if (albumAnimationFrame) {
-    window.cancelAnimationFrame(albumAnimationFrame)
-  }
-
   if (invitationResizeFrame) {
     window.cancelAnimationFrame(invitationResizeFrame)
   }
@@ -635,7 +547,7 @@ const onSubmit = async () => {
         {{ t('invite.calendar.copyLine2') }}
       </p>
       <h2 id="calendar-title" class="sr-only">{{ t('invite.calendar.title') }}</h2>
-      <img src="/wedding/assets/calendar.png" :alt="t('invite.calendar.alt')" loading="lazy" decoding="async" data-reveal="image" style="--reveal-delay: 120ms">
+      <img :src="calendarImageSrc" :alt="t('invite.calendar.alt')" loading="lazy" decoding="async" data-reveal="image" style="--reveal-delay: 120ms">
     </section>
 
     <section class="invite-section invite-people" :aria-label="t('invite.people.ariaLabel')">
@@ -901,11 +813,9 @@ const onSubmit = async () => {
     </section>
 
     <section class="invite-section invite-album" aria-labelledby="album-title">
-      <h2 id="album-title" data-reveal="text">{{ t('invite.album.title') }}</h2>
+      <h2 id="album-title">{{ t('invite.album.title') }}</h2>
       <div
         class="album-carousel"
-        data-reveal="image"
-        style="--reveal-delay: 100ms"
         role="region"
         aria-roledescription="carousel"
         :aria-label="t('invite.album.ariaLabel')"
@@ -915,35 +825,34 @@ const onSubmit = async () => {
         @mouseenter="stopAlbumAutoplay"
         @mouseleave="startAlbumAutoplay"
         @keydown="onAlbumKeydown"
-        @pointerdown="onAlbumPointerDown"
-        @pointerup="onAlbumPointerUp"
-        @pointercancel="albumPointerStartX = null; startAlbumAutoplay()"
       >
-        <div
-          class="album-carousel__viewport"
-          :class="{
-            'is-moving-next': isAlbumAnimating && albumAnimationDirection === 'next',
-            'is-moving-previous': isAlbumAnimating && albumAnimationDirection === 'previous'
-          }"
-        >
-          <button
-            v-for="slide in albumDisplaySlides"
-            :key="`${slide.index}-${slide.positionClass}-${albumAnimationDirection || 'idle'}`"
-            class="album-carousel__slide"
-            :class="slide.positionClass"
-            type="button"
-            :aria-label="t('invite.album.showPhoto', { current: slide.index + 1, total: albumImages.length, alt: t('invite.album.imageAlt', { index: slide.index + 1 }) })"
-            :aria-current="slide.index === activeAlbumIndex ? 'true' : undefined"
-            @click="onAlbumSlideClick(slide.index, $event)"
-          >
-            <img
-              :src="slide.image.src"
-              :alt="slide.index === activeAlbumIndex ? t('invite.album.imageAlt', { index: slide.index + 1 }) : ''"
-              :loading="slide.index === 0 ? 'eager' : 'lazy'"
-              :fetchpriority="slide.index === 0 ? 'high' : undefined"
-              decoding="async"
+        <div ref="albumEmblaRef" class="album-carousel__viewport">
+          <div class="album-carousel__track">
+            <div
+              v-for="image in albumImages"
+              :key="image.index"
+              class="album-carousel__slide"
             >
-          </button>
+              <div
+                class="album-carousel__photo"
+                role="button"
+                :tabindex="image.index === activeAlbumIndex ? 0 : -1"
+                :aria-label="t('invite.album.showPhoto', { current: image.index + 1, total: albumImages.length, alt: t('invite.album.imageAlt', { index: image.index + 1 }) })"
+                :aria-current="image.index === activeAlbumIndex ? 'true' : undefined"
+                @click="onAlbumSlideClick(image.index)"
+                @keydown.enter.prevent="onAlbumSlideClick(image.index)"
+                @keydown.space.prevent="onAlbumSlideClick(image.index)"
+              >
+                <img
+                  :src="image.src"
+                  :alt="image.index === activeAlbumIndex ? t('invite.album.imageAlt', { index: image.index + 1 }) : ''"
+                  :loading="image.index === 0 ? 'eager' : 'lazy'"
+                  :fetchpriority="image.index === 0 ? 'high' : undefined"
+                  decoding="async"
+                >
+              </div>
+            </div>
+          </div>
         </div>
 
         <button class="album-carousel__control album-carousel__control--previous" type="button" :aria-label="t('invite.album.previous')" @click="showPreviousAlbumSlide">
@@ -953,7 +862,7 @@ const onSubmit = async () => {
           <ChevronRight aria-hidden="true" />
         </button>
       </div>
-      <p class="invite-album__caption" data-reveal="text" style="--reveal-delay: 180ms">{{ t('invite.album.caption') }}</p>
+      <p class="invite-album__caption">{{ t('invite.album.caption') }}</p>
     </section>
 
     <footer class="invite-section invite-footer">
