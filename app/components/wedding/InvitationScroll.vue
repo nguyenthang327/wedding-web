@@ -32,7 +32,7 @@ const timelineItems = computed(() => [
   { time: '19:00', title: t('invite.timeline.events.reception') },
   { time: '20:00', title: t('invite.timeline.events.entertainment') },
   { time: '21:00', title: t('invite.timeline.events.afterParty') },
-  { time: '21:00', title: t('invite.timeline.events.goodbye') }
+  { time: '22:00', title: t('invite.timeline.events.goodbye') }
 ])
 
 const dressColors = [
@@ -556,14 +556,14 @@ const onSubmit = async () => {
           <img src="/wedding/assets/bride-frame.png" :alt="t('invite.people.brideAlt')" loading="lazy" decoding="async">
           <figcaption>
             <span>{{ t('invite.people.brideRole') }}</span>
-            <strong>NguyenLeThienKim</strong>
+            <strong>{{ t('invite.people.brideName') }}</strong>
           </figcaption>
         </figure>
         <figure>
           <img src="/wedding/assets/groom-frame.png" :alt="t('invite.people.groomAlt')" loading="lazy" decoding="async">
           <figcaption>
             <span>{{ t('invite.people.groomRole') }}</span>
-            <strong>NguyenDangNguyen</strong>
+            <strong>{{ t('invite.people.groomName') }}</strong>
           </figcaption>
         </figure>
       </div>
@@ -573,18 +573,18 @@ const onSubmit = async () => {
       <h2 id="invitation-title" data-reveal="center">{{ t('invite.invitation.title') }}</h2>
       <div class="parents-grid" data-stagger data-stagger-base="80" data-stagger-step="80">
         <div>
-          <span>{{ t('invite.invitation.parentsTitle') }}</span>
-          <p>Mr. Nguyen Trong Tri<br>Mrs. Bui Viet Hong Duc</p>
+          <span>{{ locale === 'vi' ? t('invite.invitation.groomFamilyTitle') : t('invite.invitation.parentsTitle') }}</span>
+          <p>{{ t('invite.invitation.groomParentsLine1') }}<br>{{ t('invite.invitation.groomParentsLine2') }}</p>
         </div>
         <div>
-          <span>{{ t('invite.invitation.parentsTitle') }}</span>
-          <p>Mr. Nguyen Xuan Hoa<br>Mrs. Nguyen Le Kim Cuong</p>
+          <span>{{ locale === 'vi' ? t('invite.invitation.brideFamilyTitle') : t('invite.invitation.parentsTitle') }}</span>
+          <p>{{ t('invite.invitation.brideParentsLine1') }}<br>{{ t('invite.invitation.brideParentsLine2') }}</p>
         </div>
       </div>
       <p class="invitation-intro" data-reveal="center" style="--reveal-delay: 170ms">{{ t('invite.invitation.intro') }}</p>
-      <h3 data-reveal="center" style="--reveal-delay: 230ms">NguyenDangNguyen</h3>
+      <h3 data-reveal="center" style="--reveal-delay: 230ms">{{ t('invite.people.groomName') }}</h3>
       <span data-reveal="center" style="--reveal-delay: 290ms">{{ t('invite.invitation.and') }}</span>
-      <h3 data-reveal="center" style="--reveal-delay: 350ms">NguyenLeThienKim</h3>
+      <h3 data-reveal="center" style="--reveal-delay: 350ms">{{ t('invite.people.brideName') }}</h3>
       <strong class="invitation-held" data-reveal="center" style="--reveal-delay: 410ms">{{ t('invite.invitation.heldAt') }}</strong>
       <p class="invitation-date" data-reveal="center" style="--reveal-delay: 470ms">{{ t('invite.invitation.dateLeft') }} <span class="invitation-date-separator">|</span> 19.12 <span class="invitation-date-separator">|</span> 2026</p>
       <p class="invitation-location" data-reveal="center" style="--reveal-delay: 520ms">{{ t('invite.hero.location') }}</p>
@@ -869,9 +869,9 @@ const onSubmit = async () => {
       <h2 data-reveal="text">{{ t('invite.footer.contactTitle') }}</h2>
       <p class="invite-footer__contact-copy" data-reveal="text" style="--reveal-delay: 80ms"><em>{{ t('invite.footer.contactKicker') }}</em><br>{{ t('invite.footer.contactLine1') }}<br>{{ t('invite.footer.contactLine2') }}</p>
       <address class="invite-footer__contacts" data-stagger data-stagger-base="140" data-stagger-step="48">
-        <span>Kim - <em>{{ t('invite.people.brideRoleLower') }}</em></span>
+        <span>{{ t('invite.footer.brideContactName') }} - <em>{{ t('invite.people.brideRoleLower') }}</em></span>
         <a href="tel:0909385561">0909 385 561</a>
-        <span>Nguyen (Andy) - <em>{{ t('invite.people.groomRoleLower') }}</em></span>
+        <span>{{ t('invite.footer.groomContactName') }} - <em>{{ t('invite.people.groomRoleLower') }}</em></span>
         <a href="tel:0942024002">0942 024 002</a>
       </address>
       <section class="invite-footer__thanks" aria-labelledby="thanks-title" data-reveal="image" style="--reveal-delay: 180ms">
