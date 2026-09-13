@@ -1,7 +1,7 @@
 <script setup lang="ts">
 type AttendanceValue = '' | 'yes' | 'no'
 
-const { t, locale } = useI18n()
+const { t } = useI18n()
 const { state, errorKey, isLoading, reset, submit } = useSheetSubmit()
 
 const formStartedAt = ref(Date.now())
@@ -103,7 +103,6 @@ const onSubmit = async () => {
   const result = await submit({
     submissionType: 'rsvp',
     submissionId: createSubmissionId(),
-    locale: locale.value,
     createdAt: new Date().toISOString(),
     pageUrl: import.meta.client ? window.location.href : '',
     honeypot: form.website,

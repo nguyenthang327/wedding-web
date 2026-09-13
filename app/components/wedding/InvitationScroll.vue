@@ -9,6 +9,11 @@ type PlusOneValue = '' | 'yes' | 'no'
 const defaultGuestOf: GuestOfValue = 'brideGroom'
 const defaultAttendance: AttendanceValue = 'yes'
 const defaultPlusOneAttendance: PlusOneValue = 'yes'
+const guestOfEnglishLabels: Record<Exclude<GuestOfValue, ''>, string> = {
+  brideGroom: 'The Bride & Groom',
+  brideParents: "The Bride's Parents",
+  groomParents: "The Groom's Parents"
+}
 
 const targetIso = '2026-12-19T17:30:00+07:00'
 const { parts, hasStarted, isComplete } = useCountdown(targetIso)
@@ -481,11 +486,10 @@ const onSubmit = async () => {
 
   const result = await submit({
     submissionType: 'rsvp',
-    locale: locale.value,
     createdAt: formatSheetDateTime(new Date()),
     name: form.fullName.trim(),
     preferredName: form.preferredName.trim(),
-    guestOf: form.guestOf ? t(`invite.rsvp.guestOf.${form.guestOf}`) : '',
+    guestOf: form.guestOf ? guestOfEnglishLabels[form.guestOf] : '',
     attending: attendance,
     email: form.email.trim(),
     phone: form.phone.trim(),
@@ -588,7 +592,17 @@ const onSubmit = async () => {
       <strong class="invitation-held" data-reveal="center" style="--reveal-delay: 410ms">{{ t('invite.invitation.heldAt') }}</strong>
       <p class="invitation-date" data-reveal="center" style="--reveal-delay: 470ms">{{ t('invite.invitation.dateLeft') }} <span class="invitation-date-separator">|</span> 19.12 <span class="invitation-date-separator">|</span> 2026</p>
       <p class="invitation-location" data-reveal="center" style="--reveal-delay: 520ms">{{ t('invite.hero.location') }}</p>
-      <img class="invitation-pin" src="/wedding/assets/pin.png" alt="" loading="lazy" decoding="async" data-reveal="image-center" style="--reveal-delay: 570ms">
+      <a
+        class="invitation-map-link"
+        href="https://maps.app.goo.gl/qNXnAsNbC3qgGt1FA"
+        target="_blank"
+        rel="noopener noreferrer"
+        data-reveal="image-center"
+        style="--reveal-delay: 570ms"
+      >
+        <img class="invitation-pin" src="/wedding/assets/pin.png" alt="" loading="lazy" decoding="async">
+        <span class="sr-only">{{ t('invite.hero.location') }}</span>
+      </a>
       <span class="invitation-direction" data-reveal="center" style="--reveal-delay: 610ms">{{ t('invite.invitation.direction') }}</span>
       <p class="invitation-note" data-reveal="center" style="--reveal-delay: 650ms">
         {{ t('invite.invitation.note') }}

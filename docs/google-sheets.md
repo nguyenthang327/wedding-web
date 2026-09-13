@@ -13,10 +13,10 @@ This URL is public by design. Do not put service account keys, OAuth client secr
 Use a single `rsvps` tab.
 
 ```text
-created_at | locale | name | preferred_name | guest_of | attending | email | phone | plus_one | plus_one_name | dietary
+Created at | Name | Preferred name | Guest of | Attending | Email | Phone | Plus one | Plus one name | Dietary
 ```
 
-The frontend no longer sends `submission_id`, `page_url`, `guest_count`, `elapsed_ms`, `honeypot`, or a combined `contact` field. Email and phone are sent as separate fields. The `phone` column is formatted as plain text so values such as `09123123123` and `+849123123123` stay readable.
+The frontend no longer sends `locale`, `submission_id`, `page_url`, `guest_count`, `elapsed_ms`, `honeypot`, or a combined `contact` field. Email and phone are sent as separate fields. The `phone` column is formatted as plain text so values such as `09123123123` and `+849123123123` stay readable.
 
 ## Expected Request
 
@@ -25,7 +25,6 @@ The frontend sends a POST request with `Content-Type: text/plain;charset=utf-8` 
 ```json
 {
   "submissionType": "rsvp",
-  "locale": "en",
   "createdAt": "2026/09/12 17:03",
   "name": "Thang Nguyen Duc",
   "preferredName": "Thang Nguyen Duc",
@@ -47,17 +46,16 @@ Create an Apps Script bound to the spreadsheet, paste this script, run `setupRsv
 const RSVP_SHEET_NAME = 'rsvps'
 const WISHES_SHEET_NAME = 'wishes'
 const RSVP_HEADERS = [
-  'created_at',
-  'locale',
-  'name',
-  'preferred_name',
-  'guest_of',
-  'attending',
-  'email',
-  'phone',
-  'plus_one',
-  'plus_one_name',
-  'dietary'
+  'Created at',
+  'Name',
+  'Preferred name',
+  'Guest of',
+  'Attending',
+  'Email',
+  'Phone',
+  'Plus one',
+  'Plus one name',
+  'Dietary'
 ]
 
 function doPost(event) {
@@ -66,13 +64,12 @@ function doPost(event) {
     validatePayload(payload)
 
     const sheet = setupRsvpSheet()
-    sheet.getRange('H:H').setNumberFormat('@')
+    sheet.getRange('G:G').setNumberFormat('@')
     sheet.appendRow([
       formatSheetDateTime(payload.createdAt),
-      payload.locale || '',
       payload.name || '',
       payload.preferredName || '',
-      payload.guestOf || '',
+      formatGuestOf(payload.guestOf),
       formatAttendance(payload.attending),
       payload.email || '',
       formatPhone(payload.phone),
@@ -127,7 +124,7 @@ function migrateRsvpSheet(sheet) {
     .map((row) => mapLegacyRsvpRow(currentHeaders, row))
 
   sheet.clear()
-  sheet.getRange('H:H').setNumberFormat('@')
+  sheet.getRange('G:G').setNumberFormat('@')
   sheet.getRange(1, 1, 1, RSVP_HEADERS.length).setValues([RSVP_HEADERS])
 
   if (mappedRows.length) {
@@ -136,9 +133,9 @@ function migrateRsvpSheet(sheet) {
 }
 
 function mapLegacyRsvpRow(headers, row) {
-  const get = (name) => {
-    const index = headers.indexOf(name)
-    return index >= 0 ? row[index] : ''
+  const get = (...names) => {
+    const index = names.map((name) => headers.indexOf(name)).find((value) => value >= 0)
+    return index === undefined ? '' : row[index]
   }
 
   const contact = String(get('contact') || '')
@@ -146,17 +143,16 @@ function mapLegacyRsvpRow(headers, row) {
   const note = String(get('note') || '')
 
   return [
-    formatSheetDateTime(get('created_at') || get('createdAt')),
-    get('locale'),
-    get('name'),
-    get('preferred_name') || get('preferredName') || getNoteValue(note, 'Preferred name'),
-    get('guest_of') || get('guestOf') || getNoteValue(note, 'Guest of'),
-    formatAttendance(get('attending')),
-    get('email') || contactParts[0] || '',
-    formatPhone(get('phone') || contactParts[1] || ''),
-    formatYesNo(get('plus_one') || get('plusOneAttendance') || getNoteValue(note, 'Bringing a plus one')),
-    get('plus_one_name') || get('plusOne') || getNoteValue(note, 'Plus one'),
-    get('dietary') || getNoteValue(note, 'Dietary')
+    formatSheetDateTime(get('Created at', 'created_at', 'createdAt')),
+    get('Name', 'name'),
+    get('Preferred name', 'preferred_name', 'preferredName') || getNoteValue(note, 'Preferred name'),
+    formatGuestOf(get('Guest of', 'guest_of', 'guestOf') || getNoteValue(note, 'Guest of')),
+    formatAttendance(get('Attending', 'attending')),
+    get('Email', 'email') || contactParts[0] || '',
+    formatPhone(get('Phone', 'phone') || contactParts[1] || ''),
+    formatYesNo(get('Plus one', 'plus_one', 'plusOneAttendance') || getNoteValue(note, 'Bringing a plus one')),
+    get('Plus one name', 'plus_one_name', 'plusOne') || getNoteValue(note, 'Plus one'),
+    get('Dietary', 'dietary') || getNoteValue(note, 'Dietary')
   ]
 }
 
@@ -179,18 +175,17 @@ function formatRsvpSheet(sheet) {
     .setWrapStrategy(SpreadsheetApp.WrapStrategy.WRAP)
 
   sheet.getRange(2, 1, Math.max(lastRow - 1, 1), 1).setNumberFormat('yyyy/mm/dd hh:mm')
-  sheet.getRange(2, 8, Math.max(lastRow - 1, 1), 1).setNumberFormat('@')
+  sheet.getRange(2, 7, Math.max(lastRow - 1, 1), 1).setNumberFormat('@')
   sheet.setColumnWidth(1, 165)
-  sheet.setColumnWidth(2, 70)
+  sheet.setColumnWidth(2, 165)
   sheet.setColumnWidth(3, 165)
   sheet.setColumnWidth(4, 165)
-  sheet.setColumnWidth(5, 165)
-  sheet.setColumnWidth(6, 120)
-  sheet.setColumnWidth(7, 220)
-  sheet.setColumnWidth(8, 140)
-  sheet.setColumnWidth(9, 100)
-  sheet.setColumnWidth(10, 170)
-  sheet.setColumnWidth(11, 220)
+  sheet.setColumnWidth(5, 120)
+  sheet.setColumnWidth(6, 220)
+  sheet.setColumnWidth(7, 140)
+  sheet.setColumnWidth(8, 100)
+  sheet.setColumnWidth(9, 170)
+  sheet.setColumnWidth(10, 220)
   sheet.setRowHeight(1, 34)
 
   const dataRange = sheet.getRange(1, 1, lastRow, lastColumn)
@@ -254,6 +249,25 @@ function formatAttendance(value) {
   }
 
   return value || ''
+}
+
+function formatGuestOf(value) {
+  const guestOf = String(value || '').trim()
+  const normalized = guestOf.toLowerCase()
+
+  if (normalized === 'cô dâu & chú rể' || normalized === 'the bride & groom') {
+    return 'The Bride & Groom'
+  }
+
+  if (normalized === 'nhà cô dâu' || normalized === "the bride's parents") {
+    return "The Bride's Parents"
+  }
+
+  if (normalized === 'nhà chú rể' || normalized === "the groom's parents") {
+    return "The Groom's Parents"
+  }
+
+  return guestOf
 }
 
 function formatYesNo(value) {

@@ -2,7 +2,6 @@ export type SubmissionType = 'wish' | 'rsvp'
 
 export type GuestSubmissionPayload = {
   submissionType: SubmissionType
-  locale: string
   createdAt: string
   name: string
   submissionId?: string
