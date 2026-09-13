@@ -103,7 +103,7 @@
     },
     "dresscode": {
       "title": "DRESSCODE",
-      "attire": "Formal Attire",
+      "attire": "FormalAttire",
       "intro": "We kindly ask you to dress formally to join us on this very special day.",
       "colorsAria": "Suggested dress code colors",
       "colors": {

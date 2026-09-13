@@ -317,6 +317,7 @@ section {
   position: fixed;
   bottom: max(1rem, env(safe-area-inset-bottom));
   left: max(1rem, env(safe-area-inset-left));
+  opacity: 0.8;
   z-index: 35;
 }
 
@@ -1437,7 +1438,8 @@ body {
 .countdown-values span {
   color: var(--invite-ink);
   font-family: var(--invite-heading);
-  font-size: 8px;
+  font-size: 6px;
+  font-weight: 500;
   line-height: 1;
 }
 
@@ -1473,8 +1475,9 @@ body {
   width: 303px;
   max-width: 303px;
   transform: translate3d(-50%, 0, 0);
-  font-size: 13px;
-  line-height: 13px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 15px;
 }
 
 .invite-calendar {
@@ -1486,8 +1489,9 @@ body {
   width: 279px;
   max-width: 279px;
   height: 61px;
-  font-size: 13px;
-  line-height: 13px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 15px;
   letter-spacing: -0.03em;
 }
 
@@ -1727,7 +1731,7 @@ body {
   color: var(--invite-ink);
   font-family: var(--invite-heading);
   font-size: 26px;
-  font-weight: 700;
+  font-weight: 400;
   line-height: 31px;
 }
 
@@ -1745,6 +1749,7 @@ body {
 
 .invite-invitation .invitation-location {
   position: absolute;
+  font-weight: 400;
   top: 452px;
   left: var(--invite-center);
   width: 313px;
@@ -2045,7 +2050,6 @@ body {
 .invite-dresscode > h2,
 .invite-dresscode > h3,
 .invite-dresscode > p,
-.invite-dresscode > .dress-swatches,
 .invite-dresscode > img {
   position: absolute;
   left: var(--invite-center);
@@ -2089,6 +2093,7 @@ body {
 }
 
 .dress-swatches {
+  position: absolute;
   top: 211px;
   left: 87px;
   width: 291px;
@@ -2096,7 +2101,7 @@ body {
   display: grid;
   grid-template-columns: repeat(4, 36px);
   grid-auto-rows: 50px;
-  gap: 35px 49px;
+  gap: 24px 28px;
   margin: 0;
   transform: none;
 }
@@ -2249,8 +2254,8 @@ body {
   color: var(--invite-ink);
   font-family: var(--invite-serif);
   font-size: 14px;
-  font-weight: 400;
-  line-height: 14px;
+  font-weight: 300;
+  line-height: 15px;
   letter-spacing: -0.03em;
   text-align: center;
 }
@@ -2305,11 +2310,11 @@ body {
 
 .invite-rsvp .rsvp-swans {
   position: absolute;
-  top: 735px;
+  top: 698px;
   left: var(--invite-center);
   z-index: 1;
-  width: 175px;
-  height: 104px;
+  width: 150px;
+  height: auto;
   transform: translate3d(-50%, 0, 0);
   object-fit: contain;
   pointer-events: none;
@@ -2368,11 +2373,12 @@ body {
   border-radius: 5px;
   background: #bbb97c;
   color: #fffdf2;
-  padding: 6px 10px;
+  /* This serif font's glyphs sit visually high in the native input line box. */
+  padding: 2px 10px 0;
   font-family: var(--invite-serif);
   font-size: 12px;
   font-weight: 400;
-  line-height: 12px;
+  line-height: 22px;
   letter-spacing: 0;
   transition: background 180ms ease, box-shadow 180ms ease;
 }
@@ -2523,6 +2529,11 @@ body {
 .invite-form .invite-choice-group--plus-one {
   grid-template-columns: max-content max-content;
   justify-content: start;
+}
+
+/* The RSVP form's standard row gap is 25px; keep the companion-name field 16px below its choice. */
+.invite-form .invite-choice-group--plus-one + label {
+  margin-top: -9px;
 }
 
 .invite-form .invite-choice-group--attendance legend,
@@ -2810,6 +2821,8 @@ body {
 }
 
 .invite-footer__contact-copy em {
+  display:inline-block;
+  margin-bottom: 7px;
   font-size: 13px;
   font-weight: 300;
 }
@@ -2838,6 +2851,7 @@ body {
 
 .invite-footer__contacts a {
   min-height: 0;
+  margin-top: 2px;
   color: var(--invite-ink);
   font-family: var(--invite-heading);
   font-size: 27px;

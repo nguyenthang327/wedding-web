@@ -61,8 +61,8 @@
       "groomAlt": "Chân dung chú rể Nguyễn Đăng Nguyên",
       "brideRole": "Cô Dâu",
       "groomRole": "Chú Rể",
-      "brideRoleLower": "cô dâu",
-      "groomRoleLower": "chú rể",
+      "brideRoleLower": "Cô Dâu",
+      "groomRoleLower": "Chú Rể",
       "brideName": "NguyễnLêThiênKim",
       "groomName": "NguyễnĐăngNguyên"
     },
@@ -103,7 +103,7 @@
     },
     "dresscode": {
       "title": "MÀU SẮC TRANG PHỤC",
-      "attire": "Trang Phục Dự Tiệc",
+      "attire": "TrangPhụcDựTiệc",
       "intro": "Một chút sắc màu từ bạn sẽ khiến ngày vui của chúng mình thêm trọn vẹn.",
       "colorsAria": "Màu sắc gợi ý cho dress code",
       "colors": {

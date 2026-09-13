@@ -823,7 +823,7 @@ const onSubmit = async () => {
           <span class="invite-submit__label">{{ isLoading ? t('invite.rsvp.submitSending') : t('invite.rsvp.submit') }}</span>
         </button>
       </form>
-      <img class="rsvp-swans" src="/wedding/assets/rsvp-swans.png" alt="" aria-hidden="true" width="175" height="92" loading="lazy" decoding="async" data-reveal="image-center" style="--reveal-delay: 320ms">
+      <img class="rsvp-swans" src="/wedding/Links/17.1.png" alt="" aria-hidden="true" width="150" height="111" loading="lazy" decoding="async" data-reveal="image-center" style="--reveal-delay: 320ms">
     </section>
 
     <section class="invite-section invite-album" aria-labelledby="album-title">
