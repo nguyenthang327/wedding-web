@@ -261,39 +261,63 @@ section {
 }
 
 .locale-switcher {
+  display: inline-grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: 86px;
+  min-height: 46px;
+  align-items: stretch;
+  border: 1px solid rgb(167 53 82 / 32%);
+  border-radius: 999px;
+  background: rgb(255 243 236 / 94%);
+  box-shadow: 0 10px 28px rgb(43 36 32 / 12%);
+  padding: 4px;
+  backdrop-filter: blur(18px);
+}
+
+.locale-switcher__option {
   display: inline-flex;
-  min-width: 44px;
-  min-height: 44px;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgb(167 53 82 / 18%);
+  appearance: none;
+  border: 0;
   border-radius: 999px;
-  background: rgb(251 241 220 / 90%);
-  color: var(--color-primary);
-  box-shadow: 0 10px 28px rgb(43 36 32 / 12%);
-  padding: 0 14px;
+  background: transparent;
+  color: var(--color-primary-strong);
   font-size: 12px;
   font-weight: 900;
-  transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
+  letter-spacing: 0.08em;
+  padding: 0;
+  transition: background 180ms ease, box-shadow 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
-.locale-switcher:hover {
-  border-color: rgb(167 53 82 / 18%);
-  background: var(--color-background);
+.locale-switcher__option:disabled {
+  cursor: default;
+}
+
+.locale-switcher__option:hover {
   color: var(--color-primary);
 }
 
-.locale-switcher:focus-visible {
+.locale-switcher__option.is-active {
+  background: var(--color-primary);
+  box-shadow: 0 5px 12px rgb(132 38 63 / 24%);
+  color: var(--color-on-primary);
+}
+
+.locale-switcher__option:active {
+  transform: scale(0.96);
+}
+
+.locale-switcher__option:focus-visible {
   outline: 3px solid #8caf9b;
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 
 .page-locale-switcher {
   position: fixed;
-  top: max(1rem, env(safe-area-inset-top));
-  right: max(1rem, env(safe-area-inset-right));
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  left: max(1rem, env(safe-area-inset-left));
   z-index: 35;
-  backdrop-filter: blur(18px);
 }
 
 .hero-section {
@@ -1241,11 +1265,6 @@ body {
   --invite-heading-vi: 'Be Vietnam Pro', 'Noto Sans', var(--font-sans);
 }
 
-:lang(vi) .invite-form span,
-:lang(vi) .invite-form legend,
-:lang(vi) .invite-form .invite-submit__label {
-  font-family: var(--invite-heading-vi);
-}
 
 .invite-section h3 {
   color: var(--invite-pink);
@@ -2336,7 +2355,7 @@ body {
   font-size: 12px;
   font-weight: 400;
   line-height: 15px;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.03em;
   text-transform: none;
 }
 
@@ -2402,7 +2421,7 @@ body {
   height: 14px;
   min-height: 14px;
   align-items: center;
-  gap: 5px;
+  gap: 2px;
   border: 0;
   background: transparent;
   padding: 0;
@@ -2470,16 +2489,18 @@ body {
   display: grid;
   align-items: start;
   gap: 9px 12px;
-  padding-left: 8px;
+  padding-left: 6px;
 }
+
+.invite-form .invite-choice-group input[type='radio'] {
+  margin-left: 2px;
+  margin-top: 0px;
+}
+
 
 .invite-form .invite-choice-group--guest {
   grid-template-columns: 105px 106px minmax(0, 1fr);
   column-gap: 0;
-}
-
-.invite-form .invite-choice-group--guest label {
-  gap: 5px;
 }
 
 .invite-form .invite-choice-group--guest span {
@@ -2511,8 +2532,8 @@ body {
 
 .invite-field-error {
   position: absolute;
-  top: 39px;
-  left: 9px;
+  top: 42px;
+  left: 8px;
   z-index: 1;
   width: calc(100% - 18px);
   margin: 0;

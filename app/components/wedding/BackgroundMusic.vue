@@ -218,8 +218,8 @@ onUnmounted(() => {
 }
 
 .background-music__toggle {
-  width: 2.75rem;
-  height: 2.75rem;
+  width: 46px;
+  height: 46px;
   display: grid;
   place-items: center;
   padding: 0;
