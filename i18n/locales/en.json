@@ -88,9 +88,9 @@
     "timeline": {
       "title": "TIMELINE",
       "copy": "Day filled with meaningful moments, from our first hello to the final dance. Come celebrate, laugh, and make memories along the way.",
-      "teaTitle": "Tea Ceremony",
+      "teaTitle": "TeaCeremony",
       "teaDate": "DECEMBER 17 2026",
-      "weddingTitle": "Wedding Day",
+      "weddingTitle": "WeddingDay",
       "weddingDate": "DECEMBER 19 2026",
       "events": {
         "welcome": "WELCOME GUEST",
@@ -103,7 +103,7 @@
     },
     "dresscode": {
       "title": "DRESSCODE",
-      "attire": "FormalAttire",
+      "attire": "Formal Attire",
       "intro": "We kindly ask you to dress formally to join us on this very special day.",
       "colorsAria": "Suggested dress code colors",
       "colors": {

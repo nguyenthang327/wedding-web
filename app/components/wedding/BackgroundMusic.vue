@@ -9,7 +9,9 @@ const hasLoadError = ref(false)
 const isAutoPlaybackAttempt = ref(false)
 let autoPlaybackTimer: ReturnType<typeof setTimeout> | undefined
 let autoUnmuteTimer: ReturnType<typeof setTimeout> | undefined
-const unlockEvents = ['mousemove', 'scroll', 'pointerdown', 'touchstart', 'keydown', 'wheel'] as const
+// Only gesture-capable events can unlock audible media in Safari. Hover and
+// scroll events would trigger rejected play() calls before a real gesture.
+const unlockEvents = ['pointerdown', 'touchstart', 'keydown'] as const
 // Keep this runtime URL dynamic so the optional, user-supplied file in public/ is not bundled.
 const musicSource = '/wedding/' + 'cant-help-falling-in-love.mp3'
 
@@ -33,6 +35,14 @@ const startPlayback = async (showLoadError = false) => {
   }
 }
 
+const syncPlaybackState = () => {
+  const audio = audioElement.value
+
+  if (audio) {
+    isPlaying.value = !audio.paused && !audio.ended && !audio.muted && audio.volume > 0
+  }
+}
+
 const togglePlayback = async () => {
   const audio = audioElement.value
 
@@ -42,22 +52,23 @@ const togglePlayback = async () => {
 
   hasLoadError.value = false
 
-  if (isPlaying.value) {
+  // Read the media element's state directly. The `play` event is async, so
+  // `isPlaying` can still be false when a quick tap reaches this handler.
+  const isAudible = !audio.paused && !audio.muted && audio.volume > 0
+
+  if (isAudible) {
     audio.pause()
+    isAutoPlaybackAttempt.value = false
+    removeInteractionUnlock()
     return
   }
 
-  const didStart = await startPlayback(!isAutoPlaybackAttempt.value)
-
-  if (isAutoPlaybackAttempt.value && !didStart && audio) {
-    audio.volume = 0.35
-    audio.muted = false
-    isAutoPlaybackAttempt.value = false
-  }
+  restoreAudibleSettings()
+  await startPlayback(true)
 }
 
 const handlePlaybackStarted = () => {
-  isPlaying.value = true
+  syncPlaybackState()
 
   const audio = audioElement.value
 
@@ -74,7 +85,10 @@ const handlePlaybackStarted = () => {
     audio.volume = 0.35
     audio.muted = false
     isAutoPlaybackAttempt.value = false
-    removeInteractionUnlock()
+    autoUnmuteTimer = undefined
+    syncPlaybackState()
+    // Keep the gesture fallback active for Safari, where this unmute can
+    // still be rejected because it did not happen inside a user gesture.
   }, 150)
 }
 
@@ -85,6 +99,11 @@ const restoreAudibleSettings = () => {
     return
   }
 
+  if (autoUnmuteTimer) {
+    clearTimeout(autoUnmuteTimer)
+    autoUnmuteTimer = undefined
+  }
+
   audio.volume = 0.35
   audio.muted = false
   isAutoPlaybackAttempt.value = false
@@ -93,7 +112,7 @@ const restoreAudibleSettings = () => {
 const tryMutedAutoplay = async () => {
   const audio = audioElement.value
 
-  if (isPlaying.value || !audio) {
+  if (!audio || !audio.paused) {
     return
   }
 
@@ -108,7 +127,15 @@ const tryMutedAutoplay = async () => {
   }
 }
 
-const startPlaybackFromInteraction = () => {
+const startPlaybackFromInteraction = async (event: Event) => {
+  const eventTarget = event.target
+
+  // The control has its own click handler. Do not let the document-level
+  // autoplay unlock race that handler on the same user interaction.
+  if (eventTarget instanceof Node && playbackToggle.value?.contains(eventTarget)) {
+    return
+  }
+
   const audio = audioElement.value
 
   if (!audio) {
@@ -116,14 +143,22 @@ const startPlaybackFromInteraction = () => {
     return
   }
 
+  const needsAudibleStart = audio.paused || audio.muted || audio.volume <= 0
+
   restoreAudibleSettings()
 
-  if (isPlaying.value) {
+  if (!needsAudibleStart) {
+    syncPlaybackState()
     removeInteractionUnlock()
     return
   }
 
-  void startPlayback(false)
+  const didStart = await startPlayback(false)
+
+  if (didStart) {
+    syncPlaybackState()
+    removeInteractionUnlock()
+  }
 }
 
 function addInteractionUnlock() {
@@ -151,6 +186,9 @@ onMounted(async () => {
 
   audioElement.value.volume = 0.35
   await nextTick()
+  // Autoplay can start before Vue hydrates the component, so the initial
+  // `play` event is not always observed by the component.
+  syncPlaybackState()
   addInteractionUnlock()
 
   if (document.readyState === 'complete') {
@@ -184,7 +222,9 @@ onUnmounted(() => {
       loop
       preload="none"
       @play="handlePlaybackStarted"
-      @pause="isPlaying = false"
+      @playing="syncPlaybackState"
+      @pause="syncPlaybackState"
+      @volumechange="syncPlaybackState"
       @error="hasLoadError = true"
     />
 
@@ -210,7 +250,7 @@ onUnmounted(() => {
 .background-music {
   position: fixed;
   right: max(1rem, env(safe-area-inset-right));
-  bottom: max(1rem, env(safe-area-inset-bottom));
+  bottom: calc(max(1rem, env(safe-area-inset-bottom)) + 46px + 0.5rem);
   z-index: 30;
   display: grid;
   justify-items: end;
@@ -237,6 +277,10 @@ onUnmounted(() => {
   background: #fff;
   box-shadow: 0 0.75rem 1.75rem rgba(35, 51, 45, 0.22);
   transform: translateY(-2px);
+}
+
+.background-music__toggle:active {
+  transform: scale(0.95);
 }
 
 .background-music__toggle:focus-visible {

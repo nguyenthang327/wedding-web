@@ -614,7 +614,7 @@ const onSubmit = async () => {
 
     <section class="invite-section invite-timeline" aria-labelledby="timeline-title">
       <h2 id="timeline-title" data-reveal="center">{{ t('invite.timeline.title') }}</h2>
-      <p data-reveal="center" style="--reveal-delay: 90ms">{{ t('invite.timeline.copy') }}</p>
+      <p v-show="locale === 'en'">{{ t('invite.timeline.copy') }}</p>
       <div class="timeline-frame" data-reveal="image-center" style="--reveal-delay: 170ms">
         <img src="/wedding/assets/timeline-frame.png" alt="" aria-hidden="true" loading="lazy" decoding="async">
         <div class="timeline-milestone timeline-milestone--tea" data-reveal="center" style="--reveal-delay: 250ms">
@@ -656,7 +656,7 @@ const onSubmit = async () => {
         data-reveal="image-center"
         style="--reveal-delay: 260ms"
       >
-      <p class="dresscode-note" data-reveal="center" style="--reveal-delay: 340ms">{{ t('invite.dresscode.noteLine1') }} <strong>{{ t('invite.dresscode.noteStrong') }}</strong> {{ t('invite.dresscode.noteLine2') }}</p>
+      <p class="dresscode-note" data-reveal="center" style="--reveal-delay: 340ms">{{ t('invite.dresscode.noteLine1') }} <strong>{{ t('invite.dresscode.noteStrong') }}</strong><br/> {{ t('invite.dresscode.noteLine2') }}</p>
     </section>
 
     <section class="invite-section invite-love" aria-labelledby="love-title">

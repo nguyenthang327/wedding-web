@@ -37,9 +37,9 @@
     },
     "countdown": {
       "monogramAlt": "Monogram K N",
-      "title": "COUNTDOWN",
-      "copyLine1": "Giữa lòng Sài Gòn, một ngày ngập tràn yêu thương đang chờ đón.",
-      "copyLine2": "Một khoảnh khắc để chậm lại, để ở bên nhau, và cùng sẻ chia khởi đầu của một hành trình mới.",
+      "title": "ĐẾM NGƯỢC",
+      "copyLine1": "Giữa lòng Sài Gòn, chúng mình hẹn nhau cho một ngày của yêu thương và những niềm vui.",
+      "copyLine2": "Cùng chậm lại, cùng hiện diện, và cùng nhau chứng kiến khoảnh khắc chúng mình bắt đầu hành trình mới mang tên “Gia đình” nhé.",
       "cardLine1": "Đếm từng ngày đến ngày",
       "cardLine2": "mình chung đôi",
       "units": {
@@ -51,8 +51,8 @@
     },
     "calendar": {
       "title": "Lịch cưới",
-      "copyLine1": "Mỗi ngày trôi qua, chúng mình lại gần hơn một chút với khoảnh khắc đã mong chờ bấy lâu.",
-      "copyLine2": "Hẹn nhau ngày ấy, để cùng sẻ chia một ngày ngập tràn yêu thương và lưu giữ những kỷ niệm thật đẹp.",
+      "copyLine1": "Hãy lưu lại ngày đặc biệt này cùng chúng mình nha",
+      "copyLine2": "",
       "alt": "Lịch tháng 12 năm 2026 với ngày 19 được đánh dấu là ngày cưới"
     },
     "people": {
@@ -75,7 +75,7 @@
       "groomParentsLine2": "Bà Bùi Việt Hồng Đức",
       "brideParentsLine1": "Ông Nguyễn Xuân Hòa",
       "brideParentsLine2": "Bà Nguyễn Lê Kim Cương",
-      "intro": "GIA ĐÌNH CHÚNG TÔI TRÂN TRỌNG KÍNH MỜI QUÝ KHÁCH ĐẾN THAM DỰ VÀ CHUNG VUI CÙNG CHÚNG TÔI TRONG NGÀY HÔN LỄ",
+      "intro": "TRÂN TRỌNG KÍNH MỜI QUÝ KHÁCH ĐẾN THAM DỰ VÀ CHUNG VUI CÙNG CHÚNG TÔI TRONG NGÀY HÔN LỄ",
       "and": "VÀ",
       "heldAt": "ĐƯỢC TỔ CHỨC VÀO LÚC 17:30",
       "dateLeft": "THỨ BẢY",
@@ -103,7 +103,7 @@
     },
     "dresscode": {
       "title": "MÀU SẮC TRANG PHỤC",
-      "attire": "TrangPhụcDựTiệc",
+      "attire": "Trang Phục Dự Tiệc",
       "intro": "Một chút sắc màu từ bạn sẽ khiến ngày vui của chúng mình thêm trọn vẹn.",
       "colorsAria": "Màu sắc gợi ý cho dress code",
       "colors": {
@@ -116,9 +116,9 @@
         "warmBeige": "Be Kem"
       },
       "imageAlt": "Minh họa khách mời mặc các màu dress code gợi ý",
-      "noteLine1": "Xin vui lòng lựa chọn những màu sắc khác ngoài màu trắng,",
-      "noteStrong": "chúng tôi xin được dành sắc màu này riêng cho cô dâu.",
-      "noteLine2": "Cảm ơn mọi người!"
+      "noteLine1": "Vui lòng lựa chọn những",
+      "noteStrong": "màu sắc khác màu trắng.",
+      "noteLine2": " Xin được dành sắc màu này riêng cho cô dâu. Cảm ơn mọi người!"
     },
     "love": {
       "title": "HÀNH TRÌNH",
@@ -157,8 +157,8 @@
       },
       "guestOf": {
         "brideGroom": "Cô dâu & Chú rể",
-        "brideParents": "Nhà cô dâu",
-        "groomParents": "Nhà chú rể"
+        "brideParents": "Ba mẹ cô dâu",
+        "groomParents": "Ba mẹ chú rể"
       },
       "attendance": {
         "yes": "Rất vui được tham dự",

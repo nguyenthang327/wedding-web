@@ -266,27 +266,31 @@ section {
   width: 86px;
   min-height: 46px;
   align-items: stretch;
-  border: 1px solid rgb(167 53 82 / 32%);
+  border: 1px solid rgba(41, 63, 56, 0.28);
   border-radius: 999px;
-  background: rgb(255 243 236 / 94%);
-  box-shadow: 0 10px 28px rgb(43 36 32 / 12%);
+  background: rgba(255, 253, 247, 0.94);
+  box-shadow: 0 0.5rem 1.5rem rgba(35, 51, 45, 0.17);
   padding: 4px;
   backdrop-filter: blur(18px);
 }
 
 .locale-switcher__option {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-width: 0;
   appearance: none;
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: var(--color-primary-strong);
+  color: #293f38;
+  font-family: 'Wedding Thyne', 'Wedding Yrsa', serif;
   font-size: 12px;
-  font-weight: 900;
+  font-weight: 700;
   letter-spacing: 0.08em;
-  padding: 0;
+  line-height: 1;
+  padding: 2px 0 0 2px;
+  text-align: center;
   transition: background 180ms ease, box-shadow 180ms ease, color 180ms ease, transform 180ms ease;
 }
 
@@ -295,12 +299,12 @@ section {
 }
 
 .locale-switcher__option:hover {
-  color: var(--color-primary);
+  color: #293f38;
 }
 
 .locale-switcher__option.is-active {
-  background: var(--color-primary);
-  box-shadow: 0 5px 12px rgb(132 38 63 / 24%);
+  background: #727272;
+  box-shadow: 0 5px 12px rgba(35, 35, 35, 0.2);
   color: var(--color-on-primary);
 }
 
@@ -315,9 +319,9 @@ section {
 
 .page-locale-switcher {
   position: fixed;
+  right: max(1rem, env(safe-area-inset-right));
   bottom: max(1rem, env(safe-area-inset-bottom));
-  left: max(1rem, env(safe-area-inset-left));
-  opacity: 0.8;
+  left: auto;
   z-index: 35;
 }
 
@@ -1371,30 +1375,31 @@ body {
 }
 
 .invite-countdown {
-  height: 555px;
+  min-height: 555px;
   padding: 0 24px;
-  display: block;
+  padding-top: 37px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .invite-monogram {
-  position: absolute;
-  top: 37px;
-  left: var(--invite-center);
+  position: static;
+  flex: 0 0 auto;
   width: 109.19px;
-  transform: translate3d(-50%, 0, 0);
+  transform: none;
   opacity: 0.9;
 }
 
 .countdown-shell {
   display: grid;
   width: 330px;
-  margin-top: 0;
+  flex: 0 0 auto;
+  margin-top: 4px;
   aspect-ratio: 3363 / 2178;
   place-items: center;
-  position: absolute;
-  top: 334px;
-  left: var(--invite-center);
-  transform: translate3d(-50%, 0, 0);
+  position: relative;
+  transform: none;
 }
 
 .countdown-shell > img {
@@ -1459,21 +1464,22 @@ body {
 }
 
 .invite-countdown h2 {
-  position: absolute;
-  top: 222px;
-  left: var(--invite-center);
+  position: static;
+  flex: 0 0 auto;
   width: 228px;
-  transform: translate3d(-50%, 0, 0);
+  margin-top: 39px;
+  transform: none;
   font-size: 24px;
   line-height: 1;
 }
 
 .invite-countdown > p {
-  position: absolute;
-  top: 270px;
-  left: var(--invite-center);
+  position: static;
+  flex: 0 0 auto;
   width: 300px;
-  transform: translate3d(-50%, 0, 0);
+  min-height: 60px;
+  margin-top: 24px;
+  transform: none;
   font-size: 14px;
   font-weight: 300;
   line-height: 15px;
@@ -1487,7 +1493,7 @@ body {
 
 .invite-calendar > p {
   width: 300px;
-  height: 61px;
+  margin-bottom: 12px;
   font-size: 14px;
   font-weight: 300;
   line-height: 15px;
@@ -1906,21 +1912,22 @@ body {
 }
 
 .invite-timeline {
-  height: 1127px;
-  padding: 0;
-  display: block;
+  padding: 48px 0 9px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .invite-timeline > h2,
-.invite-timeline > p,
-.timeline-frame {
-  position: absolute;
-  left: var(--invite-center);
-  transform: translate3d(-50%, 0, 0);
+.invite-timeline > p {
+  position: static;
+  left: auto;
+  transform: none;
 }
 
 .invite-timeline > h2 {
-  top: 48px;
+  flex: 0 0 31px;
   width: 178px;
   height: 31px;
   font-size: 24px;
@@ -1928,17 +1935,20 @@ body {
 }
 
 .invite-timeline > p {
-  top: 94px;
-  width: 274px;
-  height: 30px;
-  max-width: 274px;
+  width: 300px;
+  height: auto;
+  min-height: 30px;
+  margin-top: 25px;
   font-size: 12px;
   line-height: 13px;
   letter-spacing: -0.03em;
 }
 
 .timeline-frame {
-  top: 137px;
+  position: relative;
+  flex: 0 0 auto;
+  margin-top: 19px;
+  left: auto;
   width: 378px;
   max-width: calc(100% - 24px);
   aspect-ratio: 3630 / 9270;
@@ -1962,11 +1972,12 @@ body {
 }
 
 .timeline-milestone--tea {
-  top: 156px;
+  /* 156px on the 965px rendered image height (3630 x 9270). */
+  top: 16.1607%;
 }
 
 .timeline-milestone--wedding {
-  top: 275px;
+  top: 28.4884%;
 }
 
 .timeline-milestone h3 {
@@ -2003,10 +2014,10 @@ body {
 .timeline-events {
   position: absolute;
   z-index: 1;
-  top: 384px;
+  top: 39.7801%;
   left: 0;
   width: 100%;
-  height: 465px;
+  height: 48.1713%;
   display: grid;
   grid-template-rows: repeat(6, 30px);
   align-content: space-between;
@@ -2159,7 +2170,7 @@ body {
 
 .invite-dresscode .dresscode-note {
   top: 600px;
-  width: 250px;
+  width: 270px;
   height: 30px;
   color: var(--invite-ink);
   font-family: var(--invite-serif);
@@ -2526,6 +2537,12 @@ body {
 .invite-form .invite-choice-group--plus-one {
   grid-template-columns: max-content max-content;
   justify-content: start;
+}
+
+.invite-form .invite-choice-group--attendance > label:first-of-type,
+.invite-form .invite-choice-group--plus-one > label:first-of-type {
+  width: 100px;
+  min-width: 100px;
 }
 
 /* The RSVP form's standard row gap is 25px; keep the companion-name field 16px below its choice. */
@@ -2965,6 +2982,30 @@ body {
   --reveal-duration: 720ms;
   --reveal-from: translate3d(-50%, 18px, 0) scale(0.985);
   --reveal-to: translate3d(-50%, 0, 0) scale(1);
+}
+
+/* These elements are centered by flex layout, not by a -50% transform. */
+.reveal-ready .invite-timeline > h2,
+.reveal-ready .invite-timeline > p {
+  --reveal-from: translate3d(0, 16px, 0);
+  --reveal-to: translate3d(0, 0, 0);
+}
+
+.reveal-ready .invite-timeline .timeline-frame {
+  --reveal-from: translate3d(0, 18px, 0) scale(0.985);
+  --reveal-to: translate3d(0, 0, 0) scale(1);
+}
+
+.reveal-ready .invite-countdown > .invite-monogram,
+.reveal-ready .invite-countdown > .countdown-shell {
+  --reveal-from: translate3d(0, 18px, 0) scale(0.985);
+  --reveal-to: translate3d(0, 0, 0) scale(1);
+}
+
+.reveal-ready .invite-countdown > h2,
+.reveal-ready .invite-countdown > p {
+  --reveal-from: translate3d(0, 16px, 0);
+  --reveal-to: translate3d(0, 0, 0);
 }
 
 .reveal-ready [data-reveal='flower'] {

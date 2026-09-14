@@ -29,6 +29,9 @@ export default defineNuxtConfig({
     strategy: 'prefix_except_default',
     defaultLocale: 'en',
     detectBrowserLanguage: false,
+    experimental: {
+      optimizeMessageBundling: process.env.NODE_ENV !== 'development'
+    },
     locales: [
       {
         code: 'vi',
