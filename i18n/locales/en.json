@@ -195,7 +195,9 @@
       "imageAlt": "Nguyen and Kim wedding album photo {index}",
       "previous": "Show previous photo",
       "next": "Show next photo",
-      "caption": "A collection of little moments, beautiful memories, and everything in between."
+      "caption": "A collection of little moments, beautiful memories, and everything in between.",
+      "captionLine1": "A collection of little moments, beautiful memories,",
+      "captionLine2": "and everything in between."
     },
     "footer": {
       "contactTitle": "CONTACT US",

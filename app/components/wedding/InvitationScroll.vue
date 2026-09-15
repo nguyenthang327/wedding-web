@@ -520,7 +520,10 @@ const onSubmit = async () => {
         data-reveal="image-center"
         style="--reveal-delay: 170ms"
       >
-      <h1 id="invite-title" data-reveal="center" style="--reveal-delay: 260ms">{{ t('invite.hero.date') }}</h1>
+      <h1 id="invite-title" data-reveal="center" style="--reveal-delay: 260ms">
+        <template v-if="locale === 'en'">DECEMBER 19<sup>TH</sup> 2026</template>
+        <template v-else>{{ t('invite.hero.date') }}</template>
+      </h1>
       <p class="invite-location" data-reveal="center" style="--reveal-delay: 330ms">{{ t('invite.hero.location') }}</p>
     </section>
 
@@ -906,7 +909,13 @@ const onSubmit = async () => {
           <ChevronRight aria-hidden="true" />
         </button>
       </div>
-      <p class="invite-album__caption">{{ t('invite.album.caption') }}</p>
+      <p class="invite-album__caption">
+        <template v-if="locale === 'en'">
+          {{ t('invite.album.captionLine1') }}<br>
+          {{ t('invite.album.captionLine2') }}
+        </template>
+        <template v-else>{{ t('invite.album.caption') }}</template>
+      </p>
     </section>
 
     <footer class="invite-section invite-footer">

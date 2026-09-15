@@ -1357,9 +1357,9 @@ body {
 
 .invite-hero sup {
   position: relative;
-  top: -1px;
+  top: 0.05rem;
   color: var(--invite-ink-deep);
-  font-size: 43%;
+  font-size: 52%;
 }
 
 .invite-hero .invite-location {
@@ -2531,7 +2531,7 @@ body {
 
 .invite-form .invite-choice-group--attendance > label:first-of-type,
 .invite-form .invite-choice-group--plus-one > label:first-of-type {
-  width: 100px;
+  width: 114px;
   min-width: 100px;
 }
 
