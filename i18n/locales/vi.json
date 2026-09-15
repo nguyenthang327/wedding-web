@@ -16,6 +16,9 @@
       "en": "Tiếng Anh"
     }
   },
+  "intro": {
+    "playAria": "Phát video mở đầu và nhạc nền"
+  },
   "music": {
     "play": "Bật nhạc",
     "pause": "Tắt nhạc",
@@ -29,10 +32,10 @@
       "no": "Không"
     },
     "hero": {
-      "kicker": "NGÀY VỀ CHUNG NHÀ",
+      "kicker": "NGÀY CHUNG ĐÔI",
       "namesAlt": "Nguyên và Kim",
       "coupleAlt": "Minh họa Nguyên và Kim",
-      "date": "19 THÁNG 12, 2026",
+      "date": "19 THÁNG 12 2026",
       "location": "JW MARRIOTT HOTEL & SUITES SAIGON"
     },
     "countdown": {
@@ -69,29 +72,30 @@
     "invitation": {
       "title": "THIỆP MỜI",
       "parentsTitle": "Ông Bà",
-      "groomFamilyTitle": "Nhà Trai",
-      "brideFamilyTitle": "Nhà Gái",
-      "groomParentsLine1": "Ông Nguyễn Trọng Trí",
-      "groomParentsLine2": "Bà Bùi Việt Hồng Đức",
-      "brideParentsLine1": "Ông Nguyễn Xuân Hòa",
-      "brideParentsLine2": "Bà Nguyễn Lê Kim Cương",
-      "intro": "TRÂN TRỌNG KÍNH MỜI QUÝ KHÁCH ĐẾN THAM DỰ VÀ CHUNG VUI CÙNG CHÚNG TÔI TRONG NGÀY HÔN LỄ",
+      "groomFamilyTitle": "Ông Bà",
+      "brideFamilyTitle": "Ông Bà",
+      "groomParentsLine1": "Nguyễn Trọng Trí",
+      "groomParentsLine2": "Bùi Viết Hồng Đức",
+      "brideParentsLine1": "Nguyễn Xuân Hòa",
+      "brideParentsLine2": "Nguyễn Lê Kim Cương",
+      "intro": "TRÂN TRỌNG KÍNH MỜI QUÝ KHÁCH ĐẾN THAM DỰ VÀ\nCHUNG VUI CÙNG CHÚNG TÔI TRONG NGÀY HÔN LỄ",
       "and": "VÀ",
       "heldAt": "ĐƯỢC TỔ CHỨC VÀO LÚC 17:30",
       "dateLeft": "THỨ BẢY",
       "direction": "ĐỊA ĐIỂM",
       "note": "Do giới hạn sức chứa của địa điểm, buổi tiệc sẽ chỉ có trẻ nhỏ của họ hàng gia đình thân thiết. Xin chân thành cảm ơn sự thông cảm của quý khách.",
-      "rsvpLine1": "Xin vui lòng xác nhận sự hiện diện của quý khách trước ngày",
-      "rsvpDate": "01/11/2026",
-      "rsvpLine2": "để chúng tôi có thể chuẩn bị chu đáo nhất."
+      "rsvpLine1": "Xin vui lòng xác nhận sự hiện diện của quý khách",
+      "rsvpLine2": "trước ngày",
+      "rsvpDate": "15/11/2026",
+      "rsvpLine3": "để chúng tôi có thể chuẩn bị chu đáo nhất."
     },
     "timeline": {
       "title": "LỊCH TRÌNH",
       "copy": "Một ngày của những khoảnh khắc đáng nhớ, từ phút giây gặp gỡ đến điệu nhảy cuối cùng. Cùng nhau sẻ chia niềm vui và lưu giữ những kỷ niệm thật đẹp.",
       "teaTitle": "Lễ Gia Tiên",
-      "teaDate": "17 THÁNG 12, 2026",
+      "teaDate": "17 THÁNG 12 2026",
       "weddingTitle": "Lễ Cưới",
-      "weddingDate": "19 THÁNG 12, 2026",
+      "weddingDate": "19 THÁNG 12 2026",
       "events": {
         "welcome": "ĐÓN KHÁCH",
         "ceremony": "NGHI LỄ",
@@ -107,11 +111,11 @@
       "intro": "Một chút sắc màu từ bạn sẽ khiến ngày vui của chúng mình thêm trọn vẹn.",
       "colorsAria": "Màu sắc gợi ý cho dress code",
       "colors": {
-        "royalBlue": "Lam Đậm",
-        "sageGreen": "Xanh Sage",
+        "royalBlue": "Xanh Đậm",
+        "sageGreen": "Xanh Bơ",
         "dustyMauve": "Tím Khói",
         "butterYellow": "Vàng Bơ",
-        "lightBlue": "Thiên Thanh",
+        "lightBlue": "Xanh Nhạt",
         "lightPink": "Hồng Phấn",
         "warmBeige": "Be Kem"
       },
@@ -123,11 +127,11 @@
     "love": {
       "title": "HÀNH TRÌNH",
       "imageAlt": "Minh họa cây cầu thành phố bên dòng sông",
-      "paragraph1": "Có những câu chuyện tình bắt đầu bằng một khoảnh khắc thật đặc biệt.",
-      "paragraph2": "Còn với Nguyên & Kim, câu chuyện của họ lại bắt đầu thật nhẹ nhàng - từ một kết nối trên Instagram, khi cả hai đều là những sinh viên đến từ Sài Gòn và cùng được nhận vào Boston University.",
-      "paragraph3": "Từ những câu chuyện về việc học, họ dần cùng nhau bước qua những đêm Boston lạnh giá, chia sẻ những bữa ăn, khám phá những thành phố mới, và để tình yêu lớn lên lặng lẽ qua từng mùa.",
-      "paragraph4": "Qua năm tháng, họ dần trở thành mái ấm của nhau - luôn động viên, đồng hành cùng nhau qua những ước mơ, thử thách, và cả những khoảnh khắc nhỏ bé của cuộc sống.",
-      "paragraph5": "Và sau ngần ấy năm, có lẽ hành trình đẹp nhất của họ chỉ vừa mới bắt đầu..."
+      "paragraph1": "Có những câu chuyện tình bắt đầu\nbằng một khoảnh khắc thật đặc biệt.",
+      "paragraph2": "Còn với Nguyên (Andy) & Kim, câu chuyện của họ lại bắt đầu thật nhẹ nhàng - từ một kết nối trên Instagram, khi cả hai đều là những sinh viên đến từ Sài Gòn và cùng được nhận vào Boston University.",
+      "paragraph3": "Từ những câu chuyện về việc học, họ dần cùng nhau bước qua những đêm Boston lạnh giá, chia sẻ những bữa ăn, khám phá những thành phố mới, và để tình yêu lớn lên\nlặng lẽ qua từng mùa.",
+      "paragraph4": "Qua năm tháng, họ dần trở thành mái ấm của nhau -\nluôn động viên, đồng hành cùng nhau qua những ước mơ,\nthử thách, và cả những khoảnh khắc nhỏ bé của cuộc sống.",
+      "paragraph5": "Và sau ngần ấy năm, có lẽ hành trình đẹp nhất của họ\nchỉ vừa mới bắt đầu..."
     },
     "rsvp": {
       "title": "RSVP",
@@ -200,10 +204,10 @@
       "brideContactName": "Kim",
       "groomContactName": "Nguyên (Andy)",
       "thanksTitle": "LỜI CẢM ƠN",
-      "thanksLine1": "Sự hiện diện của mọi người trong ngày đặc biệt này",
-      "thanksLine2": "có ý nghĩa vô cùng lớn đối với chúng tôi và gia đình.",
-      "signoffLine1": "Với tất cả yêu thương và lòng biết ơn, cảm ơn quý khách đã cùng",
-      "signoffLine2": "chúng tôi chung vui và lưu giữ những khoảnh khắc đáng nhớ này."
+      "thanksLine1": "Sự hiện diện của mọi người trong ngày đặc biệt này có ý nghĩa vô",
+      "thanksLine2": "cùng lớn đối với chúng mình và gia đình.",
+      "signoffLine1": "Với tất cả yêu thương và lòng biết ơn, cảm ơn mọi người đã cùng",
+      "signoffLine2": "chung vui và lưu giữ những khoảnh khắc đáng nhớ này."
     }
   },
   "nav": {

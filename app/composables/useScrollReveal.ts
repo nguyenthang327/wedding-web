@@ -1,6 +1,7 @@
 export function useScrollReveal() {
   const prefersReducedMotion = useReducedMotion()
   let observer: IntersectionObserver | undefined
+  let mutationObserver: MutationObserver | undefined
 
   onMounted(() => {
     const staggerTargets = Array.from(document.querySelectorAll<HTMLElement>('[data-stagger]'))
@@ -55,13 +56,42 @@ export function useScrollReveal() {
       }
     )
 
+    const observedTargets = new WeakSet<HTMLElement>()
+    const observeRevealTarget = (target: HTMLElement) => {
+      if (observedTargets.has(target)) {
+        return
+      }
+
+      observedTargets.add(target)
+      observer?.observe(target)
+    }
+
     requestAnimationFrame(() => {
-      revealTargets.forEach((target) => observer?.observe(target))
+      revealTargets.forEach(observeRevealTarget)
     })
+
+    mutationObserver = new MutationObserver((records) => {
+      for (const record of records) {
+        for (const node of record.addedNodes) {
+          if (!(node instanceof HTMLElement)) {
+            continue
+          }
+
+          if (node.matches('[data-reveal]')) {
+            observeRevealTarget(node)
+          }
+
+          node.querySelectorAll<HTMLElement>('[data-reveal]').forEach(observeRevealTarget)
+        }
+      }
+    })
+
+    mutationObserver.observe(document.body, { childList: true, subtree: true })
   })
 
   onUnmounted(() => {
     observer?.disconnect()
+    mutationObserver?.disconnect()
     document.documentElement.classList.remove('reveal-ready')
   })
 }

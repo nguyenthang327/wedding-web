@@ -1357,7 +1357,7 @@ body {
 
 .invite-hero sup {
   position: relative;
-  top: -0.7em;
+  top: -1px;
   color: var(--invite-ink-deep);
   font-size: 43%;
 }
@@ -1395,7 +1395,7 @@ body {
   display: grid;
   width: 330px;
   flex: 0 0 auto;
-  margin-top: 4px;
+  margin-top: 0;
   aspect-ratio: 3363 / 2178;
   place-items: center;
   position: relative;
@@ -1464,21 +1464,18 @@ body {
 }
 
 .invite-countdown h2 {
-  position: static;
   flex: 0 0 auto;
   width: 228px;
-  margin-top: 39px;
+  margin: 39px 0 0;
   transform: none;
   font-size: 24px;
   line-height: 1;
 }
 
-.invite-countdown > p {
-  position: static;
+.invite-countdown > .countdown-intro {
   flex: 0 0 auto;
   width: 300px;
-  min-height: 60px;
-  margin-top: 24px;
+  margin: 24px 0 19px;
   transform: none;
   font-size: 14px;
   font-weight: 300;
@@ -1594,36 +1591,28 @@ body {
 }
 
 .invite-invitation {
-  height: 723px;
+  min-height: 723px;
+  height: auto;
   margin: 0;
   padding: 0;
   border: 0;
   border-radius: 0;
   background: transparent;
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .parents-grid {
-  position: absolute;
-  top: 57px;
-  left: 0;
+  display: grid;
   width: 100%;
-  height: 69px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin-top: 26px;
 }
 
 .parents-grid > div {
-  position: absolute;
-  top: 0;
-  width: 187px;
+  width: 100%;
   text-align: center;
-}
-
-.parents-grid > div:first-child {
-  left: 20px;
-}
-
-.parents-grid > div:last-child {
-  right: 20px;
 }
 
 .parents-grid span {
@@ -1640,7 +1629,7 @@ body {
 
 .parents-grid p {
   width: 187px;
-  margin-top: 15px;
+  margin: 15px auto 0;
   color: var(--invite-ink);
   font-family: var(--invite-serif);
   font-size: 16px;
@@ -1649,36 +1638,29 @@ body {
 }
 
 .invite-invitation > h2 {
-  position: absolute;
-  top: 0;
-  left: var(--invite-center);
+  flex: 0 0 auto;
   width: 228px;
-  height: 31px;
-  transform: translate3d(-50%, 0, 0);
   font-size: 24px;
   line-height: 31px;
 }
 
 .invite-invitation .invitation-intro {
-  position: absolute;
-  top: 155px;
-  left: var(--invite-center);
+  flex: 0 0 auto;
   width: 315px;
-  height: 37px;
   max-width: 315px;
-  transform: translate3d(-50%, 0, 0);
+  margin: 34px 0 41px;
   font-family: var(--invite-serif);
   font-size: 13px;
   line-height: 13px;
-  letter-spacing: -0.03em;
 }
 
-.invite-invitation h3 {
-  position: absolute;
-  left: var(--invite-center);
+.invite-invitation .invitation-intro--vi {
+  white-space: pre-line;
+}
+
+.invite-invitation .invitation-name {
+  flex: 0 0 auto;
   width: 304px;
-  height: 53px;
-  transform: translate3d(-50%, 0, 0);
   color: var(--invite-pink);
   font-family: 'Wedding Thei', cursive;
   font-size: 42px;
@@ -1688,21 +1670,14 @@ body {
   white-space: nowrap;
 }
 
-.invite-invitation h3:first-of-type {
-  top: 222px;
+.invite-invitation .invitation-name--bride {
+  margin-top: 10px;
 }
 
-.invite-invitation h3:nth-of-type(2) {
-  top: 309px;
-}
-
-.invite-invitation > span:not(.invitation-direction) {
-  position: absolute;
-  top: 282px;
-  left: var(--invite-center);
+.invite-invitation .invitation-and {
+  flex: 0 0 auto;
   width: 69px;
-  height: 17px;
-  transform: translate3d(-50%, 0, 0);
+  margin-top: 7px;
   color: var(--invite-pink);
   font-family: var(--invite-heading);
   font-size: 14px;
@@ -1711,12 +1686,9 @@ body {
 }
 
 .invite-invitation .invitation-held {
-  position: absolute;
-  top: 386px;
-  left: var(--invite-center);
+  flex: 0 0 auto;
   width: 261px;
-  height: 20px;
-  transform: translate3d(-50%, 0, 0);
+  margin-top: 24px;
   color: var(--invite-ink);
   font-family: var(--invite-serif);
   font-size: 16px;
@@ -1726,13 +1698,10 @@ body {
 }
 
 .invite-invitation .invitation-date {
-  position: absolute;
-  top: 409px;
-  left: var(--invite-center);
+  flex: 0 0 auto;
   width: 314px;
-  height: 31px;
   max-width: 314px;
-  transform: translate3d(-50%, 0, 0);
+  margin-top: 3px;
   color: var(--invite-ink);
   font-family: var(--invite-heading);
   font-size: 26px;
@@ -1753,14 +1722,11 @@ body {
 }
 
 .invite-invitation .invitation-location {
-  position: absolute;
+  flex: 0 0 auto;
   font-weight: 400;
-  top: 452px;
-  left: var(--invite-center);
   width: 313px;
-  height: 20px;
   max-width: 313px;
-  transform: translate3d(-50%, 0, 0);
+  margin-top: 12px;
   color: var(--invite-ink);
   font-family: var(--invite-serif);
   font-size: 17px;
@@ -1769,14 +1735,12 @@ body {
 }
 
 .invite-invitation .invitation-map-link {
-  position: absolute;
-  top: 482px;
-  left: var(--invite-center);
+  flex: 0 0 auto;
   display: grid;
   width: 44px;
   height: 44px;
   place-items: center;
-  transform: translate3d(-50%, 0, 0);
+  margin-top: 10px;
   touch-action: manipulation;
 }
 
@@ -1795,12 +1759,9 @@ body {
 }
 
 .invite-invitation .invitation-direction {
-  position: absolute;
-  top: 525px;
-  left: var(--invite-center);
+  flex: 0 0 auto;
   width: 103px;
-  height: 16px;
-  transform: translate3d(-50%, 0, 0);
+  margin-top: 0;
   color: var(--invite-ink);
   font-family: var(--invite-serif);
   font-size: 13px;
@@ -1809,34 +1770,39 @@ body {
 }
 
 .invite-invitation .invitation-note {
-  position: absolute;
-  top: 559px;
-  left: var(--invite-center);
-  width: 274px;
-  height: 48px;
-  max-width: 274px;
-  transform: translate3d(-50%, 0, 0);
+  flex: 0 0 auto;
+  width: 350px;
+  max-width: 350px;
+  margin-top: 24px;
   color: var(--invite-ink);
   font-family: var(--invite-serif);
-  font-size: 12px;
-  line-height: 13px;
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 14px;
   letter-spacing: -0.03em;
+
+}
+
+.invite-invitation .invitation-note--vi {
+  width: 315px;
+  max-width: calc(100% - 40px);
 }
 
 .invite-invitation .invitation-rsvp-note {
-  position: absolute;
-  top: 628px;
-  left: var(--invite-center);
+  flex: 0 0 auto;
   width: 226px;
-  height: 38px;
-  transform: translate3d(-50%, 0, 0);
+  margin-top: 24px;
   color: var(--invite-ink);
   font-family: var(--invite-serif);
-  font-size: 16px;
+  font-size: 14px;
   font-style: italic;
   font-weight: 300;
-  line-height: 16px;
+  line-height: 14px;
   letter-spacing: -0.03em;
+}
+
+.invite-invitation .invitation-rsvp-note--vi {
+  width: 315px;
 }
 
 .invite-invitation .invitation-rsvp-note strong {
@@ -1904,6 +1870,28 @@ body {
   transform: scale(1);
   transition: filter 650ms ease-out, transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
   will-change: filter, transform;
+}
+
+.intro-video-overlay__trigger {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.intro-video-overlay__trigger:active {
+  opacity: 0.96;
+}
+
+.intro-video-overlay__trigger:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: -6px;
 }
 
 .intro-video-overlay.is-exiting .intro-video-overlay__media {
@@ -2007,7 +1995,7 @@ body {
 
 .timeline-milestone sup {
   position: relative;
-  top: -0.45em;
+  top: 0.05em;
   font-size: 50%;
 }
 
@@ -2223,42 +2211,36 @@ body {
 
 
 .invite-love {
-  height: 658px;
-  padding: 0;
-  display: block;
-}
-
-.invite-love > h2,
-.invite-love > img {
-  position: absolute;
-  left: var(--invite-center);
-  transform: translate3d(-50%, 0, 0);
+  height: auto;
+  margin-bottom: 60px;
+  padding: 116px 0 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .invite-love > h2 {
-  top: 116px;
+  flex: 0 0 auto;
   width: 178px;
-  height: 31px;
   font-size: 24px;
   line-height: 31px;
 }
 
 .invite-love .love-story-city {
-  top: 141px;
+  flex: 0 0 auto;
   width: 360px;
   height: 207px;
+  margin-top: -6px;
   object-fit: contain;
   opacity: 1;
 }
 
 .invite-love .love-story-copy {
-  position: absolute;
-  top: 356px;
-  left: var(--invite-center);
-  width: 293px;
-  height: 233px;
-  max-width: 293px;
-  transform: translate3d(-50%, 0, 0);
+  flex: 0 0 auto;
+  display: grid;
+  gap: 15px;
+  width: 289px;
+  margin-top: 8px;
   color: var(--invite-ink);
   font-family: var(--invite-serif);
   font-size: 14px;
@@ -2283,8 +2265,16 @@ body {
     repeating-linear-gradient(90deg, transparent 0 12px, rgb(115 125 104 / 20%) 12px 14px, transparent 14px 25px);
 }
 
-.invite-love p {
-  line-height: 1.5;
+.invite-love .love-story-copy p {
+  line-height: 15px;
+}
+
+.invite-love .love-story-copy--vi p {
+  white-space: pre-line;
+}
+
+.invite-love .love-story-copy--vi {
+  width: 304px;
 }
 
 .invite-rsvp {
@@ -2824,7 +2814,7 @@ body {
   color: var(--invite-ink) !important;
   font-family: var(--invite-serif);
   font-size: 14px !important;
-  font-weight: 400;
+  font-weight: 300;
   letter-spacing: -0.03em;
   line-height: 1;
 }
@@ -2837,7 +2827,7 @@ body {
 .invite-footer__contact-copy em {
   display:inline-block;
   margin-bottom: 7px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 300;
 }
 
@@ -3006,6 +2996,28 @@ body {
 .reveal-ready .invite-countdown > p {
   --reveal-from: translate3d(0, 16px, 0);
   --reveal-to: translate3d(0, 0, 0);
+}
+
+/* Invitation content is centered by its flex container, not by a -50% transform. */
+.reveal-ready .invite-invitation > [data-reveal='center'] {
+  --reveal-from: translate3d(0, 16px, 0);
+  --reveal-to: translate3d(0, 0, 0);
+}
+
+.reveal-ready .invite-invitation > [data-reveal='image-center'] {
+  --reveal-from: translate3d(0, 18px, 0) scale(0.985);
+  --reveal-to: translate3d(0, 0, 0) scale(1);
+}
+
+/* Love-story content is centered by flex layout, not by a -50% transform. */
+.reveal-ready .invite-love > [data-reveal='center'] {
+  --reveal-from: translate3d(0, 16px, 0);
+  --reveal-to: translate3d(0, 0, 0);
+}
+
+.reveal-ready .invite-love > [data-reveal='image-center'] {
+  --reveal-from: translate3d(0, 18px, 0) scale(0.985);
+  --reveal-to: translate3d(0, 0, 0) scale(1);
 }
 
 .reveal-ready [data-reveal='flower'] {

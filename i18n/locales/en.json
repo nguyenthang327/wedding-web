@@ -16,6 +16,9 @@
       "en": "English"
     }
   },
+  "intro": {
+    "playAria": "Play intro video and background music"
+  },
   "music": {
     "play": "Play music",
     "pause": "Pause music",
@@ -71,18 +74,20 @@
       "parentsTitle": "Mr & Mrs",
       "groomFamilyTitle": "Groom's Family",
       "brideFamilyTitle": "Bride's Family",
-      "groomParentsLine1": "Mr. Nguyen Trong Tri",
-      "groomParentsLine2": "Mrs. Bui Viet Hong Duc",
-      "brideParentsLine1": "Mr. Nguyen Xuan Hoa",
-      "brideParentsLine2": "Mrs. Nguyen Le Kim Cuong",
+      "groomParentsLine1": "Nguyen Trong Tri",
+      "groomParentsLine2": "Bui Viet Hong Duc",
+      "brideParentsLine1": "Nguyen Xuan Hoa",
+      "brideParentsLine2": "Nguyen Le Kim Cuong",
       "intro": "TOGETHER WITH OUR LOVED ONES, WE INVITE YOU TO JOIN US IN CELEBRATING OUR WEDDING DAY",
       "and": "AND",
       "heldAt": "HELD AT 17:30",
       "dateLeft": "SATURDAY",
       "direction": "DIRECTION",
-      "note": "Due to the venue's capacity limitations, we kindly invite only the children of our family and closest relatives to join us on this special day. We sincerely appreciate your understanding.",
+      "note": "Due to the venue's capacity limitations, we kindly invite only children of our family and closest relatives to join us on this special day. We sincerely appreciate your understanding.",
+      "noteLine1": "Due to the venue's capacity limitations, we kindly invite only children of our family and closest relatives to join us on this special day.",
+      "noteLine2": "We sincerely appreciate your understanding.",
       "rsvpLine1": "Kindly RSVP by",
-      "rsvpDate": "November 1st, 2026",
+      "rsvpDate": "November 15th, 2026",
       "rsvpLine2": "so we can finalize our guest count"
     },
     "timeline": {
@@ -124,7 +129,7 @@
       "title": "LOVE STORY",
       "imageAlt": "Illustration of a city bridge by the river",
       "paragraph1": "Some love stories begin with a grand moment.",
-      "paragraph2": "For Nguyen (Andy) & Kim, theirs began rather quietly, with an Instagram connection, two students from Saigon who had both been accepted to Boston University.",
+      "paragraph2": "For Nguyen (Andy) & Kim, their began rather quietly, with an Instagram connection, two students from Saigon who had both been accepted to Boston University.",
       "paragraph3": "What began as conversations about school slowly became walks through the cold Boston nights, shared meals, new cities, and a love that grew quietly with every season.",
       "paragraph4": "Through the years, they became each other's home, cheering one another on through dreams, challenges, and all the little moments in between.",
       "paragraph5": "After all these years, perhaps their greatest adventure is just beginning..."

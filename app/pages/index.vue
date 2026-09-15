@@ -6,6 +6,11 @@ import LocaleSwitcher from '~/components/wedding/LocaleSwitcher.vue'
 
 const { locale, localeProperties, t } = useI18n()
 const isIntroComplete = ref(false)
+const backgroundMusic = ref<{ startFromIntro: () => Promise<void> } | null>(null)
+
+const startBackgroundMusic = () => {
+  void backgroundMusic.value?.startFromIntro()
+}
 
 const htmlLang = computed(() => String(localeProperties.value?.language || locale.value))
 
@@ -36,7 +41,11 @@ useScrollReveal()
 </script>
 
 <template>
-  <IntroVideoOverlay v-if="!isIntroComplete" @complete="isIntroComplete = true" />
+  <IntroVideoOverlay
+    v-if="!isIntroComplete"
+    @complete="isIntroComplete = true"
+    @start-music="startBackgroundMusic"
+  />
   <LocaleSwitcher class="page-locale-switcher" />
   <main
     class="page-shell"
@@ -46,5 +55,5 @@ useScrollReveal()
   >
     <InvitationScroll />
   </main>
-  <BackgroundMusic />
+  <BackgroundMusic ref="backgroundMusic" />
 </template>

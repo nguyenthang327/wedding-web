@@ -51,7 +51,6 @@ const dressColors = [
 ]
 
 const albumImageFiles = [
-  '9.jpg',
   '12.jpg',
   'KIMANDY-23.jpg',
   'KIMANDY-24.jpg',
@@ -521,15 +520,14 @@ const onSubmit = async () => {
         data-reveal="image-center"
         style="--reveal-delay: 170ms"
       >
-      <h1 v-if="locale === 'en'" id="invite-title" data-reveal="center" style="--reveal-delay: 260ms">DECEMBER 19<sup>TH</sup> 2026</h1>
-      <h1 v-else id="invite-title" data-reveal="center" style="--reveal-delay: 260ms">{{ t('invite.hero.date') }}</h1>
+      <h1 id="invite-title" data-reveal="center" style="--reveal-delay: 260ms">{{ t('invite.hero.date') }}</h1>
       <p class="invite-location" data-reveal="center" style="--reveal-delay: 330ms">{{ t('invite.hero.location') }}</p>
     </section>
 
     <section class="invite-section invite-countdown" aria-labelledby="countdown-title">
       <img class="invite-monogram" src="/wedding/assets/monogram.png" :alt="t('invite.countdown.monogramAlt')" loading="lazy" decoding="async" data-reveal="image-center">
       <h2 id="countdown-title" data-reveal="center" style="--reveal-delay: 80ms">{{ t('invite.countdown.title') }}</h2>
-      <p data-reveal="center" style="--reveal-delay: 150ms">
+      <p class="countdown-intro" data-reveal="center" style="--reveal-delay: 150ms">
         {{ t('invite.countdown.copyLine1') }}
         {{ t('invite.countdown.copyLine2') }}
       </p>
@@ -585,10 +583,17 @@ const onSubmit = async () => {
           <p>{{ t('invite.invitation.brideParentsLine1') }}<br>{{ t('invite.invitation.brideParentsLine2') }}</p>
         </div>
       </div>
-      <p class="invitation-intro" data-reveal="center" style="--reveal-delay: 170ms">{{ t('invite.invitation.intro') }}</p>
-      <h3 data-reveal="center" style="--reveal-delay: 230ms">{{ t('invite.people.groomName') }}</h3>
-      <span data-reveal="center" style="--reveal-delay: 290ms">{{ t('invite.invitation.and') }}</span>
-      <h3 data-reveal="center" style="--reveal-delay: 350ms">{{ t('invite.people.brideName') }}</h3>
+      <p
+        class="invitation-intro"
+        :class="{ 'invitation-intro--vi': locale === 'vi' }"
+        data-reveal="center"
+        style="--reveal-delay: 170ms"
+      >
+        {{ t('invite.invitation.intro') }}
+      </p>
+      <h3 class="invitation-name invitation-name--groom" data-reveal="center" style="--reveal-delay: 230ms">{{ t('invite.people.groomName') }}</h3>
+      <span class="invitation-and" data-reveal="center" style="--reveal-delay: 290ms">{{ t('invite.invitation.and') }}</span>
+      <h3 class="invitation-name invitation-name--bride" data-reveal="center" style="--reveal-delay: 350ms">{{ t('invite.people.brideName') }}</h3>
       <strong class="invitation-held" data-reveal="center" style="--reveal-delay: 410ms">{{ t('invite.invitation.heldAt') }}</strong>
       <p class="invitation-date" data-reveal="center" style="--reveal-delay: 470ms">{{ t('invite.invitation.dateLeft') }} <span class="invitation-date-separator">|</span> 19.12 <span class="invitation-date-separator">|</span> 2026</p>
       <p class="invitation-location" data-reveal="center" style="--reveal-delay: 520ms">{{ t('invite.hero.location') }}</p>
@@ -604,11 +609,33 @@ const onSubmit = async () => {
         <span class="sr-only">{{ t('invite.hero.location') }}</span>
       </a>
       <span class="invitation-direction" data-reveal="center" style="--reveal-delay: 610ms">{{ t('invite.invitation.direction') }}</span>
-      <p class="invitation-note" data-reveal="center" style="--reveal-delay: 650ms">
-        {{ t('invite.invitation.note') }}
+      <p
+        class="invitation-note"
+        :class="{ 'invitation-note--vi': locale === 'vi' }"
+        data-reveal="center"
+        style="--reveal-delay: 650ms"
+      >
+        <template v-if="locale === 'en'">
+          {{ t('invite.invitation.noteLine1') }}<br>
+          {{ t('invite.invitation.noteLine2') }}
+        </template>
+        <template v-else>
+          {{ t('invite.invitation.note') }}
+        </template>
       </p>
-      <p class="invitation-rsvp-note" data-reveal="center" style="--reveal-delay: 690ms">
-        {{ t('invite.invitation.rsvpLine1') }} <strong>{{ t('invite.invitation.rsvpDate') }}</strong><br>{{ t('invite.invitation.rsvpLine2') }}
+      <p
+        class="invitation-rsvp-note"
+        :class="{ 'invitation-rsvp-note--vi': locale === 'vi' }"
+        data-reveal="center"
+        style="--reveal-delay: 690ms"
+      >
+        <template v-if="locale === 'vi'">
+          {{ t('invite.invitation.rsvpLine1') }}<br>
+          {{ t('invite.invitation.rsvpLine2') }} <strong>{{ t('invite.invitation.rsvpDate') }}</strong> {{ t('invite.invitation.rsvpLine3') }}
+        </template>
+        <template v-else>
+          {{ t('invite.invitation.rsvpLine1') }} <strong>{{ t('invite.invitation.rsvpDate') }}</strong><br>{{ t('invite.invitation.rsvpLine2') }}
+        </template>
       </p>
     </section>
 
@@ -672,13 +699,16 @@ const onSubmit = async () => {
         data-reveal="image-center"
         style="--reveal-delay: 90ms"
       >
-      <p class="love-story-copy" data-reveal="center" style="--reveal-delay: 180ms">
-        {{ t('invite.love.paragraph1') }}<br><br>
-        {{ t('invite.love.paragraph2') }}<br><br>
-        {{ t('invite.love.paragraph3') }}<br><br>
-        {{ t('invite.love.paragraph4') }}<br><br>
-        {{ t('invite.love.paragraph5') }}
-      </p>
+      <div
+        class="love-story-copy"
+        :class="{ 'love-story-copy--vi': locale === 'vi' }"
+      >
+        <p>{{ t('invite.love.paragraph1') }}</p>
+        <p>{{ t('invite.love.paragraph2') }}</p>
+        <p>{{ t('invite.love.paragraph3') }}</p>
+        <p>{{ t('invite.love.paragraph4') }}</p>
+        <p>{{ t('invite.love.paragraph5') }}</p>
+      </div>
     </section>
 
     <section id="rsvp" class="invite-section invite-rsvp" aria-labelledby="rsvp-title">

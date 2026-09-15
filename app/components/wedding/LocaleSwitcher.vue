@@ -15,6 +15,11 @@ const changeLocale = async (language: typeof locales[number]) => {
   try {
     await loadLocaleMessages(language)
     locale.value = language
+    await nextTick()
+
+    document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((target) => {
+      target.classList.add('is-visible')
+    })
   } finally {
     isSwitching.value = false
   }
