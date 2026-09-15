@@ -1649,7 +1649,7 @@ body {
   flex: 0 0 auto;
   width: 315px;
   max-width: 315px;
-  margin: 34px 0 41px;
+  margin: 34px 0 34px;
   font-family: var(--invite-serif);
   font-size: 13px;
   line-height: 13px;
@@ -1672,7 +1672,7 @@ body {
 }
 
 .invite-invitation .invitation-name--bride {
-  margin-top: 10px;
+  margin-top: 4px;
 }
 
 .invite-invitation .invitation-and {
@@ -1689,10 +1689,10 @@ body {
 .invite-invitation .invitation-held {
   flex: 0 0 auto;
   width: 261px;
-  margin-top: 24px;
+  margin-top: 34px;
   color: var(--invite-ink);
   font-family: var(--invite-serif);
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
   line-height: 20px;
   text-transform: uppercase;
@@ -1727,7 +1727,7 @@ body {
   font-weight: 400;
   width: 313px;
   max-width: 313px;
-  margin-top: 12px;
+  margin-top: 6px;
   color: var(--invite-ink);
   font-family: var(--invite-serif);
   font-size: 17px;
